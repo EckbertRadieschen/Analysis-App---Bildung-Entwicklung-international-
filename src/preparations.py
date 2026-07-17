@@ -1,38 +1,165 @@
 import pandas as pd
 import json
+from pathlib import Path
+from src.paths import (
+    DEVELOPMENT_RAW,
+    EDUCATION_RAW,
+    DEVELOPMENT_CONFIG,
+    EDUCATION_CONFIG,
+    PROCESSED_DATA_DIR,
+)
 
-df_dev = pd.read_csv(r"data\raw\WDICSV.csv", encoding="utf-8")
-df_edu = pd.read_csv(r"data\raw\EdStatsData.csv", encoding="utf-8")
+# ================================================================================
+# Rohdaten in DataFrame laden
+# ================================================================================
 
-frames = [df_dev, df_edu]
-paths = [r"config\development_indicators.json", r"config\education_indicators.json"]
-titles = ["development", "education"]
+def load_data(data_path: Path) -> pd.DataFrame:
+    """
+    Lädt eine Rohdaten-CSV in einen DataFrame
+    """
 
-base_columns = ["Country Name", "Country Code", "Indicator Name", "Indicator Code"]
+    return pd.read_csv(data_path, encoding="utf-8")
 
-for df_raw, path, title in zip(frames, paths, titles):
-    with open(path, "r", encoding="utf-8") as file:
-        indicators_data = json.load(file)
 
-    indicator_name_list = [indicators_data[indicator]["name"] for indicator in indicators_data]
+# ================================================================================
+# Konfigurationen laden
+# ================================================================================
 
-    filter_relevant_indicators = df_raw["Indicator Name"].isin(indicator_name_list)
+def load_config(config_path: Path) -> dict:
+    """
+    Lädt eine Konfigurations-Datei.
+    """
 
-    df_relevant_indicators = df_raw[filter_relevant_indicators]
+    with open(config_path, "r", encoding="utf-8") as file:
+        return json.load(file)
+    
 
-    year_cols = [col for col in df_relevant_indicators.columns if col.isdigit()]
+# ================================================================================
+# Speicherpfad erzeugen
+# ================================================================================
 
-    relevant_year_cols = []
-    for year in year_cols:
-        if df_relevant_indicators[year].notna().sum() > 0:
-            relevant_year_cols.append(year)
+def create_output_path (output_directory: Path, config: dict) -> Path:
+    """
+    Erzeugt aus einem Ziel-Directory und der Konfigurations-Datei einen Zielpfad
+    """
+    output_directory.mkdir(parents=True, exist_ok=True)
 
-    df_relevant_years = df_relevant_indicators[base_columns + relevant_year_cols]
+    file_name = config["meta_data"]["output_file_name"]
 
-    df_relevant_countries = df_relevant_years[~df_relevant_years[relevant_year_cols].isna().all(axis=1)]
+    return output_directory / file_name
 
-    df_relevant_countries.to_csv(
-        rf"data\processed\{title}_indicators.csv",
+# ================================================================================
+# Rohdaten mithilfe einer Indikator-Konfiguration filtern
+# ================================================================================
+
+def filter_indicators(df_raw: pd.DataFrame, indicator_data: dict) -> pd.DataFrame:
+    """
+    Filtert Rohdaten auf die in der Config definierten Indikatoren.
+    """
+
+    indicator_names = [
+        indicator_data[indicator]["name"]
+        for indicator in indicator_data
+    ]
+
+    return df_raw[
+        df_raw["Indicator Name"].isin(indicator_names)
+    ]
+
+
+# ================================================================================
+# Erzeuge Liste mit Indikator-relevanten Jahren
+# ================================================================================
+
+def get_available_year_columns(df: pd.DataFrame) -> list[str]:
+    """
+    Gibt vorhandene und nicht vollständig leere Jahres-Spalten zurück.
+    """
+
+    year_columns = [
+        col 
+        for col in df.columns 
+        if col.isdigit()
+    ]
+
+    relevant_years = [
+        year 
+        for year in year_columns
+        if df[year].notna().sum() > 0
+    ]
+
+    return relevant_years
+
+
+# ================================================================================
+# Filtern auf Indikator- und Zeitraum-relevante Länder
+# ================================================================================
+
+def remove_empty_countries(df: pd.DataFrame, year_columns: list[str]) -> pd.DataFrame:
+    """
+    Entfernt Länder ohne jegliche Werte in den Jahres-Spalten.
+    """
+
+    return df[~df[year_columns].isna().all(axis=1)]
+
+
+def save_dataframe(df: pd.DataFrame, output_path: Path) -> None:
+    """
+    Speichert einen DataFrame als CSV.
+    """
+
+    df.to_csv(
+        output_path,
         index=False,
         encoding="utf-8"
+    )
+
+# ===============================================================================================
+# Erzeugen einer analyse-tauglichen CSV-Datei aus Rohdaten mithilfe 
+# einer Konfigurationsdatei
+# ===============================================================================================
+
+def create_analysis_file(data_path: Path, config_path: Path, output_directory: Path) -> None:
+    """
+    Erstellt aus Rohdaten und einer Konfigurationsdatei
+    eine analysefähige CSV-Datei.
+    """
+
+    df_raw = load_data(data_path)
+
+    base_columns = [
+        "Country Name",
+        "Country Code",
+        "Indicator Name",
+        "Indicator Code"
+    ]
+
+    config = load_config(config_path)
+    indicator_data = config["indicators"]
+
+    df_filtered_indicators = filter_indicators(df_raw, indicator_data)
+
+    years = get_available_year_columns(df_filtered_indicators)
+
+    df_analysis = df_filtered_indicators[base_columns + years]
+
+    df_analysis = remove_empty_countries(df=df_analysis, year_columns=years)
+
+    output_path = create_output_path(output_directory, config)
+
+    save_dataframe(df_analysis, output_path)
+
+
+if __name__ == "__main__":
+
+    create_analysis_file(
+        DEVELOPMENT_RAW,
+        DEVELOPMENT_CONFIG,
+        PROCESSED_DATA_DIR
+    )
+
+    create_analysis_file(
+        EDUCATION_RAW,
+        EDUCATION_CONFIG,
+        PROCESSED_DATA_DIR
     )

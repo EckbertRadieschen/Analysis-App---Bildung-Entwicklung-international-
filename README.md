@@ -1,9 +1,9 @@
 # Projekt Abhängigkeit der CO2-Emission der G20 - Staaten vom Bildungssystem der jeweiligen Länder
 
 ## Die G20 ...
-    - repräsentierten im Jahr 2024 fast 79 % der Weltbevölkerung 
-    - erwirtschafteten mehr als 85 % der weltweiten Wirtschaftsleistung
-    - waren dabei für nahezu 83 % aller CO2-Emissionen verantwortlich
+- repräsentierten im Jahr 2024 fast 79 % der Weltbevölkerung 
+- erwirtschafteten mehr als 85 % der weltweiten Wirtschaftsleistung
+- waren dabei für nahezu 83 % aller CO2-Emissionen verantwortlich
 
 ## Zielfrage:
 Besteht ein Zusammenhang zwischen:

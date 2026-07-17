@@ -3,7 +3,10 @@ import numpy as np
 import plotly.express as px
 import plotly.graph_objects as go
 from tabulate import tabulate
-import math
+from src.paths import (
+    EDUCATION_OUTPUT,
+    DEVELOPMENT_OUTPUT
+)
 
 # =================================================================================================
 # Funktionen zur ersten Übersicht bzgl Datenstruktur und -qualität
@@ -243,9 +246,9 @@ def select_dataframe (frame_name: str = "edu") -> pd.DataFrame:
         return None
 
     if frame_name.lower() == "edu":
-        df = pd.read_csv(r"data\processed\education_indicators.csv")
+        df = pd.read_csv(EDUCATION_OUTPUT)
     if frame_name.lower() == "dev":
-        df = pd.read_csv(r"data\processed\development_indicators.csv")
+        df = pd.read_csv(DEVELOPMENT_OUTPUT)
 
     return df
 
