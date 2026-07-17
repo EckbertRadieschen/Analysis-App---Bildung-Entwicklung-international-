@@ -1,0 +1,210 @@
+{
+  "gdp_per_capita": {
+    "name": "GDP per capita (constant 2015 US$)",
+    "category": "economy",
+    "short_description": "Bruttoinlandsprodukt pro Einwohner",
+    "description": "Bruttoinlandsprodukt pro Einwohner als Maß für den durchschnittlichen wirtschaftlichen Wohlstand.",
+    "higher_is_better": true,
+    "change_type": "growth"
+  },
+  "unemployment_total": {
+    "name": "Unemployment, total (% of total labor force) (modeled ILO estimate)",
+    "category": "economy",
+    "short_description": "Arbeitslosenquote",
+    "description": "Anteil der Arbeitslosen an der Erwerbsbevölkerung als Indikator für die Integration in den Arbeitsmarkt.",
+    "higher_is_better": false,
+    "change_type": "decrease_positive"
+  },
+  "labor_force_advanced_education": {
+    "name": "Labor force with advanced education (% of total working-age population with advanced education)",
+    "category": "economy",
+    "short_description": "Anteil Erwerbstätige mit höherer Bildung",
+    "description": "Anteil der Erwerbsbevölkerung mit höherem Bildungsabschluss als Maß für Humankapital.",
+    "higher_is_better": true,
+    "change_type": "growth"
+  },
+  "manufacturing_value_added": {
+    "name": "Manufacturing, value added (% of GDP)",
+    "category": "economy",
+    "short_description": "Wertschöpfung verarbeitende Industrie",
+    "description": "Anteil der verarbeitenden Industrie an der Wirtschaftsleistung als Maß für industrielle Entwicklung.",
+    "higher_is_better": true,
+    "change_type": "difference"
+  },
+  "industry_value_added": {
+    "name": "Industry (including construction), value added (% of GDP)",
+    "category": "economy",
+    "short_description": "Industrielle Wertschöpfung",
+    "description": "Anteil der Industrie inklusive Bauwirtschaft an der Wirtschaftsleistung.",
+    "higher_is_better": true,
+    "change_type": "difference"
+  },
+  "research_development_expenditure": {
+    "name": "Research and development expenditure (% of GDP)",
+    "category": "innovation",
+    "short_description": "Ausgaben für Forschung und Entwicklung",
+    "description": "Anteil der Investitionen in Forschung und Entwicklung am Bruttoinlandsprodukt als Maß für Innovationsfähigkeit.",
+    "higher_is_better": true,
+    "change_type": "growth"
+  },
+  "exports_goods_services": {
+    "name": "Exports of goods and services (% of GDP)",
+    "category": "economy",
+    "short_description": "Exportanteil",
+    "description": "Anteil der Exporte von Waren und Dienstleistungen an der Wirtschaftsleistung.",
+    "higher_is_better": true,
+    "change_type": "difference"
+  },
+  "imports_goods_services": {
+    "name": "Imports of goods and services (% of GDP)",
+    "category": "economy",
+    "short_description": "Importanteil",
+    "description": "Anteil der Importe von Waren und Dienstleistungen an der Wirtschaftsleistung.",
+    "higher_is_better": true,
+    "change_type": "difference"
+  },
+  "high_technology_exports": {
+    "name": "High-technology exports (% of manufactured exports)",
+    "category": "innovation",
+    "short_description": "High-Tech-Exportanteil",
+    "description": "Anteil technologisch anspruchsvoller Produkte an den Industrieexporten als Maß für technologische Entwicklung.",
+    "higher_is_better": true,
+    "change_type": "growth"
+  },
+  "life_expectancy": {
+    "name": "Life expectancy at birth, total (years)",
+    "category": "health",
+    "short_description": "Lebenserwartung",
+    "description": "Durchschnittlich erwartete Lebensdauer eines Neugeborenen als zentraler Entwicklungsindikator.",
+    "higher_is_better": true,
+    "change_type": "difference"
+  },
+  "infant_mortality_rate": {
+    "name": "Mortality rate, infant (per 1,000 live births)",
+    "category": "health",
+    "short_description": "Säuglingssterblichkeit",
+    "description": "Anzahl der Todesfälle von Kindern unter einem Jahr pro 1.000 Lebendgeburten.",
+    "higher_is_better": false,
+    "change_type": "decrease_positive"
+  },
+  "under_5_mortality_rate": {
+    "name": "Mortality rate, under-5 (per 1,000 live births)",
+    "category": "health",
+    "short_description": "Kindersterblichkeit",
+    "description": "Anzahl der Todesfälle von Kindern unter fünf Jahren pro 1.000 Lebendgeburten.",
+    "higher_is_better": false,
+    "change_type": "decrease_positive"
+  },
+  "maternal_mortality_ratio": {
+    "name": "Maternal mortality ratio (modeled estimate, per 100,000 live births)",
+    "category": "health",
+    "short_description": "Müttersterblichkeit",
+    "description": "Anzahl der Todesfälle von Müttern während Schwangerschaft oder Geburt pro 100.000 Lebendgeburten.",
+    "higher_is_better": false,
+    "change_type": "decrease_positive"
+  },
+  "physicians_per_1000": {
+    "name": "Physicians (per 1,000 people)",
+    "category": "health",
+    "short_description": "Ärztedichte",
+    "description": "Anzahl der Ärzte pro 1.000 Einwohner als Maß für medizinische Versorgung.",
+    "higher_is_better": true,
+    "change_type": "growth"
+  },
+  "hiv_prevalence": {
+    "name": "Prevalence of HIV, total (% of population ages 15-49)",
+    "category": "health",
+    "short_description": "HIV-Prävalenz",
+    "description": "Anteil der Bevölkerung zwischen 15 und 49 Jahren mit HIV-Infektion.",
+    "higher_is_better": false,
+    "change_type": "decrease_positive"
+  },
+  "internet_users": {
+    "name": "Individuals using the Internet (% of population)",
+    "category": "technology",
+    "short_description": "Internetnutzung",
+    "description": "Anteil der Bevölkerung mit Internetzugang als Maß für digitale Infrastruktur.",
+    "higher_is_better": true,
+    "change_type": "growth"
+  },
+  "renewable_energy_consumption": {
+    "name": "Renewable energy consumption (% of total final energy consumption)",
+    "category": "environment",
+    "short_description": "Nutzung erneuerbarer Energien",
+    "description": "Anteil erneuerbarer Energien am gesamten Energieverbrauch.",
+    "higher_is_better": true,
+    "change_type": "growth"
+  },
+  "greenhouse_gas_emissions": {
+    "name": "Total greenhouse gas emissions excluding LULUCF per capita (t CO2e/capita)",
+    "category": "environment",
+    "short_description": "Treibhausgasemissionen pro Kopf",
+    "description": "Gesamte Treibhausgasemissionen pro Einwohner ohne Berücksichtigung von Landnutzung und Forstwirtschaft.",
+    "higher_is_better": false,
+    "change_type": "decrease_positive"
+  },
+  "pm25_air_pollution": {
+    "name": "PM2.5 air pollution, mean annual exposure (micrograms per cubic meter)",
+    "category": "environment",
+    "short_description": "Feinstaubbelastung",
+    "description": "Durchschnittliche jährliche Belastung der Bevölkerung durch Feinstaubpartikel PM2.5.",
+    "higher_is_better": false,
+    "change_type": "decrease_positive"
+  },
+  "poverty_headcount_830": {
+    "name": "Poverty headcount ratio at $8.30 a day (2021 PPP) (% of population)",
+    "category": "social",
+    "short_description": "Armutsquote",
+    "description": "Anteil der Bevölkerung, die unter der Armutsgrenze von 8,30 US-Dollar pro Tag (kaufkraftbereinigt) lebt.",
+    "higher_is_better": false,
+    "change_type": "decrease_positive"
+  },
+  "gini_index": {
+    "name": "Gini index",
+    "category": "social",
+    "short_description": "Einkommensungleichheit",
+    "description": "Maß für die Ungleichverteilung von Einkommen innerhalb eines Landes.",
+    "higher_is_better": false,
+    "change_type": "decrease_positive"
+  },
+  "intentional_homicides": {
+    "name": "Intentional homicides (per 100,000 people)",
+    "category": "social",
+    "short_description": "Vorsätzliche Tötungsdelikte",
+    "description": "Anzahl vorsätzlicher Tötungsdelikte pro 100.000 Einwohner als Maß für gesellschaftliche Sicherheit.",
+    "higher_is_better": false,
+    "change_type": "decrease_positive"
+  },
+  "political_stability": {
+    "name": "Political Stability - Governance estimate (approx. -2.5 to +2.5)",
+    "category": "governance",
+    "short_description": "Politische Stabilität",
+    "description": "Bewertung der politischen Stabilität und des Risikos politischer Konflikte.",
+    "higher_is_better": true,
+    "change_type": "difference"
+  },
+  "government_effectiveness": {
+    "name": "Government Effectiveness - Governance estimate (approx. -2.5 to +2.5)",
+    "category": "governance",
+    "short_description": "Staatliche Effektivität",
+    "description": "Bewertung der Qualität öffentlicher Dienstleistungen und staatlicher Institutionen.",
+    "higher_is_better": true,
+    "change_type": "difference"
+  },
+  "new_business_density": {
+    "name": "New business density (new registrations per 1,000 people ages 15-64)",
+    "category": "innovation",
+    "short_description": "Neue Unternehmensgründungen",
+    "description": "Anzahl neu registrierter Unternehmen pro 1.000 Personen im erwerbsfähigen Alter als Maß für wirtschaftliche Dynamik.",
+    "higher_is_better": true,
+    "change_type": "growth"
+  },
+  "trademark_applications": {
+    "name": "Trademark applications, resident, by count",
+    "category": "innovation",
+    "short_description": "Markenanmeldungen",
+    "description": "Anzahl der Markenanmeldungen durch inländische Antragsteller als Indikator für Innovation und Unternehmertum.",
+    "higher_is_better": true,
+    "change_type": "growth"
+  }
+}
