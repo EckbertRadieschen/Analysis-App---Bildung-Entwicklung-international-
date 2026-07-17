@@ -15,7 +15,7 @@ Besteht ein Zusammenhang zwischen:
 
 
 ## Daten:
-- [text](data/EdStatsData.csv)
+- data/raw/EdStatsData.csv
 - Datenquelle: https://datacatalog.worldbank.org/ (Stand: Mittwoch, 15.07.2026 - 14:45)
 
 - Struktur: 886.930 Einträge auf (69+1) Spalten (1 Dummy-Spalte)
@@ -37,11 +37,11 @@ Besteht ein Zusammenhang zwischen:
     - es werden Jahresspalten entfernt, die keinen Inhalt haben
 
 ### Neue Datenstruktur
-- [text](data/education_indicators.csv)
+- data/processed/education_indicators.csv
     - 6435 Einträge auf 51 Spalten
     - 237 Ländern, 46 Indikatoren
 
-- [text](data/development_indicators.csv)
+- data/processed/development_indicators.csv
     - 1576 Einträge auf 51 Spalten
     - 236 Länder, 8 Indikatoren
 
