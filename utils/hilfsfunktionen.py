@@ -7,6 +7,7 @@ from src.paths import (
     EDUCATION_OUTPUT,
     DEVELOPMENT_OUTPUT
 )
+from src.preparations import filter_indicators
 
 # =================================================================================================
 # Funktionen zur ersten Übersicht bzgl Datenstruktur und -qualität
@@ -280,7 +281,7 @@ def find_relevant_years(df: pd.DataFrame) -> list[str]:
 # Funktion zum Umwandeln in ein Long-Format
 # ================================================================================================================================
 
-def create_frames (indicator: str, frame_name: str = "edu", indicator_title: str = "indicator") -> tuple[pd.DataFrame, pd.DataFrame]:
+def create_frames (indicator_code: str, frame_name: str = "edu", indicator_title: str = "indicator") -> tuple[pd.DataFrame, pd.DataFrame]:
     """Bringt einen DataFrame in ein analysentaugliches Long-Format bzgl des vorgegebenen Indikators. 
     
         Args:
@@ -296,21 +297,20 @@ def create_frames (indicator: str, frame_name: str = "edu", indicator_title: str
 
     df = select_dataframe(frame_name)
 
-    filter_indicator = df["Indicator Name"] == indicator
-
-    df_indicator = df[filter_indicator]
+    df_indicator = df[df["Indicator Code"] == indicator_code]
 
     years = find_relevant_years(df_indicator)
 
     df_indicator[f"{indicator_title}_data_count"] = df_indicator[years].notna().sum(axis=1)
 
-    filter_relevant_countries = df_indicator[f"{indicator_title}_data_count"] > 0
-
-    df_indicator = df_indicator[filter_relevant_countries]
+    df_indicator = df_indicator[
+        df_indicator[f"{indicator_title}_data_count"] > 0
+    ]
 
     relevant_columns = [
         'Country Name',
         'Country Code',
+        'Indicator Name',
         'Indicator Code',
         f'{indicator_title}_data_count'
     ] + years
@@ -326,7 +326,7 @@ def create_frames (indicator: str, frame_name: str = "edu", indicator_title: str
     df_indicator.sort_values([f"{indicator_title}_data_count", "country_name"], ascending=[False, True])
 
     df_indicator_long = df_indicator.melt(
-        id_vars=["country_name", "country_code", "indicator_code"],
+        id_vars=["country_name", "country_code", "indicator_name", "indicator_code"],
         value_vars=years,
         var_name="year",
         value_name=f"{indicator_title}_score"
@@ -339,3 +339,16 @@ def create_frames (indicator: str, frame_name: str = "edu", indicator_title: str
     df_indicator_long
 
     return df_indicator, df_indicator_long
+
+
+def extract_year_columns(df: pd.DataFrame) -> list[str]:
+    return [
+            col 
+            for col in df.columns 
+            if col.isdigit()
+        ]
+
+
+def drop_incomplete_records(df: pd.DataFrame):
+    year_columns = extract_year_columns(df)
+    

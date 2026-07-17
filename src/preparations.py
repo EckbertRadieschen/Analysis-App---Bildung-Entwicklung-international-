@@ -57,13 +57,13 @@ def filter_indicators(df_raw: pd.DataFrame, indicator_data: dict) -> pd.DataFram
     Filtert Rohdaten auf die in der Config definierten Indikatoren.
     """
 
-    indicator_names = [
-        indicator_data[indicator]["name"]
+    indicator_codes = [
+        indicator_data[indicator]["code"]
         for indicator in indicator_data
     ]
 
     return df_raw[
-        df_raw["Indicator Name"].isin(indicator_names)
+        df_raw["Indicator Code"].isin(indicator_codes)
     ]
 
 
