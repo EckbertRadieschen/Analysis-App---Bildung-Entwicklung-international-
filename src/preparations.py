@@ -149,9 +149,7 @@ def create_analysis_file(data_path: Path, config_path: Path, output_directory: P
 
     save_dataframe(df_analysis, output_path)
 
-
-if __name__ == "__main__":
-
+def update_data():
     create_analysis_file(
         DEVELOPMENT_RAW,
         DEVELOPMENT_CONFIG,
@@ -163,3 +161,11 @@ if __name__ == "__main__":
         EDUCATION_CONFIG,
         PROCESSED_DATA_DIR
     )
+
+    
+
+
+
+if __name__ == "__main__":
+
+    update_data()
