@@ -3,7 +3,7 @@
         "output_file_name": "development_indicators.csv",
         "max_year": 2024,
         "years_offset": 25,
-        "change_offsets": [5, 10, 15, 20],
+        "change_offsets": [10, 20],
         "offset_tolerance": 2
     },
     "indicators": {

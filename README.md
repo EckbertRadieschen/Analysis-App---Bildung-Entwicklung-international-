@@ -35,6 +35,8 @@ Besteht ein Zusammenhang zwischen:
 - es werden aus der Datenstruktur zwei neue Daten-Strukturen erzeugt
     - die Daten werden nach Bildungsindikatoren und Entwicklungsvariablen aufgetrennt
     - es werden Jahresspalten entfernt, die keinen Inhalt haben
+    - es werden nur tatsächliche Länder angezeigt, keine gruppierten Regionen
+    - es werden 
 
 ### Neue Datenstruktur
 - data/processed/education_indicators.csv

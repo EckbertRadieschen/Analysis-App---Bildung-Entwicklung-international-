@@ -252,7 +252,7 @@
             "description": "Alphabetisierungsrate junger Menschen.",
             "level": "young_adult",
             "higher_is_better": true,
-            "recommended_lag": 5,
+            "recommended_lag": 10,
             "short_description": "Anteil mittleres Bildungsniveau (Erwerbstätige)"
         },
         "UIS.TE_100000.56": {
@@ -261,7 +261,7 @@
             "description": "Anzahl der Studierenden im Hochschulbereich pro 100.000 Einwohner.",
             "level": "tertiary",
             "higher_is_better": true,
-            "recommended_lag": 15,
+            "recommended_lag": 10,
             "short_description": "Anteil grundlegendes Bildungsnvieau (Erwerbstätige)"
         },
         "SE.TER.ENRR": {
@@ -270,7 +270,7 @@
             "description": "Anteil der Bevölkerung im typischen Hochschulalter, der tertiäre Bildung besucht.",
             "level": "tertiary",
             "higher_is_better": true,
-            "recommended_lag": 15,
+            "recommended_lag": 10,
             "short_description": "Anteil Hochschulabsolventen (Naturwissenschaften)"
         },
         "SE.TER.ENRL": {
@@ -279,7 +279,7 @@
             "description": "Gesamtzahl eingeschriebener Studierender im Hochschulbereich.",
             "level": "tertiary",
             "higher_is_better": true,
-            "recommended_lag": 15,
+            "recommended_lag": 10,
             "short_description": "Anteil Hochschulabsolventen (Ingenieurwissenschaften)"
         },
         "SE.TER.CMPL.ZS": {

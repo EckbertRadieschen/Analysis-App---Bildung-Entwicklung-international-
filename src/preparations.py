@@ -7,6 +7,7 @@ from src.paths import (
     EDUCATION_RAW,
     DEVELOPMENT_CONFIG,
     EDUCATION_CONFIG,
+    COUNTRY_INFO,
     PROCESSED_DATA_DIR,
 )
 
@@ -157,6 +158,40 @@ def reduce_max_x_years_ago(df: pd.DataFrame, max_year: int, years_offset: int) -
 
 
 # ===============================================================================================
+# Extrahieren der Ländercodes aller tatsächlichen Länder aus country_info
+# zum Herausfiltern aller gruppierten Regionen
+# ===============================================================================================
+
+def extract_real_country_codes () -> list[str]:
+    """
+    Erzeugt eine Liste mit Ländercodes für ungruppierte Länder aus der country_info 
+    """
+
+    df_country_info = pd.read_csv(COUNTRY_INFO, encoding="utf-8")
+
+    filter_real_countries = df_country_info["Region"].notna()
+
+    df_real_country_info = df_country_info[filter_real_countries]
+
+    return list(df_real_country_info["Country Code"].unique())
+
+# ===============================================================================================
+# Filtert einen DataFrame mit Spalte "Country Code" anhand einer Liste von country_codes
+# ===============================================================================================
+
+def filter_only_real_countries(df: pd.DataFrame, country_codes: list[str]) -> pd.DataFrame:
+    """
+    Filtert einen DataFrame mit Spalte "Country Code" anhand einer Liste von country_codes
+    """
+
+    if not "Country Code" in df.columns:
+        return df
+
+    filter = df["Country Code"].isin(country_codes)
+    return df[filter]
+
+
+# ===============================================================================================
 # Erzeugen einer analyse-tauglichen CSV-Datei aus Rohdaten mithilfe 
 # einer Konfigurationsdatei
 # ===============================================================================================
@@ -181,9 +216,13 @@ def create_analysis_file(data_path: Path, config_path: Path, output_directory: P
 
     years = get_available_year_columns(df_filtered_indicators)
 
-    df_analysis = df_filtered_indicators[BASE_COLUMNS + years]
+    df_relevant_years = df_filtered_indicators[BASE_COLUMNS + years]
 
-    df_analysis = remove_empty_countries(df=df_analysis, year_columns=years)
+    country_codes = extract_real_country_codes()
+
+    df_real_countries = filter_only_real_countries(df_relevant_years, country_codes)
+
+    df_analysis = remove_empty_countries(df=df_real_countries, year_columns=years)
 
     output_path = create_output_path(output_directory, config)
 
