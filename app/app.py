@@ -14,7 +14,11 @@ from src.paths import (
     EDUCATION_CONFIG
 )
 from src.preparations import load_config
-
+from app.selectors import (
+    get_available_categories,
+    get_available_category_indicators,
+    get_available_change_offsets
+)
 
 development_config = load_config(DEVELOPMENT_CONFIG)
 education_config = load_config(EDUCATION_CONFIG)
@@ -23,9 +27,20 @@ st.title("Bildung und Länderentwicklung")
 
 st.sidebar.header("Auswahl")
 
+development_categories = get_available_categories(development_config)
+
+selected_development_category = st.sidebar.selectbox(
+    "Kategorie",
+    options=development_categories,
+    format_func=lambda x: x["name"]
+)
+
+development_indicators = get_available_category_indicators(development_config, selected_development_category)
+
 selected_development = st.sidebar.selectbox(
     "Entwicklungsindikator",
-    development_config["indicators"].keys()
+    options=development_indicators,
+    format_func=lambda x: x["short_description"]
 )
 
 
