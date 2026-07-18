@@ -2,9 +2,41 @@
     "meta_data": {
         "output_file_name": "development_indicators.csv",
         "max_year": 2024,
-        "years_offset": 25,
-        "change_offsets": [10, 20],
-        "offset_tolerance": 2
+        "change_offsets": [
+            10,
+            20
+        ],
+        "offset_tolerance": 2,
+        "categories": [
+            {
+                "category": "social",
+                "name": "Gesellschaft"
+            },
+            {
+                "category": "environment",
+                "name": "Umwelt"
+            },
+            {
+                "category": "governance",
+                "name": "Staat & Institutionen"
+            },
+            {
+                "category": "economy",
+                "name": "Wirtschaft"
+            },
+            {
+                "category": "innovation",
+                "name": "Innovation"
+            },
+            {
+                "category": "technology",
+                "name": "Technologie"
+            },
+            {
+                "category": "health",
+                "name": "Gesundheit"
+            }
+        ]
     },
     "indicators": {
         "NY.GDP.PCAP.KD": {

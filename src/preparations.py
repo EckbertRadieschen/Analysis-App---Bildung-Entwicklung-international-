@@ -1,14 +1,16 @@
 import pandas as pd
 import json
 from pathlib import Path
-from utils.hilfsfunktionen import extract_year_columns
+from utils.hilfsfunktionen import extract_year_columns, dump_json
 from src.paths import (
     DEVELOPMENT_RAW,
     EDUCATION_RAW,
+    PROCESSED_DATA_DIR,
+    DEVELOPMENT_OUTPUT,
+    EDUCATION_OUTPUT,
     DEVELOPMENT_CONFIG,
     EDUCATION_CONFIG,
-    COUNTRY_INFO,
-    PROCESSED_DATA_DIR,
+    COUNTRY_INFO
 )
 
 BASE_COLUMNS = [
@@ -124,37 +126,37 @@ def save_dataframe(df: pd.DataFrame, output_path: Path) -> None:
 # Import der analyse-relevanten Jahresdaten aus Development-Configuration
 # ================================================================================
 
-def set_year_from_config (config) -> tuple[int, int]:
+def set_year_from_config (config) -> int:
     """
-    Entnimmt der Konfigurartions-Datei  
+    Entnimmt der Konfigurations-Datei das hinterlegte max_year
     """
 
     meta_data = config["meta_data"]
 
-    if (not "max_year" in meta_data) or (not "years_offset" in meta_data):
-        return None, None
+    if not "max_year" in meta_data:
+        return None
     else:
-        return meta_data["max_year"], meta_data["years_offset"]
+        return meta_data["max_year"]
 
 # ================================================================================
 # Reduktion von Jahresspalten auf die letzten "x" Jahre
 # ================================================================================
 
-def reduce_max_x_years_ago(df: pd.DataFrame, max_year: int, years_offset: int) -> pd.DataFrame:
+def reduce_to_max_year (df: pd.DataFrame, max_year: int) -> pd.DataFrame:
     """
     Entfernt Jahresspalten aus dem DataFrame, 
-    die länger als x Jahre in der Vergangenheit liegen
+    die über dem definierten max_year liegen
     """
 
     year_columns = extract_year_columns(df)
 
-    years_in_offset = [
+    years_not_over_max = [
         year 
         for year in year_columns
-        if (int(year) >= max_year - years_offset) and (int(year) <= max_year)
+        if int(year) <= max_year
     ]
 
-    return df[BASE_COLUMNS + years_in_offset]
+    return df[BASE_COLUMNS + years_not_over_max]
 
 
 # ===============================================================================================
@@ -209,10 +211,10 @@ def create_analysis_file(data_path: Path, config_path: Path, output_directory: P
 
     df_filtered_indicators = filter_indicators(df_raw, indicator_data)
 
-    max_year, years_offset = set_year_from_config(config)
+    max_year = set_year_from_config(config)
 
-    if max_year and years_offset:
-        df_filtered_indicators = reduce_max_x_years_ago(df_filtered_indicators, max_year, years_offset)
+    if max_year:
+        df_filtered_indicators = reduce_to_max_year(df_filtered_indicators, max_year)
 
     years = get_available_year_columns(df_filtered_indicators)
 
@@ -229,7 +231,154 @@ def create_analysis_file(data_path: Path, config_path: Path, output_directory: P
     save_dataframe(df_analysis, output_path)
 
 
+# ===============================================================================================
+# ===============================================================================================
+# Implementieren der Verfügbarkeit benötigter Bildungsjahrgänge pro Bildungsindikator
+# ===============================================================================================
+# ===============================================================================================
+
+# ===============================================================================================
+# Überprüft eine Liste von Jahren auf Verfügbarkeit eines Jahres innerhalb der Toleranz
+# ===============================================================================================
+
+def find_matching_year(
+    available_years: list[int],
+    target_year: int,
+    tolerance: int
+) -> int | None:
+    """
+    Liefert das nächstliegende vorhandene Jahr innerhalb der Toleranz.
+    """
+
+    candidate_years = []
+
+    for step in range(0, 2 * tolerance  + 1): 
+        candidate_years.append(target_year + ((-1) ** step) * step)
+   
+    for year in candidate_years:
+        if year in available_years:
+            return year
+
+    return None
+
+
+# ===============================================================================================
+# Gibt eine Liste von im DataFrame verfügbaren Jahren für einen Bildungsindikator aus
+# ===============================================================================================
+
+
+def get_indicator_available_years(
+    df: pd.DataFrame,
+    indicator_code: str
+) -> list[int]:
+    """
+    Liefert alle vorhandenen Jahre eines Bildungsindikators.
+    """
+
+    df_indicator = df[
+        df["Indicator Code"] == indicator_code
+    ]
+
+    year_columns = get_available_year_columns(df_indicator)
+
+    return [int(year) for year in year_columns]
+
+
+# ===============================================================================================
+# Implementiert final die verfügbaren Bildungsjahrgänge pro Indikator in die education_config
+# ===============================================================================================
+
+def update_education_years(config: dict) -> dict:
+    """
+    Implementiert die im aktuellen Datenstand verfügbaren Bildungsjahrgänge 
+    pro Indikator in die education_config
+    """
+
+    meta = config["meta_data"]
+
+    max_year = meta["max_year"]
+    offsets = meta["change_offsets"]
+    tolerance = meta["offset_tolerance"]
+
+    df = pd.read_csv(EDUCATION_OUTPUT, encoding="utf-8")
+
+    indicators = config["indicators"]
+
+    for indicator_code, indicator_data in indicators.items():
+
+        lag = indicator_data["recommended_lag"]
+
+        available_years = get_indicator_available_years(df, indicator_code)
+
+        education_years = {}
+
+        for offset in offsets:
+            target_year = max_year - offset - lag
+
+            year = find_matching_year(
+                available_years,
+                target_year,
+                tolerance
+            )
+
+            education_years[str(offset)] = year
+
+        indicator_data["education_years"] = education_years
+
+    return config
+
+
+
+def update_categories(config: dict) -> dict:
+    """
+    Synchronisiert die Kategorienliste mit den aktuell vorhandenen Indikatoren.
+    Neue Kategorien werden mit name=None angelegt.
+    Nicht mehr verwendete Kategorien werden entfernt.
+    """
+
+    current_categories = config["meta_data"].get("categories", [])
+    indicators = config["indicators"]
+
+    new_category_list = []
+
+    indicator_categories = {
+        indicator["category"]
+        for indicator in indicators.values()
+        if "category" in indicator
+    }
+
+    for category in indicator_categories:
+        existing_category = None
+
+        for item in current_categories:
+            if item["category"] == category:
+                existing_category = item
+                break
+
+        if existing_category:
+            new_category_list.append(existing_category)
+
+        else:
+            new_category_list.append(
+                {
+                    "category": category,
+                    "name": None
+                }
+            )
+
+    config["meta_data"]["categories"] = new_category_list
+
+    return config
+
+
+
+# ===============================================================================================
+# Daten Update Funktion
+# ===============================================================================================
+
+
 def update_data():
+
     create_analysis_file(
         DEVELOPMENT_RAW,
         DEVELOPMENT_CONFIG,
@@ -242,6 +391,15 @@ def update_data():
         PROCESSED_DATA_DIR
     )
 
+    edu_config = load_config(EDUCATION_CONFIG)
+    edu_config = update_education_years(edu_config)
+    dump_json(EDUCATION_CONFIG, edu_config)
+    
+    dev_config = load_config(DEVELOPMENT_CONFIG)
+    dev_config = update_categories(dev_config)
+    dump_json(DEVELOPMENT_CONFIG, dev_config)
+    
+    
 
 if __name__ == "__main__":
 

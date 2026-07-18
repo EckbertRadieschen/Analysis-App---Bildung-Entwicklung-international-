@@ -40,12 +40,12 @@ Besteht ein Zusammenhang zwischen:
 
 ### Neue Datenstruktur
 - data/processed/education_indicators.csv
-    - 6435 Einträge auf 51 Spalten
-    - 237 Ländern, 46 Indikatoren
+    - 6029 Einträge auf 51 Spalten
+    - 209 Länder, 46 Indikatoren
 
 - data/processed/development_indicators.csv
-    - 1576 Einträge auf 51 Spalten
-    - 236 Länder, 8 Indikatoren
+    - 4974 Einträge auf 69 Spalten
+    - 214 Länder, 26 Indikatoren
 
 ### Datenqualität
 - nicht für jedes Land werden Werte für jeden Indikator in jedem Jahr erhoben
@@ -76,19 +76,4 @@ Ausgabe:
 - filtert diese anhand der vom User ausgewählten Variablen-Einstellungen
 - erzeugt im Hintergrund die nötigen plotly-Charts
 - implementiert die plotly-Charts als Visualisierungen in die Streamlit-App
-
-### Hilfsfunktionen
-- select_dataframe: 
-    - anhand eines Namens-Kürzels wird ein DataFrame generiert 
-    - wird nur innerhalb von create_indicator_frames aufgerufen
-- find_relevant_years: 
-    - erzeugt eine Liste aller Spalten eines DataFrames, deren Titel ein Integer ist und deren Inhalt nicht-leer ist
-    - wird in create_indicator_frames aufgerufen, um die Jahres-Spalten auf Relevante zu reduzieren
-- create_frames:
-    - erzeugt aus einem Namens-Kürzel zwei DataFrame-Versionen der Wunschdaten
-        - Wide-Format, aber nach Indikator/Variable gefiltert
-        - Long-Format, nach Indikator/Variable gefiltert (analyse-tauglich)
-
-
-
 

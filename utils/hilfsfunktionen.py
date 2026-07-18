@@ -355,8 +355,8 @@ def extract_year_columns(df: pd.DataFrame) -> list[str]:
 # JSON Dump
 # ==================================================================
 
-def dump_json (safe_path: Path, json_data: dict) -> None:
-    with open(safe_path, "w", encoding="utf-8") as file:
+def dump_json (save_path: Path, json_data: dict) -> None:
+    with open(save_path, "w", encoding="utf-8") as file:
         json.dump(
             json_data,
             file,

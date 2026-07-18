@@ -73,28 +73,6 @@ def change_type_calc (change_type: str, old_value: float, new_value: float) -> f
     return change_function(old_value, new_value)
 
 
-# ========================================================================================
-# Erzeugt Kandidatenjahre für einen Offset
-# ========================================================================================
-
-def get_candidate_years(target_year: int, tolerance: int) -> list[str]:
-    """
-    Erzeugt eine Liste möglicher Vergleichsjahre.
-    
-    Beispiel:
-    target_year=2014, tolerance=2
-
-    Ergebnis:
-    ["2014", "2013", "2015", "2012", "2016"]
-    """
-
-    candidate_years = []
-
-    for step in range(0, 2 * tolerance  + 1): 
-        candidate_years.append(str(target_year + ((-1) ** step) * step))
-
-    return candidate_years
-
 
 # ================================================================================
 # Findet verfügbares Vergleichsjahr innerhalb einer Zeile
@@ -109,10 +87,10 @@ def find_comparison_year(
     Sucht innerhalb einer Zeile nach dem nächsten verfügbaren Vergleichsjahr.
     """
 
-    candidate_years = get_candidate_years(
-        target_year,
-        tolerance
-    )
+    candidate_years = []
+    
+    for step in range(0, 2 * tolerance  + 1): 
+        candidate_years.append(str(target_year + ((-1) ** step) * step))
 
     for year in candidate_years:
 
