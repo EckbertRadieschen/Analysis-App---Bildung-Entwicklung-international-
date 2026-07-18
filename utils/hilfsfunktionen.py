@@ -1,5 +1,7 @@
 import pandas as pd
 import numpy as np
+import json
+from pathlib import Path
 import plotly.express as px
 import plotly.graph_objects as go
 from tabulate import tabulate
@@ -7,7 +9,6 @@ from src.paths import (
     EDUCATION_OUTPUT,
     DEVELOPMENT_OUTPUT
 )
-from src.preparations import filter_indicators
 
 # =================================================================================================
 # Funktionen zur ersten Übersicht bzgl Datenstruktur und -qualität
@@ -237,6 +238,7 @@ def select_dataframe (frame_name: str = "edu") -> pd.DataFrame:
         frame_name (str, optional): 
             Namens-Kürzel des DataFrames:
                 'edu': education_data (default)
+                'dev': development_data
 
     Returns:
         pd.DataFrame: Aus der relevanten csv-Datei erzeugter DataFrame.
@@ -289,6 +291,7 @@ def create_frames (indicator_code: str, frame_name: str = "edu", indicator_title
             frame_name (str, optional): 
                         Namens-Kürzel des DataFrames:
                             'edu': education_data (default)
+                            'dev': development_data
             indicator_title (str, optional): Der Indikatorname, der für Benennungen verwendet werden soll. Defaults to "score".
 
     Returns:
@@ -347,6 +350,19 @@ def extract_year_columns(df: pd.DataFrame) -> list[str]:
             for col in df.columns 
             if col.isdigit()
         ]
+
+# ==================================================================
+# JSON Dump
+# ==================================================================
+
+def dump_json (safe_path: Path, json_data: dict) -> None:
+    with open(safe_path, "w", encoding="utf-8") as file:
+        json.dump(
+            json_data,
+            file,
+            indent=4,
+            ensure_ascii=False
+        )
 
 
 def drop_incomplete_records(df: pd.DataFrame):
