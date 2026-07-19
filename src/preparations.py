@@ -393,6 +393,7 @@ def update_data():
 
     edu_config = load_config(EDUCATION_CONFIG)
     edu_config = update_education_years(edu_config)
+    edu_config = update_categories(edu_config)
     dump_json(EDUCATION_CONFIG, edu_config)
     
     dev_config = load_config(DEVELOPMENT_CONFIG)

@@ -6,12 +6,54 @@
             10,
             20
         ],
-        "offset_tolerance": 2
+        "offset_tolerance": 2,
+        "categories": [
+            {
+                "category": "skills",
+                "name": "Kompetenzen"
+            },
+            {
+                "category": "transition",
+                "name": "Eintritt Arbeitsmarkt"
+            },
+            {
+                "category": "quality",
+                "name": "Bildungsqualität"
+            },
+            {
+                "category": "investment",
+                "name": "Bildungsinvestitionen"
+            },
+            {
+                "category": "tertiary",
+                "name": "Hochschulbildung"
+            },
+            {
+                "category": "capital",
+                "name": "Leistungspotenzial"
+            },
+            {
+                "category": "path",
+                "name": "Bildungsverlauf"
+            },
+            {
+                "category": "access",
+                "name": "Bildungszugang"
+            },
+            {
+                "category": "structure",
+                "name": "Bildungsstruktur"
+            },
+            {
+                "category": "outcome",
+                "name": "Bildungserfolg"
+            }
+        ]
     },
     "indicators": {
         "UIS.NERA.2": {
             "name": "Adjusted net enrolment rate, lower secondary, both sexes (%)",
-            "category": "Bildungszugang",
+            "category": "access",
             "description": "Anteil der Kinder im entsprechenden Alter, die eine Sekundarstufe I besuchen.",
             "level": "lower_secondary",
             "higher_is_better": true,
@@ -24,7 +66,7 @@
         },
         "UIS.NERA.3": {
             "name": "Adjusted net enrolment rate, upper secondary, both sexes (%)",
-            "category": "Bildungszugang",
+            "category": "access",
             "description": "Anteil der Jugendlichen im entsprechenden Alter, die eine Sekundarstufe II besuchen.",
             "level": "upper_secondary",
             "higher_is_better": true,
@@ -37,7 +79,7 @@
         },
         "SE.SEC.ENRR": {
             "name": "Gross enrolment ratio, secondary, both sexes (%)",
-            "category": "Bildungszugang",
+            "category": "access",
             "description": "Gesamtzahl eingeschriebener SchülerInnen im Sekundarbereich relativ zur Altersgruppe.",
             "level": "secondary",
             "higher_is_better": true,
@@ -50,8 +92,8 @@
         },
         "SE.SEC.CMPT.LO.ZS": {
             "name": "Lower secondary completion rate, both sexes (%)",
-            "category": "Bildungserfolg",
-            "description": "Anteil der Schüler, die die Sekundarstufe I erfolgreich abschließfen.",
+            "category": "outcome",
+            "description": "Anteil der Schüler, die die Sekundarstufe I erfolgreich abschließen.",
             "level": "lower_secondary",
             "higher_is_better": true,
             "recommended_lag": 20,
@@ -63,7 +105,7 @@
         },
         "SE.PRM.CMPT.ZS": {
             "name": "Primary completion rate, both sexes (%)",
-            "category": "Bildungserfolg",
+            "category": "outcome",
             "description": "Anteil der Schüler, die die Primarstufe abschließfen.",
             "level": "primary",
             "higher_is_better": true,
@@ -76,7 +118,7 @@
         },
         "UIS.SLE.23": {
             "name": "School life expectancy, secondary, both sexes (years)",
-            "category": "Bildungsverlauf",
+            "category": "path",
             "description": "Erwartete Anzahl an Schuljahren im Sekundarbereich.",
             "level": "secondary",
             "higher_is_better": true,
@@ -89,7 +131,7 @@
         },
         "UIS.SLE.123": {
             "name": "School life expectancy, primary and secondary, both sexes (years)",
-            "category": "Bildungsverlauf",
+            "category": "path",
             "description": "Erwartete Anzahl an Schuljahren von Primar- bis Sekundarbereich.",
             "level": "primary_secondary",
             "higher_is_better": true,
@@ -102,7 +144,7 @@
         },
         "SE.SCH.LIFE": {
             "name": "School life expectancy, primary to tertiary, both sexes (years)",
-            "category": "Bildungsverlauf",
+            "category": "path",
             "description": "Erwartete Anzahl an Bildungsjahren vom Schuleintritt bis Hochschulbildung.",
             "level": "primary_tertiary",
             "higher_is_better": true,
@@ -115,7 +157,7 @@
         },
         "SE.SEC.TCAQ.ZS": {
             "name": "Percentage of teachers in secondary education who are trained, both sexes (%)",
-            "category": "Bildungsqualität",
+            "category": "quality",
             "description": "Anteil ausgebildeter Lehrkräfte im Sekundarbereich.",
             "level": "secondary",
             "higher_is_better": true,
@@ -128,7 +170,7 @@
         },
         "UIS.QUTP.2T3": {
             "name": "Percentage of teachers in secondary education who are qualified, both sexes (%)",
-            "category": "Bildungsqualität",
+            "category": "quality",
             "description": "Anteil qualifizierter Lehrkräfte im Sekundarbereich.",
             "level": "secondary",
             "higher_is_better": true,
@@ -141,7 +183,7 @@
         },
         "SE.SEC.ENRL.TC.ZS": {
             "name": "Pupil-teacher ratio in secondary education (headcount basis)",
-            "category": "Bildungsqualität",
+            "category": "quality",
             "description": "Verhältnis von Schülern zu Lehrkräften im Sekundarbereich.",
             "level": "secondary",
             "higher_is_better": false,
@@ -154,7 +196,7 @@
         },
         "SE.XPD.TOTL.GD.ZS": {
             "name": "Government expenditure on education as % of GDP (%)",
-            "category": "Bildungsinvestitionen",
+            "category": "investment",
             "description": "Staatliche Bildungsausgaben als Anteil des Bruttoinlandsprodukts.",
             "level": "all",
             "higher_is_better": true,
@@ -167,7 +209,7 @@
         },
         "SE.XPD.TOTL.GB.ZS": {
             "name": "Expenditure on education as % of total government expenditure (%)",
-            "category": "Bildungsinvestitionen",
+            "category": "investment",
             "description": "Anteil der staatlichen Ausgaben, der für Bildung verwendet wird.",
             "level": "all",
             "higher_is_better": true,
@@ -180,8 +222,8 @@
         },
         "UIS.XUNIT.PPP.23.FSGOV": {
             "name": "Government expenditure per secondary student (PPP$)",
-            "category": "Bildungsinvestitionen",
-            "description": "ßf6ffentliche Bildungsausgaben pro Schüler im Sekundarbereich.",
+            "category": "investment",
+            "description": "Öffentliche Bildungsausgaben pro Schüler im Sekundarbereich.",
             "level": "secondary",
             "higher_is_better": true,
             "recommended_lag": 10,
@@ -193,8 +235,8 @@
         },
         "UIS.XUNIT.PPP.56.FSGOV": {
             "name": "Government expenditure per tertiary student (PPP$)",
-            "category": "Bildungsinvestitionen",
-            "description": "ßf6ffentliche Bildungsausgaben pro Hochschulstudent.",
+            "category": "investment",
+            "description": "Öffentliche Bildungsausgaben pro Hochschulstudent.",
             "level": "tertiary",
             "higher_is_better": true,
             "recommended_lag": 10,
@@ -206,7 +248,7 @@
         },
         "LO.PISA.MAT": {
             "name": "PISA: Mean performance on the mathematics scale",
-            "category": "Kompetenzen",
+            "category": "skills",
             "description": "Durchschnittliche Mathematikleistung von 15-jährigen Schülern.",
             "level": "secondary",
             "higher_is_better": true,
@@ -219,7 +261,7 @@
         },
         "LO.PISA.REA": {
             "name": "PISA: Mean performance on the reading scale",
-            "category": "Kompetenzen",
+            "category": "skills",
             "description": "Durchschnittliche Lesekompetenz von 15-jährigen Schülern.",
             "level": "secondary",
             "higher_is_better": true,
@@ -232,7 +274,7 @@
         },
         "LO.PISA.SCI": {
             "name": "PISA: Mean performance on the science scale",
-            "category": "Kompetenzen",
+            "category": "skills",
             "description": "Durchschnittliche Naturwissenschaftskompetenz von 15-jährigen Schülern.",
             "level": "secondary",
             "higher_is_better": true,
@@ -245,7 +287,7 @@
         },
         "LO.TIMSS.MAT8": {
             "name": "TIMSS: Mean performance on the mathematics scale for eighth grade students, total",
-            "category": "Kompetenzen",
+            "category": "skills",
             "description": "Durchschnittliche Mathematikleistung von Schülern der 8. Klasse.",
             "level": "lower_secondary",
             "higher_is_better": true,
@@ -258,7 +300,7 @@
         },
         "LO.TIMSS.SCI8": {
             "name": "TIMSS: Mean performance on the science scale for eighth grade students, total",
-            "category": "Kompetenzen",
+            "category": "skills",
             "description": "Durchschnittliche Naturwissenschaftsleistung von Schülern der 8. Klasse.",
             "level": "lower_secondary",
             "higher_is_better": true,
@@ -271,7 +313,7 @@
         },
         "LO.TIMSS.SCI8.ADV": {
             "name": "TIMSS: Eighth grade students reaching the advanced international benchmark of science achievement (%)",
-            "category": "Kompetenzen",
+            "category": "skills",
             "description": "Anteil der Schüler der 8. Klasse, die den internationalen Spitzenstandard in Naturwissenschaften erreichen.",
             "level": "lower_secondary",
             "higher_is_better": true,
@@ -284,7 +326,7 @@
         },
         "LO.TIMSS.MAT8.ADV": {
             "name": "TIMSS: Eighth grade students reaching the advanced international benchmark of mathematics achievement (%)",
-            "category": "Kompetenzen",
+            "category": "skills",
             "description": "Anteil der Schüler der 8. Klasse, die den internationalen Spitzenstandard in Mathematik erreichen.",
             "level": "lower_secondary",
             "higher_is_better": true,
@@ -297,7 +339,7 @@
         },
         "LO.PIAAC.LIT": {
             "name": "PIAAC: Mean Adult Literacy Proficiency. Total",
-            "category": "Humankapital",
+            "category": "capital",
             "description": "Durchschnittliche Lesekompetenz der erwachsenen Bevölkerung.",
             "level": "adult",
             "higher_is_better": true,
@@ -310,7 +352,7 @@
         },
         "LO.PIAAC.NUM": {
             "name": "PIAAC: Mean Adult Numeracy Proficiency. Total",
-            "category": "Humankapital",
+            "category": "capital",
             "description": "Durchschnittliche mathematische Kompetenz der erwachsenen Bevölkerung.",
             "level": "adult",
             "higher_is_better": true,
@@ -323,7 +365,7 @@
         },
         "LO.PIAAC.LIT.YOU": {
             "name": "PIAAC: Mean Young Adult Literacy Proficiency. Total",
-            "category": "Humankapital",
+            "category": "capital",
             "description": "Durchschnittliche Lesekompetenz junger Erwachsener.",
             "level": "young_adult",
             "higher_is_better": true,
@@ -336,7 +378,7 @@
         },
         "LO.PIAAC.NUM.YOU": {
             "name": "PIAAC: Mean Young Adult Numeracy Proficiency. Total",
-            "category": "Humankapital",
+            "category": "capital",
             "description": "Durchschnittliche mathematische Kompetenz junger Erwachsener.",
             "level": "young_adult",
             "higher_is_better": true,
@@ -349,7 +391,7 @@
         },
         "SE.ADT.LITR.ZS": {
             "name": "Adult literacy rate, population 15+ years, both sexes (%)",
-            "category": "Humankapital",
+            "category": "capital",
             "description": "Alphabetisierungsrate der erwachsenen Bevölkerung.",
             "level": "adult",
             "higher_is_better": true,
@@ -362,7 +404,7 @@
         },
         "SE.ADT.1524.LT.ZS": {
             "name": "Youth literacy rate, population 15-24 years, both sexes (%)",
-            "category": "Humankapital",
+            "category": "capital",
             "description": "Alphabetisierungsrate junger Menschen.",
             "level": "young_adult",
             "higher_is_better": true,
@@ -375,7 +417,7 @@
         },
         "UIS.TE_100000.56": {
             "name": "Enrolment in tertiary education per 100,000 inhabitants, both sexes",
-            "category": "Hochschulbildung",
+            "category": "tertiary",
             "description": "Anzahl der Studierenden im Hochschulbereich pro 100.000 Einwohner.",
             "level": "tertiary",
             "higher_is_better": true,
@@ -388,7 +430,7 @@
         },
         "SE.TER.ENRR": {
             "name": "Gross enrolment ratio, tertiary, both sexes (%)",
-            "category": "Hochschulbildung",
+            "category": "tertiary",
             "description": "Anteil der Bevölkerung im typischen Hochschulalter, der tertiäre Bildung besucht.",
             "level": "tertiary",
             "higher_is_better": true,
@@ -401,7 +443,7 @@
         },
         "SE.TER.ENRL": {
             "name": "Enrolment in tertiary education, all programmes, both sexes (number)",
-            "category": "Hochschulbildung",
+            "category": "tertiary",
             "description": "Gesamtzahl eingeschriebener Studierender im Hochschulbereich.",
             "level": "tertiary",
             "higher_is_better": true,
@@ -414,7 +456,7 @@
         },
         "SE.TER.CMPL.ZS": {
             "name": "Gross graduation ratio from first degree programmes (ISCED 6 and 7) in tertiary education, both sexes (%)",
-            "category": "Hochschulbildung",
+            "category": "tertiary",
             "description": "Anteil eines Jahrgangs, der einen ersten Hochschulabschluss erreicht.",
             "level": "tertiary",
             "higher_is_better": true,
@@ -427,7 +469,7 @@
         },
         "SE.TER.GRAD": {
             "name": "Graduates from tertiary education, both sexes (number)",
-            "category": "Hochschulbildung",
+            "category": "tertiary",
             "description": "Gesamtzahl der Absolventen tertiärer Bildung.",
             "level": "tertiary",
             "higher_is_better": true,
@@ -440,7 +482,7 @@
         },
         "SL.TLF.ADVN.ZS": {
             "name": "Labor force with advanced education (% of total)",
-            "category": "Humankapital",
+            "category": "capital",
             "description": "Anteil der Erwerbsbevölkerung mit höherer Bildung.",
             "level": "labor_force",
             "higher_is_better": true,
@@ -453,7 +495,7 @@
         },
         "SL.TLF.INTM.ZS": {
             "name": "Labor force with intermediate education (% of total)",
-            "category": "Humankapital",
+            "category": "capital",
             "description": "Anteil der Erwerbsbevölkerung mit mittlerem Bildungsniveau.",
             "level": "labor_force",
             "higher_is_better": true,
@@ -466,7 +508,7 @@
         },
         "SL.TLF.BASC.ZS": {
             "name": "Labor force with basic education (% of total)",
-            "category": "Humankapital",
+            "category": "capital",
             "description": "Anteil der Erwerbsbevölkerung mit grundlegender Bildung.",
             "level": "labor_force",
             "higher_is_better": false,
@@ -479,7 +521,7 @@
         },
         "SE.TER.GRAD.SC.ZS": {
             "name": "Percentage of graduates from tertiary education graduating from Science programmes, both sexes (%)",
-            "category": "Bildungsstruktur",
+            "category": "structure",
             "description": "Anteil der Hochschulabsolventen aus Naturwissenschaften.",
             "level": "tertiary",
             "higher_is_better": true,
@@ -492,7 +534,7 @@
         },
         "SE.TER.GRAD.EN.ZS": {
             "name": "Percentage of graduates from tertiary education graduating from Engineering, Manufacturing and Construction programmes, both sexes (%)",
-            "category": "Bildungsstruktur",
+            "category": "structure",
             "description": "Anteil der Hochschulabsolventen aus Ingenieurwissenschaften.",
             "level": "tertiary",
             "higher_is_better": true,
@@ -505,7 +547,7 @@
         },
         "SE.TER.GRAD.HL.ZS": {
             "name": "Percentage of graduates from tertiary education graduating from Health and Welfare programmes, both sexes (%)",
-            "category": "Bildungsstruktur",
+            "category": "structure",
             "description": "Anteil der Hochschulabsolventen aus Gesundheits- und Sozialberufen.",
             "level": "tertiary",
             "higher_is_better": true,
@@ -518,7 +560,7 @@
         },
         "SE.TER.GRAD.ED.ZS": {
             "name": "Percentage of graduates from tertiary education graduating from Education programmes, both sexes (%)",
-            "category": "Bildungsstruktur",
+            "category": "structure",
             "description": "Anteil der Hochschulabsolventen aus Bildungsprogrammen.",
             "level": "tertiary",
             "higher_is_better": true,
@@ -531,11 +573,12 @@
         },
         "UIS.TEP.7": {
             "name": "Percentage of all students in tertiary education enrolled in ISCED 7, both sexes (%)",
-            "category": "Hochbildung",
+            "category": "tertiary",
             "description": "Anteil der Studierenden in Master- und vergleichbaren Programmen.",
             "level": "tertiary",
             "higher_is_better": true,
             "recommended_lag": 10,
+            "short_description": "Anteil Studierende Master o.Ä.",
             "education_years": {
                 "10": 2008,
                 "20": null
@@ -543,11 +586,12 @@
         },
         "UIS.TEP.8": {
             "name": "Percentage of all students in tertiary education enrolled in ISCED 8, both sexes (%)",
-            "category": "Hochbildung",
+            "category": "tertiary",
             "description": "Anteil der Studierenden in Promotionsprogrammen.",
             "level": "tertiary",
             "higher_is_better": true,
             "recommended_lag": 10,
+            "short_description": "Anteil Studierende in Promotionsprogrammen",
             "education_years": {
                 "10": 2004,
                 "20": 1998
@@ -555,11 +599,12 @@
         },
         "SL.UEM.NEET.ZS": {
             "name": "Share of youth not in education, employment, or training, total (% of youth population)",
-            "category": "ßfcbergang Arbeitsmarkt",
+            "category": "transition",
             "description": "Anteil junger Menschen, die weder in Bildung noch Beschäftigung oder Ausbildung sind.",
             "level": "young_adult",
             "higher_is_better": false,
             "recommended_lag": 10,
+            "short_description": "Anteil junger Menschen ohne Arbeitsmarktbindung",
             "education_years": {
                 "10": 2004,
                 "20": 1998
@@ -567,11 +612,12 @@
         },
         "UIS.ROFST.2": {
             "name": "Rate of out-of-school adolescents of lower secondary school age, both sexes (%)",
-            "category": "Bildungszugang",
+            "category": "access",
             "description": "Anteil Jugendlicher im Alter der Sekundarstufe I, die keine Schule besuchen.",
             "level": "lower_secondary",
             "higher_is_better": false,
             "recommended_lag": 20,
+            "short_description": "Anteil Jugendlicher ohne Schulbesuch (Alter: Sek I)",
             "education_years": {
                 "10": 1994,
                 "20": 1984
@@ -579,11 +625,12 @@
         },
         "UIS.ROFST.3.CP": {
             "name": "Rate of out-of-school youth of upper secondary school age, both sexes (%)",
-            "category": "Bildungszugang",
+            "category": "access",
             "description": "Anteil Jugendlicher im Alter der Sekundarstufe II, die keine Schule besuchen.",
             "level": "upper_secondary",
             "higher_is_better": false,
             "recommended_lag": 20,
+            "short_description": "Anteil Jugendlicher ohne Schulbesuch (Alter: Sek II)",
             "education_years": {
                 "10": 1998,
                 "20": null
@@ -591,11 +638,12 @@
         },
         "UIS.PTRHC.2T3.TRAINED": {
             "name": "Pupil/trained teacher ratio in secondary education (headcount basis)",
-            "category": "Bildungsqualität",
+            "category": "quality",
             "description": "Verhältnis von Schülern zu ausgebildeten Lehrkräften im Sekundarbereich.",
             "level": "secondary",
             "higher_is_better": false,
             "recommended_lag": 20,
+            "short_description": "Verhältnis SchülerInnen zu Lehrkräften (Sekundarbereich)",
             "education_years": {
                 "10": 1998,
                 "20": null
