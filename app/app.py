@@ -39,7 +39,7 @@ st.sidebar.divider()
 # Development Selectors
 # ============================================================================================
 
-st.sidebar.subheader("Entwicklung")
+st.sidebar.markdown("#### Entwicklungsvariable")
 
 development_categories = get_available_categories(development_config)
 
@@ -65,7 +65,8 @@ selected_development_indicator = st.sidebar.selectbox(
         else "Bitte zunächst Kategorie auswählen"
     ),
     format_func=lambda x: x["short_description"],
-    disabled=selected_development_category is None
+    disabled=selected_development_category is None,
+    key="selected_development_indicator"
 )
 
 change_offsets = get_change_offset_options(development_config)
@@ -74,55 +75,55 @@ selected_change_offset = st.sidebar.selectbox(
     "Vergleichszeitraum",
     options=change_offsets,
     index=None,
-    placeholder=(
-        "Bitte Zeitraum auswählen"
-        if selected_development_indicator is not None
-        else "Bitte zunächst Indikator auswählen"
-    ),
+    placeholder="Bitte Zeitraum auswählen",
     format_func=lambda x: f"{x} Jahre",
-    disabled=selected_development_indicator is None
+    key="selected_change_offset"
 )
 
 # ============================================================================================
 # Education Selectors
 # ============================================================================================
 
-st.sidebar.subheader("Bildung")
+st.sidebar.divider()
 
-development_categories = get_available_categories(development_config)
+st.sidebar.markdown("#### Bildungsindikator")
 
-selected_development_category = st.sidebar.selectbox(
+education_categories = get_available_categories(education_config)
+
+selected_education_category = st.sidebar.selectbox(
     "Kategorie",
-    options=development_categories,
+    options=education_categories,
     index=None,
     placeholder="Bitte Kategorie auswählen",
     format_func=lambda x: x["name"],
-    key="selected_development_category"
+    key="selected_education_category"
 )
 
-development_indicators = get_available_category_indicators(development_config, selected_development_category)
+education_indicators = get_available_category_indicators(education_config, selected_education_category)
 
 
-selected_development_indicator = st.sidebar.selectbox(
+selected_education_indicator = st.sidebar.selectbox(
     "Indikator",
-    options=development_indicators,
+    options=education_indicators,
     index=None,
     placeholder=(
         "Bitte Indikator auswählen" 
-        if selected_development_category is not None
-        else "Bitte zunächst Kategorie auswählen"
+        if (
+            selected_education_category is not None
+            and selected_change_offset is not None
+        )
+        else "Bitte zunächst Kategorie und Vergleichszeitraum auswählen"
     ),
     format_func=lambda x: x["short_description"],
-    disabled=selected_development_category is None
+    disabled=(
+        selected_education_category is None
+        or selected_change_offset is None
+    ),
+    key="selected_education_indicator"
 )
 
 
 
-if selected_change_offset is not None:
-    st.write(
-        "Auswahl:",
-        selected_change_offset
-    )
 
 
 
