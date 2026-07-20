@@ -270,14 +270,18 @@ def find_relevant_years(df: pd.DataFrame) -> list[str]:
         if col.isdigit():
             year_cols.append(col)
 
-    year_cols_relevant = []
+    relevant_years = [
+        year 
+        for year in year_cols
+        if df[year].notna().any()
+    ]
+    
+    for year in year_cols[-4:]:
+        if not year in relevant_years:
+            relevant_years.append(year)
 
-    for col in year_cols:
-        values_count = df[col].notna().sum()
-        if values_count > 0:
-            year_cols_relevant.append(col)
 
-    return year_cols_relevant
+    return relevant_years
 
 
 

@@ -93,8 +93,12 @@ def get_available_year_columns(df: pd.DataFrame) -> list[str]:
     relevant_years = [
         year 
         for year in year_columns
-        if df[year].notna().sum() > 0
+        if df[year].notna().any()
     ]
+
+    for year in year_columns[-4:]:
+        if not year in relevant_years:
+            relevant_years.append(year)
 
     return relevant_years
 

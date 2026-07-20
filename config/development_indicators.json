@@ -9,32 +9,32 @@
         "offset_tolerance": 2,
         "categories": [
             {
-                "category": "environment",
-                "name": "Umwelt"
+                "category": "health",
+                "name": "Gesundheit"
             },
             {
-                "category": "innovation",
-                "name": "Innovation"
+                "category": "technology",
+                "name": "Technologie"
             },
             {
                 "category": "social",
                 "name": "Gesellschaft"
             },
             {
-                "category": "governance",
-                "name": "Staat & Institutionen"
-            },
-            {
-                "category": "health",
-                "name": "Gesundheit"
+                "category": "environment",
+                "name": "Umwelt"
             },
             {
                 "category": "economy",
                 "name": "Wirtschaft"
             },
             {
-                "category": "technology",
-                "name": "Technologie"
+                "category": "innovation",
+                "name": "Innovation"
+            },
+            {
+                "category": "governance",
+                "name": "Staat & Institutionen"
             }
         ]
     },
@@ -42,7 +42,7 @@
         "NY.GDP.PCAP.KD": {
             "name": "GDP per capita (constant 2015 US$)",
             "category": "economy",
-            "short_description": "Bruttoinlandsprodukt pro Einwohner",
+            "short_description": "Bruttoinlandsprodukt pro Einwohner ($)",
             "description": "Bruttoinlandsprodukt pro Einwohner als Maß für den durchschnittlichen wirtschaftlichen Wohlstand.",
             "higher_is_better": true,
             "change_type": "growth"
@@ -50,7 +50,7 @@
         "SL.UEM.TOTL.ZS": {
             "name": "Unemployment, total (% of total labor force) (modeled ILO estimate)",
             "category": "economy",
-            "short_description": "Arbeitslosenquote",
+            "short_description": "Arbeitslosenquote (%)",
             "description": "Anteil der Arbeitslosen an der Erwerbsbevölkerung als Indikator für die Integration in den Arbeitsmarkt.",
             "higher_is_better": false,
             "change_type": "difference"
@@ -58,7 +58,7 @@
         "SL.TLF.ADVN.ZS": {
             "name": "Labor force with advanced education (% of total working-age population with advanced education)",
             "category": "economy",
-            "short_description": "Anteil Erwerbstätige mit höherer Bildung",
+            "short_description": "Anteil Erwerbstätige mit höherer Bildung (%)",
             "description": "Anteil der Erwerbsbevölkerung mit höherem Bildungsabschluss als Maß für Humankapital.",
             "higher_is_better": true,
             "change_type": "difference"
@@ -66,7 +66,7 @@
         "NV.IND.MANF.ZS": {
             "name": "Manufacturing, value added (% of GDP)",
             "category": "economy",
-            "short_description": "Wertschöpfung verarbeitende Industrie",
+            "short_description": "Wertschöpfung verarbeitende Industrie (%)",
             "description": "Anteil der verarbeitenden Industrie an der Wirtschaftsleistung als Maß für industrielle Entwicklung.",
             "higher_is_better": true,
             "change_type": "difference"
@@ -74,7 +74,7 @@
         "NV.IND.TOTL.ZS": {
             "name": "Industry (including construction), value added (% of GDP)",
             "category": "economy",
-            "short_description": "Industrielle Wertschöpfung",
+            "short_description": "Industrielle Wertschöpfung (%)",
             "description": "Anteil der Industrie inklusive Bauwirtschaft an der Wirtschaftsleistung.",
             "higher_is_better": true,
             "change_type": "difference"
@@ -82,7 +82,7 @@
         "GB.XPD.RSDV.GD.ZS": {
             "name": "Research and development expenditure (% of GDP)",
             "category": "innovation",
-            "short_description": "Ausgaben für Forschung und Entwicklung",
+            "short_description": "Ausgaben für Forschung und Entwicklung (%)",
             "description": "Anteil der Investitionen in Forschung und Entwicklung am Bruttoinlandsprodukt als Maß für Innovationsfähigkeit.",
             "higher_is_better": true,
             "change_type": "difference"
@@ -90,7 +90,7 @@
         "NE.EXP.GNFS.ZS": {
             "name": "Exports of goods and services (% of GDP)",
             "category": "economy",
-            "short_description": "Exportanteil",
+            "short_description": "Exportanteil relativ zur Wirtschaftsleistung (%)",
             "description": "Anteil der Exporte von Waren und Dienstleistungen an der Wirtschaftsleistung.",
             "higher_is_better": true,
             "change_type": "difference"
@@ -98,7 +98,7 @@
         "NE.IMP.GNFS.ZS": {
             "name": "Imports of goods and services (% of GDP)",
             "category": "economy",
-            "short_description": "Importanteil",
+            "short_description": "Importanteil relativ zur Wirtschaftsleistung (%)",
             "description": "Anteil der Importe von Waren und Dienstleistungen an der Wirtschaftsleistung.",
             "higher_is_better": true,
             "change_type": "difference"
@@ -106,7 +106,7 @@
         "TX.VAL.TECH.MF.ZS": {
             "name": "High-technology exports (% of manufactured exports)",
             "category": "innovation",
-            "short_description": "High-Tech-Exportanteil",
+            "short_description": "High-Tech-Exportanteil (%)",
             "description": "Anteil technologisch anspruchsvoller Produkte an den Industrieexporten als Maß für technologische Entwicklung.",
             "higher_is_better": true,
             "change_type": "difference"
@@ -114,7 +114,7 @@
         "SP.DYN.LE00.IN": {
             "name": "Life expectancy at birth, total (years)",
             "category": "health",
-            "short_description": "Lebenserwartung",
+            "short_description": "Lebenserwartung (Jahre)",
             "description": "Durchschnittlich erwartete Lebensdauer eines Neugeborenen als zentraler Entwicklungsindikator.",
             "higher_is_better": true,
             "change_type": "difference"
@@ -122,7 +122,7 @@
         "SP.DYN.IMRT.IN": {
             "name": "Mortality rate, infant (per 1,000 live births)",
             "category": "health",
-            "short_description": "Säuglingssterblichkeit",
+            "short_description": "Säuglingssterblichkeit (pro 1000 Geburten)",
             "description": "Anzahl der Todesfälle von Kindern unter einem Jahr pro 1.000 Lebendgeburten.",
             "higher_is_better": false,
             "change_type": "difference"
@@ -130,7 +130,7 @@
         "SH.DYN.MORT": {
             "name": "Mortality rate, under-5 (per 1,000 live births)",
             "category": "health",
-            "short_description": "Kindersterblichkeit",
+            "short_description": "Kindersterblichkeit (pro 1000 Geburten)",
             "description": "Anzahl der Todesfälle von Kindern unter fünf Jahren pro 1.000 Lebendgeburten.",
             "higher_is_better": false,
             "change_type": "difference"
@@ -138,7 +138,7 @@
         "SH.STA.MMRT": {
             "name": "Maternal mortality ratio (modeled estimate, per 100,000 live births)",
             "category": "health",
-            "short_description": "Müttersterblichkeit",
+            "short_description": "Müttersterblichkeit (pro 100.000 Geburten)",
             "description": "Anzahl der Todesfälle von Müttern während Schwangerschaft oder Geburt pro 100.000 Lebendgeburten.",
             "higher_is_better": false,
             "change_type": "difference"
@@ -146,7 +146,7 @@
         "SH.MED.PHYS.ZS": {
             "name": "Physicians (per 1,000 people)",
             "category": "health",
-            "short_description": "Ärztedichte",
+            "short_description": "Ärztedichte (pro 1000 Personen)",
             "description": "Anzahl der Ärzte pro 1.000 Einwohner als Maß für medizinische Versorgung.",
             "higher_is_better": true,
             "change_type": "difference"
@@ -154,7 +154,7 @@
         "SH.DYN.AIDS.ZS": {
             "name": "Prevalence of HIV, total (% of population ages 15-49)",
             "category": "health",
-            "short_description": "HIV-Prävalenz",
+            "short_description": "HIV-Prävalenz (%)",
             "description": "Anteil der Bevölkerung zwischen 15 und 49 Jahren mit HIV-Infektion.",
             "higher_is_better": false,
             "change_type": "difference"
@@ -162,7 +162,7 @@
         "IT.NET.USER.ZS": {
             "name": "Individuals using the Internet (% of population)",
             "category": "technology",
-            "short_description": "Internetnutzung",
+            "short_description": "Internetnutzung (%)",
             "description": "Anteil der Bevölkerung mit Internetzugang als Maß für digitale Infrastruktur.",
             "higher_is_better": true,
             "change_type": "difference"
@@ -170,7 +170,7 @@
         "EG.FEC.RNEW.ZS": {
             "name": "Renewable energy consumption (% of total final energy consumption)",
             "category": "environment",
-            "short_description": "Nutzung erneuerbarer Energien",
+            "short_description": "Nutzung erneuerbarer Energien (%)",
             "description": "Anteil erneuerbarer Energien am gesamten Energieverbrauch.",
             "higher_is_better": true,
             "change_type": "difference"
@@ -178,7 +178,7 @@
         "EN.GHG.ALL.PC.CE.AR5": {
             "name": "Total greenhouse gas emissions excluding LULUCF per capita (t CO2e/capita)",
             "category": "environment",
-            "short_description": "Treibhausgasemissionen pro Kopf",
+            "short_description": "Treibhausgasemissionen pro Kopf (Tonnen CO2e)",
             "description": "Gesamte Treibhausgasemissionen pro Einwohner ohne Berücksichtigung von Landnutzung und Forstwirtschaft.",
             "higher_is_better": false,
             "change_type": "growth"
@@ -186,7 +186,7 @@
         "EN.ATM.PM25.MC.M3": {
             "name": "PM2.5 air pollution, mean annual exposure (micrograms per cubic meter)",
             "category": "environment",
-            "short_description": "Feinstaubbelastung",
+            "short_description": "Feinstaubbelastung (mg/m³)",
             "description": "Durchschnittliche jährliche Belastung der Bevölkerung durch Feinstaubpartikel PM2.5.",
             "higher_is_better": false,
             "change_type": "growth"
@@ -194,7 +194,7 @@
         "SI.POV.UMIC": {
             "name": "Poverty headcount ratio at $8.30 a day (2021 PPP) (% of population)",
             "category": "social",
-            "short_description": "Armutsquote",
+            "short_description": "Armutsquote (%)",
             "description": "Anteil der Bevölkerung, die unter der Armutsgrenze von 8,30 US-Dollar pro Tag (kaufkraftbereinigt) lebt.",
             "higher_is_better": false,
             "change_type": "difference"
@@ -202,7 +202,7 @@
         "SI.POV.GINI": {
             "name": "Gini index",
             "category": "social",
-            "short_description": "Einkommensungleichheit",
+            "short_description": "Einkommensungleichheit (Index)",
             "description": "Maß für die Ungleichverteilung von Einkommen innerhalb eines Landes.",
             "higher_is_better": false,
             "change_type": "difference"
@@ -210,7 +210,7 @@
         "VC.IHR.PSRC.P5": {
             "name": "Intentional homicides (per 100,000 people)",
             "category": "social",
-            "short_description": "Vorsätzliche Tötungsdelikte",
+            "short_description": "Vorsätzliche Tötungsdelikte (pro 100.000 Personen)",
             "description": "Anzahl vorsätzlicher Tötungsdelikte pro 100.000 Einwohner als Maß für gesellschaftliche Sicherheit.",
             "higher_is_better": false,
             "change_type": "difference"
@@ -218,7 +218,7 @@
         "GOV_WGI_PV_EST": {
             "name": "Political Stability - Governance estimate (approx. -2.5 to +2.5)",
             "category": "governance",
-            "short_description": "Politische Stabilität",
+            "short_description": "Politische Stabilität (Index)",
             "description": "Bewertung der politischen Stabilität und des Risikos politischer Konflikte.",
             "higher_is_better": true,
             "change_type": "difference"
@@ -226,7 +226,7 @@
         "GOV_WGI_GE_EST": {
             "name": "Government Effectiveness - Governance estimate (approx. -2.5 to +2.5)",
             "category": "governance",
-            "short_description": "Staatliche Effektivität",
+            "short_description": "Staatliche Effektivität (Index)",
             "description": "Bewertung der Qualität öffentlicher Dienstleistungen und staatlicher Institutionen.",
             "higher_is_better": true,
             "change_type": "difference"
@@ -234,18 +234,10 @@
         "IC.BUS.NDNS.ZS": {
             "name": "New business density (new registrations per 1,000 people ages 15-64)",
             "category": "innovation",
-            "short_description": "Neue Unternehmensgründungen",
+            "short_description": "Neue Unternehmensgründungen (pro 1000 Personen)",
             "description": "Anzahl neu registrierter Unternehmen pro 1.000 Personen im erwerbsfähigen Alter als Maß für wirtschaftliche Dynamik.",
             "higher_is_better": true,
             "change_type": "difference"
-        },
-        "IP.TMK.RSCT": {
-            "name": "Trademark applications, resident, by count",
-            "category": "innovation",
-            "short_description": "Markenanmeldungen",
-            "description": "Anzahl der Markenanmeldungen durch inländische Antragsteller als Indikator für Innovation und Unternehmertum.",
-            "higher_is_better": true,
-            "change_type": "growth"
         }
     }
 }

@@ -9,44 +9,44 @@
         "offset_tolerance": 2,
         "categories": [
             {
-                "category": "path",
-                "name": "Bildungsverlauf"
-            },
-            {
-                "category": "investment",
-                "name": "Bildungsinvestitionen"
-            },
-            {
-                "category": "structure",
-                "name": "Bildungsstruktur"
-            },
-            {
-                "category": "quality",
-                "name": "Bildungsqualität"
-            },
-            {
-                "category": "access",
-                "name": "Bildungszugang"
-            },
-            {
-                "category": "tertiary",
-                "name": "Hochschulbildung"
-            },
-            {
                 "category": "transition",
                 "name": "Eintritt Arbeitsmarkt"
-            },
-            {
-                "category": "outcome",
-                "name": "Bildungserfolg"
             },
             {
                 "category": "skills",
                 "name": "Kompetenzen"
             },
             {
+                "category": "outcome",
+                "name": "Bildungserfolg"
+            },
+            {
+                "category": "access",
+                "name": "Bildungszugang"
+            },
+            {
+                "category": "path",
+                "name": "Bildungsverlauf"
+            },
+            {
+                "category": "quality",
+                "name": "Bildungsqualität"
+            },
+            {
+                "category": "structure",
+                "name": "Bildungsstruktur"
+            },
+            {
                 "category": "capital",
                 "name": "Leistungspotenzial"
+            },
+            {
+                "category": "investment",
+                "name": "Bildungsinvestitionen"
+            },
+            {
+                "category": "tertiary",
+                "name": "Hochschulbildung"
             }
         ]
     },
@@ -346,7 +346,7 @@
             "recommended_lag": 0,
             "short_description": "PIAAC: Lesekompetenz der erwachsenen Bevölkerung",
             "education_years": {
-                "10": null,
+                "10": 2016,
                 "20": null
             }
         },
@@ -359,7 +359,7 @@
             "recommended_lag": 0,
             "short_description": "PIAAC: Mathematische Kompetenz der erwachsenen Bevölkerung",
             "education_years": {
-                "10": null,
+                "10": 2016,
                 "20": null
             }
         },

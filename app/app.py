@@ -15,6 +15,7 @@ from src.paths import (
 )
 from src.preparations import load_config
 from src.analysis import (
+    get_analysis_data,
     create_analysis_frames,
     create_indicator_bar_chart
 )
@@ -36,6 +37,13 @@ apply_markdown()
 
 development_config = load_config(DEVELOPMENT_CONFIG)
 education_config = load_config(EDUCATION_CONFIG)
+
+development_meta = development_config["meta_data"]
+education_meta = education_config["meta_data"]
+
+development_indicators_from_config = development_config["indicators"]
+education_indicators_from_config = education_config["indicators"]
+
 
 dev_max_year = get_max_year_from_config(development_config)
 edu_max_year = get_max_year_from_config(education_config)
