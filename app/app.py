@@ -17,13 +17,21 @@ from src.preparations import load_config
 from src.analysis import (
     get_analysis_data,
     create_analysis_frames,
-    create_indicator_bar_chart
 )
+
+from src.visuals import create_indicator_bar_chart
+
+
 from app.selectors import (
     get_available_categories,
     get_available_category_indicators,
     get_change_offset_options,
     all_sidebar_selected   
+)
+
+from app.buttons import (
+    choose_bottom, choose_top,
+    choose_development, choose_education, choose_comparison
 )
 
 from utils.hilfsfunktionen import get_max_year_from_config
@@ -145,9 +153,60 @@ selected_education_indicator = st.sidebar.selectbox(
     key="selected_education_indicator"
 )
 
+
+
+
+# ============================================================================================
+# Hauptbereich - Popovers
+# ============================================================================================
+
+if st.session_state["are_all_sidebar_selectors"]:
+
+    po_top_bottom_column, blank_1, po_bar_source_column = st.columns([2, 1, 2])
+
+    with po_top_bottom_column:
+        with st.popover("Top/Bottom", width="stretch"):
+            st.button(
+                "Top 10",
+                type="primary" if st.session_state.get("top_bottom_choice", "top") == "top" else "secondary",
+                use_container_width="stretch",
+                on_click=choose_top
+            )
+
+            st.button(
+                "Bottom 10",
+                type="primary" if st.session_state.get("top_bottom_choice", "top") == "bottom" else "secondary",
+                use_container_width="stretch",
+                on_click=choose_bottom
+            )
+
+    with po_bar_source_column:
+        with st.popover("Entwicklung/Bildung/Zusammenhang"):
+            st.button(
+                "Enwicklungsvariable",
+                type="primary" if st.session_state.get("main_bar_source_choice", "development") == "development" else "secondary",
+                use_container_width="stretch",
+                on_click=choose_development
+            )
+    
+            st.button(
+                "Bildungsindikator",
+                type="primary" if st.session_state.get("main_bar_source_choice", "development") == "education" else "secondary",
+                use_container_width="stretch",
+                on_click=choose_education
+            )
+
+            st.button(
+                "Zusammenhang",
+                type="primary" if st.session_state.get("main_bar_source_choice", "development") == "comparison" else "secondary",
+                use_container_width="stretch",
+                on_click=choose_comparison
+            )
+
 # ============================================================================================
 # Hauptbereich
 # ============================================================================================
+
 
 st.title("Bildung und Länderentwicklung")
 
@@ -156,14 +215,11 @@ if st.session_state["are_all_sidebar_selectors"]:
 
     df_dev_bar = st.session_state["development_frames"][0]
 
-    fig = create_indicator_bar_chart(
-        df=df_dev_bar,
-        x="change_over_10_years",
-        y="country_name"
-    )
+    fig = create_indicator_bar_chart()
 
     st.plotly_chart(fig)
 
+    
 
 
 

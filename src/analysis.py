@@ -10,11 +10,6 @@ from src.preparations import load_config
 
 from src.paths import DEVELOPMENT_CONFIG
 
-EDU_INDICATOR = "timss_grade8_science"
-DEV_INDICATOR = "gdp_per_capita"
-
-EDU_INDICATOR_CODE = "LO.TIMSS.SCI8"
-DEV_INDICATOR_CODE = "NY.GDP.PCAP.KD"
 
 
 # ==========================================================================================
@@ -269,31 +264,3 @@ def create_analysis_frames (dev_config: dict):
     st.session_state["education_frames"] = [edu_frame_wide, edu_frame_long]
 
 
-def create_top10_bar_chart(df: pd.DataFrame, x: str, y: str) -> tuple[Figure, bool]:
-    df = df[df[x].notna()]
-    df = df.sort_values(x, ascending=True).tail(20)
-
-    fig = px.bar(
-        df,
-        x,
-        y,
-        orientation="h"
-    )
-
-    value_checker = (df[x] < 0).any() and (df[x] > 0).any()
-
-    return fig, value_checker
-
-def create_indicator_bar_chart(df: pd.DataFrame, x: str, y: str) -> Figure:
-
-    fig, value_checker = create_top10_bar_chart(df, x, y)
-
-    if value_checker:
-
-        fig.add_vline(
-            x=0,
-            line_width=1,
-            line_color="gray"
-        )
-
-    return fig
