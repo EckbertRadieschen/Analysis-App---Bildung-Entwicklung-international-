@@ -126,23 +126,21 @@ def save_dataframe(df: pd.DataFrame, output_path: Path) -> None:
 # Import der analyse-relevanten Jahresdaten aus Development-Configuration
 # ================================================================================
 
-def set_year_from_config (config) -> int:
+def set_year_data_from_config (config) -> tuple[int, int]:
     """
-    Entnimmt der Konfigurations-Datei das hinterlegte max_year
+    Entnimmt der Konfigurations-Datei das hinterlegte max_year und die change_offsets
     """
 
     meta_data = config["meta_data"]
 
-    if not "max_year" in meta_data:
-        return None
-    else:
-        return meta_data["max_year"]
+    return meta_data["max_year"], meta_data["change_offsets"]
+
 
 # ================================================================================
 # Reduktion von Jahresspalten auf die letzten "x" Jahre
 # ================================================================================
 
-def reduce_to_max_year (df: pd.DataFrame, max_year: int) -> pd.DataFrame:
+def reduce_years (df: pd.DataFrame, max_year: int, change_offset: int, reduce_past_years: bool = False) -> pd.DataFrame:
     """
     Entfernt Jahresspalten aus dem DataFrame, 
     die über dem definierten max_year liegen
@@ -150,13 +148,21 @@ def reduce_to_max_year (df: pd.DataFrame, max_year: int) -> pd.DataFrame:
 
     year_columns = extract_year_columns(df)
 
-    years_not_over_max = [
+    relevant_years = [
         year 
         for year in year_columns
         if int(year) <= max_year
     ]
 
-    return df[BASE_COLUMNS + years_not_over_max]
+    if reduce_past_years:
+        relevant_past_years = [
+            year
+            for year in relevant_years
+            if int(year) >= max_year - change_offset - 5
+        ]
+        relevant_years = relevant_past_years
+
+    return df[BASE_COLUMNS + relevant_years]
 
 
 # ===============================================================================================
@@ -198,7 +204,7 @@ def filter_only_real_countries(df: pd.DataFrame, country_codes: list[str]) -> pd
 # einer Konfigurationsdatei
 # ===============================================================================================
 
-def create_analysis_file(data_path: Path, config_path: Path, output_directory: Path) -> None:
+def create_analysis_file(data_path: Path, config_path: Path, output_directory: Path, reduce_past_years: bool = False) -> None:
     """
     Erstellt aus Rohdaten und einer Konfigurationsdatei
     eine analysefähige CSV-Datei.
@@ -211,10 +217,10 @@ def create_analysis_file(data_path: Path, config_path: Path, output_directory: P
 
     df_filtered_indicators = filter_indicators(df_raw, indicator_data)
 
-    max_year = set_year_from_config(config)
+    max_year, change_offsets = set_year_data_from_config(config)
+    change_offset = max(change_offsets)
 
-    if max_year:
-        df_filtered_indicators = reduce_to_max_year(df_filtered_indicators, max_year)
+    df_filtered_indicators = reduce_years(df_filtered_indicators, max_year, change_offset, reduce_past_years)
 
     years = get_available_year_columns(df_filtered_indicators)
 
@@ -225,6 +231,15 @@ def create_analysis_file(data_path: Path, config_path: Path, output_directory: P
     df_real_countries = filter_only_real_countries(df_relevant_years, country_codes)
 
     df_analysis = remove_empty_countries(df=df_real_countries, year_columns=years)
+
+    df_analysis = df_analysis.rename(
+        columns={
+            "Country Name": "country_name",
+            "Country Code": "country_code",
+            "Indicator Name": "indicator_name",
+            "Indicator Code": "indicator_code"
+        }
+    )
 
     output_path = create_output_path(output_directory, config)
 
@@ -276,7 +291,7 @@ def get_indicator_available_years(
     """
 
     df_indicator = df[
-        df["Indicator Code"] == indicator_code
+        df["indicator_code"] == indicator_code
     ]
 
     year_columns = get_available_year_columns(df_indicator)
@@ -382,7 +397,8 @@ def update_data():
     create_analysis_file(
         DEVELOPMENT_RAW,
         DEVELOPMENT_CONFIG,
-        PROCESSED_DATA_DIR
+        PROCESSED_DATA_DIR,
+        reduce_past_years=True
     )
 
     create_analysis_file(

@@ -9,44 +9,44 @@
         "offset_tolerance": 2,
         "categories": [
             {
-                "category": "skills",
-                "name": "Kompetenzen"
-            },
-            {
-                "category": "transition",
-                "name": "Eintritt Arbeitsmarkt"
-            },
-            {
-                "category": "quality",
-                "name": "Bildungsqualität"
+                "category": "path",
+                "name": "Bildungsverlauf"
             },
             {
                 "category": "investment",
                 "name": "Bildungsinvestitionen"
             },
             {
-                "category": "tertiary",
-                "name": "Hochschulbildung"
+                "category": "structure",
+                "name": "Bildungsstruktur"
             },
             {
-                "category": "capital",
-                "name": "Leistungspotenzial"
-            },
-            {
-                "category": "path",
-                "name": "Bildungsverlauf"
+                "category": "quality",
+                "name": "Bildungsqualität"
             },
             {
                 "category": "access",
                 "name": "Bildungszugang"
             },
             {
-                "category": "structure",
-                "name": "Bildungsstruktur"
+                "category": "tertiary",
+                "name": "Hochschulbildung"
+            },
+            {
+                "category": "transition",
+                "name": "Eintritt Arbeitsmarkt"
             },
             {
                 "category": "outcome",
                 "name": "Bildungserfolg"
+            },
+            {
+                "category": "skills",
+                "name": "Kompetenzen"
+            },
+            {
+                "category": "capital",
+                "name": "Leistungspotenzial"
             }
         ]
     },
@@ -58,7 +58,7 @@
             "level": "lower_secondary",
             "higher_is_better": true,
             "recommended_lag": 20,
-            "short_description": "Anteil Kinder in Sekundarstufe I",
+            "short_description": "Anteil SchülerInnen relativ zur Altersgruppe (Sekundarstufe I)",
             "education_years": {
                 "10": 1994,
                 "20": 1984
@@ -71,7 +71,7 @@
             "level": "upper_secondary",
             "higher_is_better": true,
             "recommended_lag": 20,
-            "short_description": "Anteil Jugendlicher in Sekundarstufe II",
+            "short_description": "Anteil SchülerInnen relativ zur Altersgruppe (Sekundarstufe II)",
             "education_years": {
                 "10": 1998,
                 "20": null
@@ -84,7 +84,7 @@
             "level": "secondary",
             "higher_is_better": true,
             "recommended_lag": 20,
-            "short_description": "Abschlussquote (Sekundarstufe I)",
+            "short_description": "Anteil SchülerInnen relativ zur Altersgruppe (Sekundarbereich)",
             "education_years": {
                 "10": 1994,
                 "20": 1984
@@ -97,7 +97,7 @@
             "level": "lower_secondary",
             "higher_is_better": true,
             "recommended_lag": 20,
-            "short_description": "Erwartete Schuljahre (Sekundarbereich)",
+            "short_description": "Abschlussquote (Sekundarstufe I)",
             "education_years": {
                 "10": 1994,
                 "20": 1984
@@ -106,11 +106,11 @@
         "SE.PRM.CMPT.ZS": {
             "name": "Primary completion rate, both sexes (%)",
             "category": "outcome",
-            "description": "Anteil der Schüler, die die Primarstufe abschließfen.",
+            "description": "Anteil der Schüler, die die Primarstufe abschließen.",
             "level": "primary",
             "higher_is_better": true,
             "recommended_lag": 25,
-            "short_description": "Ausgebildeter Lehrkräfte (Sekundarbereich)",
+            "short_description": "Abschlussquote (Primarstufe)",
             "education_years": {
                 "10": 1989,
                 "20": 1979
@@ -123,7 +123,7 @@
             "level": "secondary",
             "higher_is_better": true,
             "recommended_lag": 20,
-            "short_description": "Qualifizierte Lehrkräfte (Sekundarbereich)",
+            "short_description": "Erwartete Schuljahre (Sekundarbereich)",
             "education_years": {
                 "10": 1994,
                 "20": 1984
@@ -136,7 +136,7 @@
             "level": "primary_secondary",
             "higher_is_better": true,
             "recommended_lag": 20,
-            "short_description": "Verhältnis SchülerInnen vs Lehrkräfte (Sekundarbereich)",
+            "short_description": "Erwartete Schuljahre (Primar- bis Sekundarbereich",
             "education_years": {
                 "10": 1994,
                 "20": 1984
@@ -149,7 +149,7 @@
             "level": "primary_tertiary",
             "higher_is_better": true,
             "recommended_lag": 20,
-            "short_description": "Verhältnis SchülerInnen vs ausgebildete Lehrkräfte (Sekundarbereich)Staatliche Bildungsausgaben (%BIP)",
+            "short_description": "Erwartete Bildungsjahre (Schuleintritt bis Hochschulbildung",
             "education_years": {
                 "10": 1994,
                 "20": 1984
@@ -162,7 +162,7 @@
             "level": "secondary",
             "higher_is_better": true,
             "recommended_lag": 20,
-            "short_description": "Staatliche Bildungsausgaben (%Gesamtausgaben)",
+            "short_description": "Ausgebildeter Lehrkräfte (Sekundarbereich)",
             "education_years": {
                 "10": 1998,
                 "20": null
@@ -175,7 +175,7 @@
             "level": "secondary",
             "higher_is_better": true,
             "recommended_lag": 20,
-            "short_description": "Bildungsausgaben (pro Schüler, Sekundarbereich)",
+            "short_description": "Qualifizierte Lehrkräfte (Sekundarbereich)",
             "education_years": {
                 "10": null,
                 "20": null
@@ -188,7 +188,7 @@
             "level": "secondary",
             "higher_is_better": false,
             "recommended_lag": 20,
-            "short_description": "Bildungsausgaben (pro Hochschulstudent)",
+            "short_description": "Verhältnis SchülerInnen vs Lehrkräfte (Sekundarbereich)",
             "education_years": {
                 "10": 1994,
                 "20": 1984
@@ -201,7 +201,7 @@
             "level": "all",
             "higher_is_better": true,
             "recommended_lag": 10,
-            "short_description": "PISA: Mathematikleistung (15-jährige SchülerInnen)",
+            "short_description": "Staatliche Bildungsausgaben (%BIP)",
             "education_years": {
                 "10": 2004,
                 "20": 1994
@@ -214,7 +214,7 @@
             "level": "all",
             "higher_is_better": true,
             "recommended_lag": 10,
-            "short_description": "PISA: Lesekompetenz (15-jährige SchülerInnen)",
+            "short_description": "Staatliche Bildungsausgaben (%Gesamtausgaben)",
             "education_years": {
                 "10": 2004,
                 "20": 1994
@@ -227,7 +227,7 @@
             "level": "secondary",
             "higher_is_better": true,
             "recommended_lag": 10,
-            "short_description": "PISA Naturwissenschaftskompetenz (15-jährige SchülerInnen)",
+            "short_description": "Bildungsausgaben (pro Schüler, Sekundarbereich)",
             "education_years": {
                 "10": 2004,
                 "20": 1998
@@ -240,7 +240,7 @@
             "level": "tertiary",
             "higher_is_better": true,
             "recommended_lag": 10,
-            "short_description": "TIMSS: Mathematikleistung (SchülerInnen 8. Klasse)",
+            "short_description": "Bildungsausgaben (pro Hochschulstudent)",
             "education_years": {
                 "10": 2004,
                 "20": 1998
@@ -253,7 +253,7 @@
             "level": "secondary",
             "higher_is_better": true,
             "recommended_lag": 20,
-            "short_description": "TIMSS: Naturwissenschaftsleistung (SchülerInnen 8. Klasse)",
+            "short_description": "PISA: Mathematikleistung (15-jährige SchülerInnen)",
             "education_years": {
                 "10": null,
                 "20": null
@@ -266,7 +266,7 @@
             "level": "secondary",
             "higher_is_better": true,
             "recommended_lag": 20,
-            "short_description": "TIMSS: Spitzenstandard in Naturwissenschaften (SchülerInnen 8. Klasse)",
+            "short_description": "PISA: Lesekompetenz (15-jährige SchülerInnen)",
             "education_years": {
                 "10": null,
                 "20": null
@@ -279,7 +279,7 @@
             "level": "secondary",
             "higher_is_better": true,
             "recommended_lag": 20,
-            "short_description": "TIMSS: Spitzenstandard in Mathematik (SchülerInnen 8. Klasse)",
+            "short_description": "PISA Naturwissenschaftskompetenz (15-jährige SchülerInnen)",
             "education_years": {
                 "10": null,
                 "20": null
@@ -292,7 +292,7 @@
             "level": "lower_secondary",
             "higher_is_better": true,
             "recommended_lag": 20,
-            "short_description": "PIAAC: Lesekompetenz der erwachsenen Bevölkerung",
+            "short_description": "TIMSS: Mathematikleistung (SchülerInnen 8. Klasse)",
             "education_years": {
                 "10": null,
                 "20": null
@@ -305,7 +305,7 @@
             "level": "lower_secondary",
             "higher_is_better": true,
             "recommended_lag": 20,
-            "short_description": "PIAAC: Mathematische Kompetenz der erwachsenen Bevölkerung",
+            "short_description": "TIMSS: Naturwissenschaftsleistung (SchülerInnen 8. Klasse)",
             "education_years": {
                 "10": null,
                 "20": null
@@ -318,7 +318,7 @@
             "level": "lower_secondary",
             "higher_is_better": true,
             "recommended_lag": 20,
-            "short_description": "PIAAC: Lesekompetenz junger Erwachsener",
+            "short_description": "TIMSS: Spitzenstandard in Naturwissenschaften (SchülerInnen 8. Klasse)",
             "education_years": {
                 "10": null,
                 "20": null
@@ -331,7 +331,7 @@
             "level": "lower_secondary",
             "higher_is_better": true,
             "recommended_lag": 20,
-            "short_description": "PIAAC: Mathematische Kompetenz junger Erwachsener",
+            "short_description": "TIMSS: Spitzenstandard in Mathematik (SchülerInnen 8. Klasse)",
             "education_years": {
                 "10": null,
                 "20": null
@@ -344,7 +344,7 @@
             "level": "adult",
             "higher_is_better": true,
             "recommended_lag": 0,
-            "short_description": "Alphabetisierungsrate (Erwachsene)",
+            "short_description": "PIAAC: Lesekompetenz der erwachsenen Bevölkerung",
             "education_years": {
                 "10": null,
                 "20": null
@@ -357,7 +357,7 @@
             "level": "adult",
             "higher_is_better": true,
             "recommended_lag": 0,
-            "short_description": "Hochschulstudenten (pro 100.000 Einwohner)",
+            "short_description": "PIAAC: Mathematische Kompetenz der erwachsenen Bevölkerung",
             "education_years": {
                 "10": null,
                 "20": null
@@ -370,7 +370,7 @@
             "level": "young_adult",
             "higher_is_better": true,
             "recommended_lag": 5,
-            "short_description": "Anteil Personen in tertiärer Bildung",
+            "short_description": "PIAAC: Lesekompetenz junger Erwachsener",
             "education_years": {
                 "10": null,
                 "20": null
@@ -383,7 +383,7 @@
             "level": "young_adult",
             "higher_is_better": true,
             "recommended_lag": 5,
-            "short_description": "Jahrgangsquote Hochschulabschluss",
+            "short_description": "PIAAC: Mathematische Kompetenz junger Erwachsener",
             "education_years": {
                 "10": null,
                 "20": null
@@ -396,7 +396,7 @@
             "level": "adult",
             "higher_is_better": true,
             "recommended_lag": 0,
-            "short_description": "Anteil höheres Bildungsniveau (Erwerbstätige)",
+            "short_description": "Alphabetisierungsrate (Erwachsene)",
             "education_years": {
                 "10": 2014,
                 "20": 2004
@@ -409,7 +409,7 @@
             "level": "young_adult",
             "higher_is_better": true,
             "recommended_lag": 10,
-            "short_description": "Anteil mittleres Bildungsniveau (Erwerbstätige)",
+            "short_description": "Alphabetisierungsrate (junge Menschen)",
             "education_years": {
                 "10": 2004,
                 "20": 1994
@@ -422,7 +422,7 @@
             "level": "tertiary",
             "higher_is_better": true,
             "recommended_lag": 10,
-            "short_description": "Anteil grundlegendes Bildungsnvieau (Erwerbstätige)",
+            "short_description": "Hochschulstudenten (pro 100.000 Einwohner)",
             "education_years": {
                 "10": 2004,
                 "20": 1994
@@ -435,7 +435,7 @@
             "level": "tertiary",
             "higher_is_better": true,
             "recommended_lag": 10,
-            "short_description": "Anteil Hochschulabsolventen (Naturwissenschaften)",
+            "short_description": "Anteil Personen in tertiärer Bildung",
             "education_years": {
                 "10": 2004,
                 "20": 1994
@@ -448,7 +448,7 @@
             "level": "tertiary",
             "higher_is_better": true,
             "recommended_lag": 10,
-            "short_description": "Anteil Hochschulabsolventen (Ingenieurwissenschaften)",
+            "short_description": "Gesamtzahl eingeschriebener Studierender (Hochschulbereich)",
             "education_years": {
                 "10": 2004,
                 "20": 1994
@@ -461,7 +461,7 @@
             "level": "tertiary",
             "higher_is_better": true,
             "recommended_lag": 10,
-            "short_description": "Anteil Hochschulabsolventen (Gesundheits- und Sozialberufe)",
+            "short_description": "Jahrgangsquote Hochschulabschluss",
             "education_years": {
                 "10": 2004,
                 "20": 1998
@@ -474,7 +474,7 @@
             "level": "tertiary",
             "higher_is_better": true,
             "recommended_lag": 10,
-            "short_description": "Anteil Hochschulabsolventen (Pädagogische Programme)",
+            "short_description": "Gesamtzahl Absolventen (tertiärer Bildung)",
             "education_years": {
                 "10": 2004,
                 "20": 1994
@@ -487,7 +487,7 @@
             "level": "labor_force",
             "higher_is_better": true,
             "recommended_lag": 10,
-            "short_description": "Anteil Studierende (Master- und vergleichbare Programme)",
+            "short_description": "Anteil höheres Bildungsniveau (Erwerbstätige)",
             "education_years": {
                 "10": 2004,
                 "20": 1994
@@ -500,7 +500,7 @@
             "level": "labor_force",
             "higher_is_better": true,
             "recommended_lag": 10,
-            "short_description": "Anteil Studierende (Promotionsprogramme)",
+            "short_description": "Anteil mittleres Bildungsniveau (Erwerbstätige)",
             "education_years": {
                 "10": 2004,
                 "20": 1994
@@ -513,7 +513,7 @@
             "level": "labor_force",
             "higher_is_better": false,
             "recommended_lag": 10,
-            "short_description": "Anteil nicht in Erwerb bzw. Ausbildung (junge Menschen)",
+            "short_description": "Anteil grundlegendes Bildungsnvieau (Erwerbstätige)",
             "education_years": {
                 "10": 2004,
                 "20": 1994
@@ -526,7 +526,7 @@
             "level": "tertiary",
             "higher_is_better": true,
             "recommended_lag": 10,
-            "short_description": "Anteil Jugendlicher, die keine Schule besuchen (Alter: Sekundarstufe I)",
+            "short_description": "Anteil Hochschulabsolventen (Naturwissenschaften)",
             "education_years": {
                 "10": 2004,
                 "20": 1998
@@ -539,7 +539,7 @@
             "level": "tertiary",
             "higher_is_better": true,
             "recommended_lag": 10,
-            "short_description": "Anteil Jugendlicher, die keine Schule besuchen (Alter: Sekundarstufe II)",
+            "short_description": "Anteil Hochschulabsolventen (Ingenieurwissenschaften)",
             "education_years": {
                 "10": 2004,
                 "20": 1998
@@ -552,7 +552,7 @@
             "level": "tertiary",
             "higher_is_better": true,
             "recommended_lag": 10,
-            "short_description": "Anteil Bevölkerung mit Internetzugang.",
+            "short_description": "Anteil Hochschulabsolventen (Gesundheits- und Sozialberufe)",
             "education_years": {
                 "10": 2004,
                 "20": 1998
@@ -561,11 +561,11 @@
         "SE.TER.GRAD.ED.ZS": {
             "name": "Percentage of graduates from tertiary education graduating from Education programmes, both sexes (%)",
             "category": "structure",
-            "description": "Anteil der Hochschulabsolventen aus Bildungsprogrammen.",
+            "description": "Anteil der Hochschulabsolventen in pädagogischen Programmen.",
             "level": "tertiary",
             "higher_is_better": true,
             "recommended_lag": 10,
-            "short_description": "Anzahl PCs pro 100 Einwohner.",
+            "short_description": "Anteil Hochschulabsolventen (Pädagogische Programme)",
             "education_years": {
                 "10": 2004,
                 "20": 1998
@@ -578,7 +578,7 @@
             "level": "tertiary",
             "higher_is_better": true,
             "recommended_lag": 10,
-            "short_description": "Anteil Studierende Master o.Ä.",
+            "short_description": "Anteil Studierende (Master- und vergleichbare Programme)",
             "education_years": {
                 "10": 2008,
                 "20": null
@@ -591,7 +591,7 @@
             "level": "tertiary",
             "higher_is_better": true,
             "recommended_lag": 10,
-            "short_description": "Anteil Studierende in Promotionsprogrammen",
+            "short_description": "Anteil Studierende (Promotionsprogramme)",
             "education_years": {
                 "10": 2004,
                 "20": 1998
@@ -604,7 +604,7 @@
             "level": "young_adult",
             "higher_is_better": false,
             "recommended_lag": 10,
-            "short_description": "Anteil junger Menschen ohne Arbeitsmarktbindung",
+            "short_description": "Anteil nicht in Erwerb bzw. Ausbildung (junge Menschen)",
             "education_years": {
                 "10": 2004,
                 "20": 1998
@@ -617,7 +617,7 @@
             "level": "lower_secondary",
             "higher_is_better": false,
             "recommended_lag": 20,
-            "short_description": "Anteil Jugendlicher ohne Schulbesuch (Alter: Sek I)",
+            "short_description": "Anteil Jugendlicher, die keine Schule besuchen (Alter: Sekundarstufe I)",
             "education_years": {
                 "10": 1994,
                 "20": 1984
@@ -630,7 +630,7 @@
             "level": "upper_secondary",
             "higher_is_better": false,
             "recommended_lag": 20,
-            "short_description": "Anteil Jugendlicher ohne Schulbesuch (Alter: Sek II)",
+            "short_description": "Anteil Jugendlicher, die keine Schule besuchen (Alter: Sek II)",
             "education_years": {
                 "10": 1998,
                 "20": null

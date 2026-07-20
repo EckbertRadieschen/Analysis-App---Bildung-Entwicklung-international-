@@ -14,11 +14,18 @@ from src.paths import (
     EDUCATION_CONFIG
 )
 from src.preparations import load_config
+from src.analysis import (
+    create_analysis_frames,
+    create_indicator_bar_chart
+)
 from app.selectors import (
     get_available_categories,
     get_available_category_indicators,
-    get_change_offset_options    
+    get_change_offset_options,
+    all_sidebar_selected   
 )
+
+from utils.hilfsfunktionen import get_max_year_from_config
 
 from app.markdown import apply_markdown
 
@@ -30,7 +37,15 @@ apply_markdown()
 development_config = load_config(DEVELOPMENT_CONFIG)
 education_config = load_config(EDUCATION_CONFIG)
 
-st.title("Bildung und Länderentwicklung")
+dev_max_year = get_max_year_from_config(development_config)
+edu_max_year = get_max_year_from_config(education_config)
+
+all_sidebar_selected()
+
+
+# ============================================================================================
+# Sidebar
+# ============================================================================================
 
 st.sidebar.header("Auswahl")
 st.sidebar.divider()
@@ -64,7 +79,7 @@ selected_development_indicator = st.sidebar.selectbox(
         if selected_development_category is not None
         else "Bitte zunächst Kategorie auswählen"
     ),
-    format_func=lambda x: x["short_description"],
+    format_func=lambda x: x[1]["short_description"],
     disabled=selected_development_category is None,
     key="selected_development_indicator"
 )
@@ -114,7 +129,7 @@ selected_education_indicator = st.sidebar.selectbox(
         )
         else "Bitte zunächst Kategorie und Vergleichszeitraum auswählen"
     ),
-    format_func=lambda x: x["short_description"],
+    format_func=lambda x: x[1]["short_description"],
     disabled=(
         selected_education_category is None
         or selected_change_offset is None
@@ -122,11 +137,24 @@ selected_education_indicator = st.sidebar.selectbox(
     key="selected_education_indicator"
 )
 
+# ============================================================================================
+# Hauptbereich
+# ============================================================================================
 
+st.title("Bildung und Länderentwicklung")
 
+if st.session_state["are_all_sidebar_selectors"]:
+    create_analysis_frames(development_config)
 
+    df_dev_bar = st.session_state["development_frames"][0]
 
+    fig = create_indicator_bar_chart(
+        df=df_dev_bar,
+        x="change_over_10_years",
+        y="country_name"
+    )
 
+    st.plotly_chart(fig)
 
 
 

@@ -279,69 +279,6 @@ def find_relevant_years(df: pd.DataFrame) -> list[str]:
 
     return year_cols_relevant
 
-# ================================================================================================================================
-# Funktion zum Umwandeln in ein Long-Format
-# ================================================================================================================================
-
-def create_frames (indicator_code: str, frame_name: str = "edu", indicator_title: str = "indicator") -> tuple[pd.DataFrame, pd.DataFrame]:
-    """Bringt einen DataFrame in ein analysentaugliches Long-Format bzgl des vorgegebenen Indikators. 
-    
-        Args:
-            indicator (str): Ein Indikator-Wert aus der Spalte 'Indicator Name' des Frames, nach dem gefiltert wird.
-            frame_name (str, optional): 
-                        Namens-Kürzel des DataFrames:
-                            'edu': education_data (default)
-                            'dev': development_data
-            indicator_title (str, optional): Der Indikatorname, der für Benennungen verwendet werden soll. Defaults to "score".
-
-    Returns:
-        tuple[pd.DataFrame, pd.DataFrame]: Enthält zwei Versionen des df: gefiltert als Standardformat bzw. gefiltert als Long-Format
-    """
-
-    df = select_dataframe(frame_name)
-
-    df_indicator = df[df["Indicator Code"] == indicator_code]
-
-    years = find_relevant_years(df_indicator)
-
-    df_indicator[f"{indicator_title}_data_count"] = df_indicator[years].notna().sum(axis=1)
-
-    df_indicator = df_indicator[
-        df_indicator[f"{indicator_title}_data_count"] > 0
-    ]
-
-    relevant_columns = [
-        'Country Name',
-        'Country Code',
-        'Indicator Name',
-        'Indicator Code',
-        f'{indicator_title}_data_count'
-    ] + years
-
-    df_indicator = df_indicator[relevant_columns]
-
-    df_indicator.columns = (
-        df_indicator.columns
-        .str.lower()
-        .str.replace(" ", "_")
-    )
-
-    df_indicator.sort_values([f"{indicator_title}_data_count", "country_name"], ascending=[False, True])
-
-    df_indicator_long = df_indicator.melt(
-        id_vars=["country_name", "country_code", "indicator_name", "indicator_code"],
-        value_vars=years,
-        var_name="year",
-        value_name=f"{indicator_title}_score"
-    )
-
-    df_indicator_long["year"] = df_indicator_long["year"].astype(int)
-
-    df_indicator_long = df_indicator_long.dropna(subset=[f"{indicator_title}_score"])
-
-    df_indicator_long
-
-    return df_indicator, df_indicator_long
 
 
 def extract_year_columns(df: pd.DataFrame) -> list[str]:
@@ -350,6 +287,17 @@ def extract_year_columns(df: pd.DataFrame) -> list[str]:
             for col in df.columns 
             if col.isdigit()
         ]
+
+
+
+
+def get_max_year_from_config(config: dict) -> int:
+    """
+    Entnimmt der Config den Meta-Wert "max_year" und gibt ihn als Zahl aus 
+    """
+
+    return int(config["meta_data"]["max_year"])
+
 
 # ==================================================================
 # JSON Dump
