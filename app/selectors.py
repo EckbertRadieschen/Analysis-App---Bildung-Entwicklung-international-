@@ -1,13 +1,18 @@
 import streamlit as st
+import pandas as pd
 
 
 # ===================================================================================================
 # Selector Konfiguration
 # ===================================================================================================
 
-def get_available_categories(config: dict) -> list[dict]:
+# ===================================================================================================
+# Auswahl der Entwicklungskategorien
+# ===================================================================================================
+
+def get_available_development_categories(config: dict) -> list[dict]:
     """
-        Gibt alle Kategorien zurück.
+        Gibt alle Entwicklungs-Kategorien zurück.
         Sortierung erfolgt nach Namen.
         """
     return sorted(
@@ -16,9 +21,13 @@ def get_available_categories(config: dict) -> list[dict]:
     )
 
 
-def get_available_category_indicators(indicator_config: dict, category_dict: dict) -> list[dict]:
+# ===================================================================================================
+# Auswahl der Entwicklungsindikatoren
+# ===================================================================================================
+
+def get_available_development_category_indicators(indicator_config: dict, category_dict: dict) -> list[dict]:
     """
-    Gibt alle Indikatoren einer Kategorie zurück.
+    Gibt alle Indikatoren einer Entwicklungs-Kategorie zurück.
     Sortierung erfolgt nach der Kurzbeschreibung.
     """
     if not category_dict:
@@ -28,14 +37,123 @@ def get_available_category_indicators(indicator_config: dict, category_dict: dic
     category = category_dict["category"]
 
     indicator_list = [
-        (key, indicator)
+        {
+            "name": indicator["short_description"],
+            "key": key
+        }
         for key, indicator in indicators.items()
         if indicator["category"] == category
     ]
 
     return sorted(
         indicator_list,
-        key=lambda x: x[1]["short_description"]
+        key=lambda indicator: indicator["name"]
+    )
+
+# ===================================================================================================
+# Auswahl der Bildungskategorien
+# ===================================================================================================
+
+def get_available_education_categories(
+    indicator_config: dict,
+    change_offset: int,
+    min_available_countries: int
+) -> list[dict]:
+    """
+    Gibt nur Bildungskategorien zurück, in denen mindestens ein
+    Bildungsindikator für den gewählten Offset ausreichend Daten besitzt.
+    """
+
+    categories = indicator_config["meta_data"]["categories"]
+    indicators = indicator_config["indicators"]
+
+    available_categories = []
+
+    for category in categories:
+
+        category_key = category["category"]
+
+        has_available_indicator = False
+
+        for indicator in indicators.values():
+
+            if indicator["category"] != category_key:
+                continue
+
+            offset_data = indicator.get(
+                "education_years",
+                {}
+            ).get(
+                str(change_offset)
+            )
+
+            if (
+                offset_data
+                and offset_data["year"] is not None
+                and offset_data["records"] >= min_available_countries
+            ):
+                has_available_indicator = True
+                break
+
+        if has_available_indicator:
+            available_categories.append(category)
+
+    return sorted(
+        available_categories,
+        key=lambda x: x["name"]
+    )
+
+# ==============================================================================================
+# Wählt nur jene Bildungsindikatoren aus, die über ausreichend Werte verfügen
+# ==============================================================================================
+
+def get_available_education_indicators(
+    indicator_config: dict,
+    category_dict: dict,
+    change_offset: int,
+    min_available_countries: int
+) -> list[dict]:
+    """
+    Gibt alle Bildungsindikatoren einer Kategorie zurück,
+    die für den gewählten Change-Offset ausreichend Länderwerte besitzen.
+
+    Rückgabe: [{"name": "...", "key": "..."}, ...]
+    """
+
+    if not category_dict:
+        return []
+
+    indicators = indicator_config["indicators"]
+    category = category_dict["category"]
+
+    indicator_list = []
+
+    for indicator_code, indicator in indicators.items():
+
+        if indicator["category"] != category:
+            continue
+
+        offset_data = (
+            indicator
+            .get("education_years", {})
+            .get(str(change_offset))
+        )
+
+        if (
+            offset_data is not None
+            and offset_data["year"] is not None
+            and offset_data["records"] >= min_available_countries
+        ):
+            indicator_list.append(
+                {
+                    "name": indicator["short_description"],
+                    "key": indicator_code
+                }
+            )
+
+    return sorted(
+        indicator_list,
+        key=lambda indicator: indicator["name"]
     )
 
 

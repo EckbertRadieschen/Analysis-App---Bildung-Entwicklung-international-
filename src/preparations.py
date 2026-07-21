@@ -304,6 +304,25 @@ def get_indicator_available_years(
 
 
 # ===============================================================================================
+# Berechnet für ein Bildungsjahr die verfügbare Anzahl von Ländern
+# ===============================================================================================
+
+def count_indicator_values(
+    df: pd.DataFrame,
+    indicator_code: str,
+    year: int
+) -> int:
+    """
+    Zählt verfügbare Werte eines Indikators in einem bestimmten Jahr.
+    """
+
+    df_indicator = df[
+        df["indicator_code"] == indicator_code
+    ]
+
+    return df_indicator[str(year)].count()
+
+# ===============================================================================================
 # Implementiert final die verfügbaren Bildungsjahrgänge pro Indikator in die education_config
 # ===============================================================================================
 
@@ -340,7 +359,19 @@ def update_education_years(config: dict) -> dict:
                 tolerance
             )
 
-            education_years[str(offset)] = year
+            if year is not None:
+                records = count_indicator_values(
+                    df,
+                    indicator_code,
+                    year
+                )
+            else:
+                records = 0
+
+            education_years[str(offset)] = {
+                "year": year,
+                "records": records
+            }    
 
         indicator_data["education_years"] = education_years
 

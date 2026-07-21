@@ -307,13 +307,30 @@ def get_max_year_from_config(config: dict) -> int:
 # JSON Dump
 # ==================================================================
 
+def json_serializer(obj):
+
+    if isinstance(obj, np.integer):
+        return int(obj)
+
+    if isinstance(obj, np.floating):
+        return float(obj)
+
+    if isinstance(obj, np.ndarray):
+        return obj.tolist()
+
+    raise TypeError(
+        f"Object of type {type(obj)} is not JSON serializable"
+    )
+
+
 def dump_json (save_path: Path, json_data: dict) -> None:
     with open(save_path, "w", encoding="utf-8") as file:
         json.dump(
             json_data,
             file,
             indent=4,
-            ensure_ascii=False
+            ensure_ascii=False,
+            default=json_serializer
         )
 
 

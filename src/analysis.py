@@ -8,7 +8,12 @@ from plotly.graph_objects import Figure
 from utils.hilfsfunktionen import get_max_year_from_config, select_dataframe, find_relevant_years
 from src.preparations import load_config
 
-from src.paths import DEVELOPMENT_CONFIG
+from src.paths import (
+    DEVELOPMENT_CONFIG,
+    DEVELOPMENT_OUTPUT,
+    EDUCATION_CONFIG,
+    EDUCATION_OUTPUT
+)
 
 
 
@@ -17,7 +22,7 @@ from src.paths import DEVELOPMENT_CONFIG
 # ==========================================================================================
 
     # ======================================================================================
-    # Change-relevante Informationen aus der Config-Datei importieren
+    # Relevante Informationen aus der Development-Config-Datei importieren
     # ======================================================================================
 
 def set_dev_change_data (config: dict, indicator: str) -> tuple[int, list[int], int, str]:
@@ -32,6 +37,31 @@ def set_dev_change_data (config: dict, indicator: str) -> tuple[int, list[int], 
     change_type = values["change_type"]
 
     return max_year, change_offsets, offset_tolerance, change_type
+
+
+# ======================================================================================
+# Relevante Informationen aus der Education-Config-Datei importieren
+# ======================================================================================
+
+def set_edu_change_data(config: dict, indicator: str) -> tuple[int, list[int], int, int]:
+
+    meta_data = config["meta_data"]
+
+    max_year = meta_data["max_year"]
+    change_offsets = meta_data["change_offsets"]
+    offset_tolerance = meta_data["offset_tolerance"]
+
+    indicator_data = config["indicators"]
+    values = indicator_data[indicator]
+
+    recommended_lag = values["recommended_lag"]
+
+    return (
+        max_year,
+        change_offsets,
+        offset_tolerance,
+        recommended_lag,
+    )
 
 # ======================================================================================
 # Change-Calc-Functions (3 verschiedene)
@@ -111,46 +141,124 @@ def find_available_max_year(
 
     return max_year
 
+
 # ================================================================================
-# Erzeugt Change-Werte für eine einzelne Zeile
+# Erzeugt Change-Werte für eine einzelne Zeile des Entwicklungs-DataFrames
 # ================================================================================
 
-def calculate_row_changes(
+def calculate_row_development_values(
     row: pd.Series,
     max_year: int,
     change_offsets: list[int],
     offset_tolerance: int,
     change_type: str
 ) -> pd.Series:
-    """Berechnet alle Change-Werte für eine einzelne Datenzeile"""
+    """
+    Erstellt für eine Datenzeile einen neuen Datensatz mit allen
+    benötigten Entwicklungsänderungen.
+    """
 
-    available_max_year = find_available_max_year(row, max_year, 2)
+    available_max_year = find_available_max_year(
+        row,
+        max_year,
+        offset_tolerance
+    )
+
+    result = {
+        "country_name": row["country_name"],
+        "country_code": row["country_code"],
+        "dev_indicator_name": row["indicator_name"],
+        "dev_indicator_code": row["indicator_code"],
+        "available_max_year": available_max_year,
+        "value_available_max_year": (
+            row[str(available_max_year)]
+            if available_max_year 
+            else np.nan
+        ),
+    }
 
     for offset in change_offsets:
 
         target_year = available_max_year - offset
-        
-        compare_year = find_comparison_year(row, target_year, offset_tolerance)
 
-        column_name = f"change_over_{offset}_years"
+        comparison_year = find_comparison_year(
+            row,
+            target_year,
+            offset_tolerance
+        )
 
-        if compare_year:
-            row[column_name] = change_type_calc(
+        result[f"available_comparison_year_{offset}"] = comparison_year
+
+        if comparison_year is not None:
+
+            old_value = row[comparison_year]
+            new_value = row[str(available_max_year)]
+
+            result[f"value_available_comparison_year_{offset}"] = old_value
+            result[f"change_over_{offset}_years"] = change_type_calc(
                 change_type,
-                row[compare_year],
-                row[str(available_max_year)]
+                old_value,
+                new_value
             )
 
         else:
-            row[column_name] = np.nan
 
-    return row
+            result[f"value_available_comparison_year_{offset}"] = np.nan
+            result[f"change_over_{offset}_years"] = np.nan
+
+    return pd.Series(result)
+
+
+# ================================================================================
+# Erzeugt Change-Werte für eine einzelne Zeile des Bildungs-DataFrames
+# ================================================================================
+
+def calculate_row_education_values(
+    row: pd.Series,
+    max_year: int,
+    recommended_lag: int,
+    change_offsets: list[int],
+    offset_tolerance: int,
+) -> pd.Series:
+    """
+    Erstellt für eine Bildungszeile einen neuen Datensatz mit den
+    Bildungswerten zu den benötigten Vergleichsjahren.
+    """
+
+    result = {
+        "country_name": row["country_name"],
+        "country_code": row["country_code"],
+        "edu_indicator_name": row["indicator_name"],
+        "edu_indicator_code": row["indicator_code"],
+    }
+
+    for offset in change_offsets:
+
+        lag = recommended_lag + offset
+
+        target_year = max_year - lag
+
+        education_year = find_comparison_year(
+            row,
+            target_year,
+            offset_tolerance
+        )
+
+        result[f"education_year_{offset}"] = education_year
+
+        if education_year is not None:
+            result[f"value_education_year_{offset}"] = row[education_year]
+        else:
+            result[f"value_education_year_{offset}"] = np.nan
+
+    return pd.Series(result)
+
 
 # =============================================================================================================
-# Finales Erzeugen der neuen Change-Value-Spalten
+# Finales Erzeugen des fertigen Entwicklungs-DataFrames
 # =============================================================================================================
 
-def create_dev_change_columns(df: pd.DataFrame, config: dict) -> pd.DataFrame:
+def create_development_dataframe(df: pd.DataFrame, config: dict) -> pd.DataFrame:
     """
     Erzeugt für einen auf einen bestimmten Indikator gefilterten DataFrame im Wide-Format
     anhand von Offset-Werten eine neue Spalte pro Offset
@@ -165,7 +273,7 @@ def create_dev_change_columns(df: pd.DataFrame, config: dict) -> pd.DataFrame:
     max_year, change_offsets, offset_tolerance, change_type = set_dev_change_data(config, indicator)
 
     result = df.apply(
-        calculate_row_changes,
+        calculate_row_development_values,
         axis=1,
         args=(
             max_year,
@@ -178,8 +286,67 @@ def create_dev_change_columns(df: pd.DataFrame, config: dict) -> pd.DataFrame:
     return result
 
 
+# =============================================================================================================
+# Finales Erzeugen des fertigen Bildungs-DataFrames
+# =============================================================================================================
+
+def create_education_dataframe(
+    df: pd.DataFrame,
+    config: dict
+) -> pd.DataFrame:
+    """
+    Erstellt einen kompakten DataFrame mit den Bildungswerten
+    der relevanten Jahre.
+    """
+
+    if df.empty:
+        return df
+
+    indicator = df["indicator_code"].iloc[0]
+
+    max_year, change_offsets, offset_tolerance, recommended_lag = set_edu_change_data(config, indicator)
+
+    result = df.apply(
+        calculate_row_education_values,
+        axis=1,
+        args=(
+            max_year,
+            recommended_lag,
+            change_offsets,
+            offset_tolerance,
+        )
+    )
+
+    return result
+
+
+# =============================================================================================================
+# Zusammenführen von Bildungs-Frame und Entwicklungs-Frame
+# =============================================================================================================
+
+def merge_dev_edu_data(
+    df_dev: pd.DataFrame,
+    df_edu: pd.DataFrame
+) -> pd.DataFrame:
+    """
+    Führt Entwicklungs- und Bildungs-Daten anhand des Landes zusammen.
+    """
+
+    change_offset = st.session_state["selected_change_offset"]
+
+    return df_dev.merge(
+        df_edu,
+        on=["country_code", "country_name"],
+        how="inner"
+    ).dropna(
+        subset=[
+            f"change_over_{change_offset}_years",
+            f"value_education_year_{change_offset}"
+        ]
+    )
+
 # ================================================================================================================================
-# Funktion zum Umwandeln in ein Long-Format
+# Funktion zum Umwandeln in ein Wide- sowie ein Long-Format
 # ================================================================================================================================
 
 def create_indicator_frames (indicator_code: str, frame_name: str = "edu", indicator_title: str = "indicator") -> tuple[pd.DataFrame, pd.DataFrame]:
@@ -237,30 +404,39 @@ def create_indicator_frames (indicator_code: str, frame_name: str = "edu", indic
     return df_indicator, df_indicator_long
 
 
-def get_analysis_data ():
-    dev_indicator_tuple = st.session_state.get("selected_development_indicator", None)
-    dev_indicator = dev_indicator_tuple[0] if dev_indicator_tuple else None
+# ==============================================================================================
+# Import der vom User ausgewählten Indikatoren und change_offset
+# ==============================================================================================
 
-    edu_indicator_tuple = st.session_state.get("selected_education_indicator", None)
-    edu_indicator = edu_indicator_tuple[0] if edu_indicator_tuple else None
+def get_analysis_data ():
+    dev_indicator_dict = st.session_state.get("selected_development_indicator", None)
+    dev_indicator = dev_indicator_dict["key"] if dev_indicator_dict else None
+
+    edu_indicator_dict = st.session_state.get("selected_education_indicator", None)
+    edu_indicator = edu_indicator_dict["key"] if edu_indicator_dict else None
 
     change_offset = st.session_state.get("selected_change_offset", None)
 
     return dev_indicator, edu_indicator, change_offset
 
 
-def create_analysis_frames (dev_config: dict):
+# ==============================================================================================
+# Export der Analyse-Frames in den session_state
+# ==============================================================================================
+
+def create_analysis_frames (dev_indicator: str, edu_indicator: str, dev_config: dict, edu_config: dict):
     dev_indicator, edu_indicator, change_offset = get_analysis_data()
 
     if not st.session_state.get("are_all_sidebar_selectors", False):
         return 
 
-    dev_frame_wide, dev_frame_long = create_indicator_frames(dev_indicator, frame_name="dev")
-    edu_frame_wide, edu_frame_long = create_indicator_frames(edu_indicator, frame_name="edu")
+    df_dev_raw = create_indicator_frames(dev_indicator, "dev")[0]
+    df_edu_raw = create_indicator_frames(edu_indicator, "edu")[0]
 
-    dev_frame_wide = create_dev_change_columns(dev_frame_wide, dev_config)
-
-    st.session_state["development_frames"] = [dev_frame_wide, dev_frame_long]
-    st.session_state["education_frames"] = [edu_frame_wide, edu_frame_long]
-
+    df_dev = create_development_dataframe(df_dev_raw, dev_config)
+    df_edu = create_education_dataframe(df_edu_raw, edu_config)
+    
+    st.session_state["development_frame"] = df_dev
+    st.session_state["education_frame"] = df_edu
+    st.session_state["comparison_frame"] = merge_dev_edu_data(df_dev, df_edu)
 

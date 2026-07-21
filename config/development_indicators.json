@@ -9,12 +9,16 @@
         "offset_tolerance": 2,
         "categories": [
             {
-                "category": "health",
-                "name": "Gesundheit"
+                "category": "governance",
+                "name": "Staat & Institutionen"
             },
             {
                 "category": "technology",
                 "name": "Technologie"
+            },
+            {
+                "category": "health",
+                "name": "Gesundheit"
             },
             {
                 "category": "social",
@@ -25,16 +29,12 @@
                 "name": "Umwelt"
             },
             {
-                "category": "economy",
-                "name": "Wirtschaft"
-            },
-            {
                 "category": "innovation",
                 "name": "Innovation"
             },
             {
-                "category": "governance",
-                "name": "Staat & Institutionen"
+                "category": "economy",
+                "name": "Wirtschaft"
             }
         ]
     },

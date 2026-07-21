@@ -25,7 +25,11 @@ def format_value(value):
 
 def create_top_bottom_10_bar_chart(df: pd.DataFrame, change_offset: int) -> tuple[Figure, bool]:
 
-    x_column = f"change_over_{str(change_offset)}_years"
+    x_column = (
+        f"change_over_{str(change_offset)}_years" 
+        if f"change_over_{str(change_offset)}_years" in df.columns
+        else f"value_education_year_{change_offset}"
+    )
 
     df = df[df[x_column].notna()]
 
@@ -51,6 +55,10 @@ def create_top_bottom_10_bar_chart(df: pd.DataFrame, change_offset: int) -> tupl
     return fig, value_checker
 
 
+# ======================================================================================================================
+# Bar Chart Layout
+# ======================================================================================================================
+
 def set_bar_layouts (fig: Figure, config: dict, indicator_code: str) -> Figure:
 
     indicator_values = config["indicators"][indicator_code]
@@ -73,19 +81,22 @@ def set_bar_layouts (fig: Figure, config: dict, indicator_code: str) -> Figure:
         )
 
         x_title = indicator_short_description.split("(")[0] + x_axis_extension
+        chart_title = f"{top_bottom} 10 - Länder bzgl. Indikator-Trend im Vergleichszeitraum"
 
     elif main_bar_source_choice == "education":
-        pass
+        x_title = indicator_short_description
+        chart_title = f"{top_bottom} 10 - Länder bzgl. Indikatorwert im relevanten Bildungsjahr"
 
     fig.update_layout(
         xaxis_title=x_title,
         yaxis_title=None,
-        title=f"{top_bottom} 10 - Länder bzgl. Indikator"
+        title=chart_title
     )
 
     fig.update_xaxes(showticklabels=False)
 
     return fig
+
 
 # ===========================================================================================
 # Indikator Bar-Chart erzeugen
@@ -95,8 +106,8 @@ def create_indicator_bar_chart() -> Figure | None:
 
     dev_indicator, edu_indicator, change_offset = get_analysis_data()
 
-    df_dev = st.session_state["development_frames"][0]
-    df_edu = st.session_state["education_frames"][0]
+    df_dev = st.session_state["development_frame"]
+    df_edu = st.session_state["education_frame"]
 
     source = st.session_state.get("main_bar_source_choice", "development")
 
@@ -128,3 +139,64 @@ def create_indicator_bar_chart() -> Figure | None:
         )
 
     return fig
+
+
+# ===========================================================================================
+# Zusammenhangs-Scatterplot erstellen
+# ===========================================================================================
+
+def create_education_development_scatterplot():
+    """
+    Erstellt einen Scatterplot zwischen Bildungswert und
+    Entwicklungsveränderung für den gewählten Zeitraum.
+
+    x-Achse: Bildungswert im historischen Jahr
+
+    y-Achse: Veränderung des Entwicklungsindikators über den Zeitraum
+    """
+
+    df = st.session_state["comparison_frame"]
+    change_offset = st.session_state["selected_change_offset"]
+
+
+    education_column = f"value_education_year_{change_offset}"
+    development_column = f"change_over_{change_offset}_years"
+
+    fig = px.scatter(
+        df,
+        x=education_column,
+        y=development_column,
+        hover_name="country_name",
+        title=(
+            f"Zusammenhang Entwicklungstrend im Vergleichszeitraum"
+            f"und Bildungsindikator im relevanten Bildungsjahr"
+        ),
+        labels={
+            education_column: "Wert im relevanten Bildungsjahr",
+            development_column: f"Entwicklung über {change_offset} Jahre"
+        }
+    )
+
+    fig.update_layout(
+        xaxis_title="Bildungsindikator",
+        yaxis_title=f"Entwicklungsänderung ({change_offset} Jahre)"
+    )
+
+    fig.update_traces(
+        marker_color="#e49650"
+    )
+
+    return fig
+
+# ===========================================================================================
+# Zusammenhangs-Scatterplot erstellen
+# ===========================================================================================
+
+def choose_main_chart ():
+    source = st.session_state.get("main_bar_source_choice", "development")
+    if source == "comparison":
+        return create_education_development_scatterplot()
+    elif source in ["development", "education"]:
+        return create_indicator_bar_chart()
+    else: 
+        return None

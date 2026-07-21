@@ -19,12 +19,14 @@ from src.analysis import (
     create_analysis_frames,
 )
 
-from src.visuals import create_indicator_bar_chart
+from src.visuals import choose_main_chart
 
 
 from app.selectors import (
-    get_available_categories,
-    get_available_category_indicators,
+    get_available_development_categories,
+    get_available_development_category_indicators,
+    get_available_education_categories,
+    get_available_education_indicators,
     get_change_offset_options,
     all_sidebar_selected   
 )
@@ -72,7 +74,7 @@ st.sidebar.divider()
 
 st.sidebar.markdown("#### Entwicklungsvariable")
 
-development_categories = get_available_categories(development_config)
+development_categories = get_available_development_categories(development_config)
 
 selected_development_category = st.sidebar.selectbox(
     "Kategorie",
@@ -83,8 +85,7 @@ selected_development_category = st.sidebar.selectbox(
     key="selected_development_category"
 )
 
-development_indicators = get_available_category_indicators(development_config, selected_development_category)
-
+development_indicators = get_available_development_category_indicators(development_config, selected_development_category)
 
 selected_development_indicator = st.sidebar.selectbox(
     "Indikator",
@@ -95,7 +96,7 @@ selected_development_indicator = st.sidebar.selectbox(
         if selected_development_category is not None
         else "Bitte zunächst Kategorie auswählen"
     ),
-    format_func=lambda x: x[1]["short_description"],
+    format_func=lambda x: x["name"],
     disabled=selected_development_category is None,
     key="selected_development_indicator"
 )
@@ -119,7 +120,11 @@ st.sidebar.divider()
 
 st.sidebar.markdown("#### Bildungsindikator")
 
-education_categories = get_available_categories(education_config)
+education_categories = get_available_education_categories(
+    education_config,
+    selected_change_offset,
+    education_meta["min_available_countries"]
+)
 
 selected_education_category = st.sidebar.selectbox(
     "Kategorie",
@@ -130,8 +135,12 @@ selected_education_category = st.sidebar.selectbox(
     key="selected_education_category"
 )
 
-education_indicators = get_available_category_indicators(education_config, selected_education_category)
-
+education_indicators = get_available_education_indicators(
+    education_config, 
+    selected_education_category,
+    selected_change_offset,
+    education_meta["min_available_countries"]
+)
 
 selected_education_indicator = st.sidebar.selectbox(
     "Indikator",
@@ -145,7 +154,7 @@ selected_education_indicator = st.sidebar.selectbox(
         )
         else "Bitte zunächst Kategorie und Vergleichszeitraum auswählen"
     ),
-    format_func=lambda x: x[1]["short_description"],
+    format_func=lambda x: x["name"],
     disabled=(
         selected_education_category is None
         or selected_change_offset is None
@@ -211,11 +220,14 @@ if st.session_state["are_all_sidebar_selectors"]:
 st.title("Bildung und Länderentwicklung")
 
 if st.session_state["are_all_sidebar_selectors"]:
-    create_analysis_frames(development_config)
+    create_analysis_frames(
+        selected_development_indicator,
+        selected_education_indicator,
+        development_config,
+        education_config
+    )
 
-    df_dev_bar = st.session_state["development_frames"][0]
-
-    fig = create_indicator_bar_chart()
+    fig = choose_main_chart()
 
     st.plotly_chart(fig)
 
