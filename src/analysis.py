@@ -410,14 +410,12 @@ def create_indicator_frames (indicator_code: str, frame_name: str = "edu", indic
 
 def get_analysis_data ():
     dev_indicator_dict = st.session_state.get("selected_development_indicator", None)
-    dev_indicator = dev_indicator_dict["key"] if dev_indicator_dict else None
 
     edu_indicator_dict = st.session_state.get("selected_education_indicator", None)
-    edu_indicator = edu_indicator_dict["key"] if edu_indicator_dict else None
 
     change_offset = st.session_state.get("selected_change_offset", None)
 
-    return dev_indicator, edu_indicator, change_offset
+    return dev_indicator_dict, edu_indicator_dict, change_offset
 
 
 # ==============================================================================================
@@ -425,10 +423,13 @@ def get_analysis_data ():
 # ==============================================================================================
 
 def create_analysis_frames (dev_indicator: str, edu_indicator: str, dev_config: dict, edu_config: dict):
-    dev_indicator, edu_indicator, change_offset = get_analysis_data()
+    dev_indicator_dict, edu_indicator_dict, change_offset = get_analysis_data()
 
     if not st.session_state.get("are_all_sidebar_selectors", False):
         return 
+
+    dev_indicator = dev_indicator_dict["key"]
+    edu_indicator = edu_indicator_dict["key"]
 
     df_dev_raw = create_indicator_frames(dev_indicator, "dev")[0]
     df_edu_raw = create_indicator_frames(edu_indicator, "edu")[0]

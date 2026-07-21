@@ -15,8 +15,7 @@ from src.paths import (
 )
 from src.preparations import load_config
 from src.analysis import (
-    get_analysis_data,
-    create_analysis_frames,
+    create_analysis_frames
 )
 
 from src.visuals import choose_main_chart
@@ -35,6 +34,8 @@ from app.buttons import (
     choose_bottom, choose_top,
     choose_development, choose_education, choose_comparison
 )
+
+from app.app_content import set_main_chart_title
 
 from utils.hilfsfunktionen import get_max_year_from_config
 
@@ -170,66 +171,96 @@ selected_education_indicator = st.sidebar.selectbox(
 # ============================================================================================
 
 if st.session_state["are_all_sidebar_selectors"]:
+    st.subheader(set_main_chart_title(education_config))
 
     po_top_bottom_column, blank_1, po_bar_source_column = st.columns([2, 1, 2])
 
-    with po_top_bottom_column:
-        with st.popover("Top/Bottom", width="stretch"):
-            st.button(
-                "Top 10",
-                type="primary" if st.session_state.get("top_bottom_choice", "top") == "top" else "secondary",
-                use_container_width="stretch",
-                on_click=choose_top
-            )
+    if st.session_state.get("main_bar_source_choice", "Entwicklungsvariable") in ["Entwicklungsvariable", "Bildungsindikator"]:
+        with po_top_bottom_column:
+            with st.popover(st.session_state.get("top_bottom_choice", "Top 10"), width="stretch"):
+                st.button(
+                    "Top 10",
+                    type="primary" if st.session_state.get("top_bottom_choice", "Top 10") == "Top 10" else "secondary",
+                    use_container_width="stretch",
+                    on_click=choose_top
+                )
 
-            st.button(
-                "Bottom 10",
-                type="primary" if st.session_state.get("top_bottom_choice", "top") == "bottom" else "secondary",
-                use_container_width="stretch",
-                on_click=choose_bottom
-            )
+                st.button(
+                    "Bottom 10",
+                    type="primary" if st.session_state.get("top_bottom_choice", "Top 10") == "Bottom 10" else "secondary",
+                    use_container_width="stretch",
+                    on_click=choose_bottom
+                )
 
     with po_bar_source_column:
-        with st.popover("Entwicklung/Bildung/Zusammenhang"):
+        with st.popover(st.session_state.get("main_bar_source_choice", "Entwicklungsvariable"), width="stretch"):
             st.button(
                 "Enwicklungsvariable",
-                type="primary" if st.session_state.get("main_bar_source_choice", "development") == "development" else "secondary",
+                type=(
+                    "primary" 
+                    if st.session_state.get("main_bar_source_choice", "Entwicklungsvariable") == "Entwicklungsvariable" 
+                    else "secondary"
+                ),
                 use_container_width="stretch",
                 on_click=choose_development
             )
     
             st.button(
                 "Bildungsindikator",
-                type="primary" if st.session_state.get("main_bar_source_choice", "development") == "education" else "secondary",
+                type=(
+                    "primary" 
+                    if st.session_state.get("main_bar_source_choice", "Entwicklungsvariable") == "Bildungsindikator" 
+                    else "secondary"
+                ),
                 use_container_width="stretch",
                 on_click=choose_education
             )
 
             st.button(
                 "Zusammenhang",
-                type="primary" if st.session_state.get("main_bar_source_choice", "development") == "comparison" else "secondary",
+                type=(
+                    "primary" 
+                    if st.session_state.get("main_bar_source_choice", "Entwicklungsvariable") == "Zusammenhang" 
+                    else "secondary"
+                ),
                 use_container_width="stretch",
                 on_click=choose_comparison
             )
+else:
+    st.title("Willkommen im Analyse-Tool")
+
+st.divider()
 
 # ============================================================================================
 # Hauptbereich
 # ============================================================================================
 
-
-st.title("Bildung und Länderentwicklung")
-
 if st.session_state["are_all_sidebar_selectors"]:
-    create_analysis_frames(
-        selected_development_indicator,
-        selected_education_indicator,
-        development_config,
-        education_config
-    )
+    with st.spinner("Analysedaten werden erstellt..."):
 
-    fig = choose_main_chart()
+        create_analysis_frames(
+            selected_development_indicator,
+            selected_education_indicator,
+            development_config,
+            education_config
+        )
 
-    st.plotly_chart(fig)
+        fig = choose_main_chart()
+        
+        st.plotly_chart(fig)
+
+else:
+    st.markdown("<br>", unsafe_allow_html=True)
+
+    st.markdown("""
+        Wählen Sie zur Analyse über die Sidebar eine beliebige Konfiguration<br>
+        von Entwicklungs- und Bildungsindikatoren sowie einen Vergleichszeitraum,<br>
+        über den der Entwicklungstrend berechnet werden soll.<br><br>
+        Beachten Sie, dass je nach Vergleichszeitraum eine andere Auswahl<br>
+        an Bildungsindikatoren verfügbar sein kann.
+    """, unsafe_allow_html=True)
+
+    
 
     
 
