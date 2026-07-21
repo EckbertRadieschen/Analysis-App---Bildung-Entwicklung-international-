@@ -31,3 +31,53 @@ def set_main_chart_title (edu_config: dict):
         title = f"Zusammenhang:\n{edu_description} - vs - {dev_description}"
 
     return title
+
+
+# ==================================================================================
+# Interpretiert Korrelationswerte
+# ==================================================================================
+
+def interpret_correlation(value: float) -> str:
+
+    abs_value = abs(value)
+
+    if abs_value < 0.2:
+        return "sehr geringer Zusammenhang"
+    elif abs_value < 0.4:
+        return "geringer Zusammenhang"
+    elif abs_value < 0.6:
+        return "moderater Zusammenhang"
+    else:
+        return "starker Zusammenhang"
+
+
+# ==================================================================================
+# Stellt die Korrelationswerte der aktuellen Kombination dar
+# ==================================================================================
+
+def display_correlation_info(correlation_result: dict):
+    """
+    Zeigt Korrelationskennzahlen inklusive Stärke des Zusammenhangs an.
+    """
+
+    pearson_r = correlation_result["pearson"]["r"]
+    spearman_r = correlation_result["spearman"]["r"]
+    countries = correlation_result["countries"]
+
+    st.markdown(
+        f"""
+        <div class="stats-container">
+            <div class="medium-title">
+                Korrelationsanalyse
+            </div>
+            <div class="small-text">
+                <b>Pearson:</b> {pearson_r:.3f}<br>
+                {interpret_correlation(pearson_r)}<br><br>
+                <b>Spearman:</b> {spearman_r:.3f}<br>
+                {interpret_correlation(spearman_r)}<br><br>
+                <b>Anzahl Länder:</b> {countries}
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )

@@ -1,0 +1,422 @@
+{
+    "SI.POV.UMIC__SL.UEM.NEET.ZS__10": {
+        "development_indicator": "SI.POV.UMIC",
+        "education_indicator": "SL.UEM.NEET.ZS",
+        "change_offset": 10,
+        "countries": 38,
+        "pearson": {
+            "r": -0.43443138230220224,
+            "p": 0.006423223365520205
+        },
+        "spearman": {
+            "r": -0.6211424856628129,
+            "p": 3.164179907708888e-05
+        }
+    },
+    "SH.DYN.MORT__SE.SEC.CMPT.LO.ZS__10": {
+        "development_indicator": "SH.DYN.MORT",
+        "education_indicator": "SE.SEC.CMPT.LO.ZS",
+        "change_offset": 10,
+        "countries": 145,
+        "pearson": {
+            "r": 0.7418386655871703,
+            "p": 1.3585523604140202e-26
+        },
+        "spearman": {
+            "r": 0.7316704490009943,
+            "p": 1.4344913108212393e-25
+        }
+    },
+    "SP.DYN.LE00.IN__SE.SEC.CMPT.LO.ZS__10": {
+        "development_indicator": "SP.DYN.LE00.IN",
+        "education_indicator": "SE.SEC.CMPT.LO.ZS",
+        "change_offset": 10,
+        "countries": 150,
+        "pearson": {
+            "r": -0.5408876690821708,
+            "p": 8.98009764853353e-13
+        },
+        "spearman": {
+            "r": -0.5587217209653762,
+            "p": 1.0872279834361849e-13
+        }
+    },
+    "SP.DYN.LE00.IN__SE.XPD.TOTL.GB.ZS__10": {
+        "development_indicator": "SP.DYN.LE00.IN",
+        "education_indicator": "SE.XPD.TOTL.GB.ZS",
+        "change_offset": 10,
+        "countries": 155,
+        "pearson": {
+            "r": 0.05151366969755375,
+            "p": 0.524404012279074
+        },
+        "spearman": {
+            "r": 0.1738100609068351,
+            "p": 0.030549471895598323
+        }
+    },
+    "SP.DYN.LE00.IN__SE.XPD.TOTL.GD.ZS__10": {
+        "development_indicator": "SP.DYN.LE00.IN",
+        "education_indicator": "SE.XPD.TOTL.GD.ZS",
+        "change_offset": 10,
+        "countries": 161,
+        "pearson": {
+            "r": -0.10885544189858451,
+            "p": 0.16927204101517115
+        },
+        "spearman": {
+            "r": -0.16504485852311943,
+            "p": 0.03641729304656398
+        }
+    },
+    "SP.DYN.LE00.IN__SE.PRM.CMPT.ZS__10": {
+        "development_indicator": "SP.DYN.LE00.IN",
+        "education_indicator": "SE.PRM.CMPT.ZS",
+        "change_offset": 10,
+        "countries": 149,
+        "pearson": {
+            "r": -0.42804087740946334,
+            "p": 5.1721311854545296e-08
+        },
+        "spearman": {
+            "r": -0.4968293125340105,
+            "p": 1.1590202006467959e-10
+        }
+    },
+    "TX.VAL.TECH.MF.ZS__UIS.TE_100000.56__10": {
+        "development_indicator": "TX.VAL.TECH.MF.ZS",
+        "education_indicator": "UIS.TE_100000.56",
+        "change_offset": 10,
+        "countries": 136,
+        "pearson": {
+            "r": 0.10913848851145863,
+            "p": 0.20594433298037731
+        },
+        "spearman": {
+            "r": 0.2120175564142932,
+            "p": 0.013214165513955416
+        }
+    },
+    "TX.VAL.TECH.MF.ZS__SE.TER.CMPL.ZS__10": {
+        "development_indicator": "TX.VAL.TECH.MF.ZS",
+        "education_indicator": "SE.TER.CMPL.ZS",
+        "change_offset": 10,
+        "countries": 99,
+        "pearson": {
+            "r": 0.1673009875206724,
+            "p": 0.09788993093633812
+        },
+        "spearman": {
+            "r": 0.3325046382189239,
+            "p": 0.0007721947022112768
+        }
+    },
+    "TX.VAL.TECH.MF.ZS__SE.TER.ENRR__10": {
+        "development_indicator": "TX.VAL.TECH.MF.ZS",
+        "education_indicator": "SE.TER.ENRR",
+        "change_offset": 10,
+        "countries": 134,
+        "pearson": {
+            "r": 0.12545395174759988,
+            "p": 0.1486428314108418
+        },
+        "spearman": {
+            "r": 0.2508036259803738,
+            "p": 0.0034675502842466737
+        }
+    },
+    "TX.VAL.TECH.MF.ZS__SE.SEC.ENRL.TC.ZS__10": {
+        "development_indicator": "TX.VAL.TECH.MF.ZS",
+        "education_indicator": "SE.SEC.ENRL.TC.ZS",
+        "change_offset": 10,
+        "countries": 125,
+        "pearson": {
+            "r": -0.03877281935031763,
+            "p": 0.667705073703922
+        },
+        "spearman": {
+            "r": -0.06129032258064515,
+            "p": 0.4971371081675214
+        }
+    },
+    "TX.VAL.TECH.MF.ZS__SE.TER.GRAD.EN.ZS__10": {
+        "development_indicator": "TX.VAL.TECH.MF.ZS",
+        "education_indicator": "SE.TER.GRAD.EN.ZS",
+        "change_offset": 10,
+        "countries": 79,
+        "pearson": {
+            "r": 0.015492334434010577,
+            "p": 0.8922069405402027
+        },
+        "spearman": {
+            "r": -0.01334014947205073,
+            "p": 0.9071095997078673
+        }
+    },
+    "TX.VAL.TECH.MF.ZS__SE.TER.GRAD.SC.ZS__10": {
+        "development_indicator": "TX.VAL.TECH.MF.ZS",
+        "education_indicator": "SE.TER.GRAD.SC.ZS",
+        "change_offset": 10,
+        "countries": 80,
+        "pearson": {
+            "r": -0.04443490518895347,
+            "p": 0.6955191836449295
+        },
+        "spearman": {
+            "r": -0.10780590717299579,
+            "p": 0.3411744083116871
+        }
+    },
+    "TX.VAL.TECH.MF.ZS__SE.TER.GRAD.ED.ZS__10": {
+        "development_indicator": "TX.VAL.TECH.MF.ZS",
+        "education_indicator": "SE.TER.GRAD.ED.ZS",
+        "change_offset": 10,
+        "countries": 104,
+        "pearson": {
+            "r": -0.11000154051918781,
+            "p": 0.26630200327123615
+        },
+        "spearman": {
+            "r": -0.10466232796329884,
+            "p": 0.2903484829321547
+        }
+    },
+    "TX.VAL.TECH.MF.ZS__SE.TER.GRAD.HL.ZS__10": {
+        "development_indicator": "TX.VAL.TECH.MF.ZS",
+        "education_indicator": "SE.TER.GRAD.HL.ZS",
+        "change_offset": 10,
+        "countries": 80,
+        "pearson": {
+            "r": 0.11779903631352494,
+            "p": 0.298027482577208
+        },
+        "spearman": {
+            "r": 0.12497729124271827,
+            "p": 0.26934368583325136
+        }
+    },
+    "TX.VAL.TECH.MF.ZS__LO.PISA.SCI__10": {
+        "development_indicator": "TX.VAL.TECH.MF.ZS",
+        "education_indicator": "LO.PISA.SCI",
+        "change_offset": 10,
+        "countries": 51,
+        "pearson": {
+            "r": 0.19491462541190852,
+            "p": 0.1704848665742593
+        },
+        "spearman": {
+            "r": 0.12660633484162895,
+            "p": 0.3759921324635527
+        }
+    },
+    "TX.VAL.TECH.MF.ZS__LO.PISA.MAT__10": {
+        "development_indicator": "TX.VAL.TECH.MF.ZS",
+        "education_indicator": "LO.PISA.MAT",
+        "change_offset": 10,
+        "countries": 51,
+        "pearson": {
+            "r": 0.2080353405793937,
+            "p": 0.14294293357744461
+        },
+        "spearman": {
+            "r": 0.11746606334841628,
+            "p": 0.4116881891487373
+        }
+    },
+    "IC.BUS.NDNS.ZS__LO.PISA.MAT__10": {
+        "development_indicator": "IC.BUS.NDNS.ZS",
+        "education_indicator": "LO.PISA.MAT",
+        "change_offset": 10,
+        "countries": 50,
+        "pearson": {
+            "r": -0.013238613118934803,
+            "p": 0.9272960310592401
+        },
+        "spearman": {
+            "r": -0.013493397358943579,
+            "p": 0.9259006695282543
+        }
+    },
+    "IC.BUS.NDNS.ZS__LO.PISA.REA__10": {
+        "development_indicator": "IC.BUS.NDNS.ZS",
+        "education_indicator": "LO.PISA.REA",
+        "change_offset": 10,
+        "countries": 50,
+        "pearson": {
+            "r": 0.026014775390053927,
+            "p": 0.8576787240971858
+        },
+        "spearman": {
+            "r": 0.06151260504201681,
+            "p": 0.6713027870504039
+        }
+    },
+    "IC.BUS.NDNS.ZS__LO.TIMSS.MAT8.ADV__10": {
+        "development_indicator": "IC.BUS.NDNS.ZS",
+        "education_indicator": "LO.TIMSS.MAT8.ADV",
+        "change_offset": 10,
+        "countries": 38,
+        "pearson": {
+            "r": -0.05916416786009004,
+            "p": 0.7242095206056262
+        },
+        "spearman": {
+            "r": -0.12609716845350527,
+            "p": 0.45062850367333906
+        }
+    },
+    "IC.BUS.NDNS.ZS__LO.TIMSS.SCI8.ADV__10": {
+        "development_indicator": "IC.BUS.NDNS.ZS",
+        "education_indicator": "LO.TIMSS.SCI8.ADV",
+        "change_offset": 10,
+        "countries": 38,
+        "pearson": {
+            "r": 0.05452271484183943,
+            "p": 0.7450939870065824
+        },
+        "spearman": {
+            "r": -0.11866746886082691,
+            "p": 0.4779569153511405
+        }
+    },
+    "IC.BUS.NDNS.ZS__LO.TIMSS.MAT8__10": {
+        "development_indicator": "IC.BUS.NDNS.ZS",
+        "education_indicator": "LO.TIMSS.MAT8",
+        "change_offset": 10,
+        "countries": 38,
+        "pearson": {
+            "r": -0.16819476567435446,
+            "p": 0.31278226730520553
+        },
+        "spearman": {
+            "r": -0.17311374978037072,
+            "p": 0.29863270087236554
+        }
+    },
+    "GOV_WGI_PV_EST__SE.SEC.ENRL.TC.ZS__10": {
+        "development_indicator": "GOV_WGI_PV_EST",
+        "education_indicator": "SE.SEC.ENRL.TC.ZS",
+        "change_offset": 10,
+        "countries": 146,
+        "pearson": {
+            "r": 0.010528294966954439,
+            "p": 0.8996338574888006
+        },
+        "spearman": {
+            "r": 0.15391066865003697,
+            "p": 0.06362594157186033
+        }
+    },
+    "GOV_WGI_PV_EST__SL.TLF.ADVN.ZS__10": {
+        "development_indicator": "GOV_WGI_PV_EST",
+        "education_indicator": "SL.TLF.ADVN.ZS",
+        "change_offset": 10,
+        "countries": 77,
+        "pearson": {
+            "r": -0.019675182474172073,
+            "p": 0.8651347695568598
+        },
+        "spearman": {
+            "r": 0.01579998948420001,
+            "p": 0.8915168433611765
+        }
+    },
+    "GOV_WGI_PV_EST__SL.TLF.BASC.ZS__10": {
+        "development_indicator": "GOV_WGI_PV_EST",
+        "education_indicator": "SL.TLF.BASC.ZS",
+        "change_offset": 10,
+        "countries": 77,
+        "pearson": {
+            "r": 0.17273164202701632,
+            "p": 0.133035389032119
+        },
+        "spearman": {
+            "r": 0.2294956983572515,
+            "p": 0.04466863355242111
+        }
+    },
+    "GOV_WGI_PV_EST__SL.TLF.INTM.ZS__10": {
+        "development_indicator": "GOV_WGI_PV_EST",
+        "education_indicator": "SL.TLF.INTM.ZS",
+        "change_offset": 10,
+        "countries": 77,
+        "pearson": {
+            "r": -0.047775843966703646,
+            "p": 0.6798923868070336
+        },
+        "spearman": {
+            "r": -0.019651659548197958,
+            "p": 0.8652944987004537
+        }
+    },
+    "GOV_WGI_PV_EST__UIS.SLE.23__10": {
+        "development_indicator": "GOV_WGI_PV_EST",
+        "education_indicator": "UIS.SLE.23",
+        "change_offset": 10,
+        "countries": 174,
+        "pearson": {
+            "r": -0.07960472764703988,
+            "p": 0.2964169594798245
+        },
+        "spearman": {
+            "r": -0.17140930630675993,
+            "p": 0.023727624426838102
+        }
+    },
+    "VC.IHR.PSRC.P5__UIS.SLE.23__10": {
+        "development_indicator": "VC.IHR.PSRC.P5",
+        "education_indicator": "UIS.SLE.23",
+        "change_offset": 10,
+        "countries": 96,
+        "pearson": {
+            "r": 0.040165104245967934,
+            "p": 0.6976181125470494
+        },
+        "spearman": {
+            "r": 0.08053445469343462,
+            "p": 0.43538796119760853
+        }
+    },
+    "VC.IHR.PSRC.P5__SL.UEM.NEET.ZS__10": {
+        "development_indicator": "VC.IHR.PSRC.P5",
+        "education_indicator": "SL.UEM.NEET.ZS",
+        "change_offset": 10,
+        "countries": 45,
+        "pearson": {
+            "r": -0.0781109626347008,
+            "p": 0.610037692189008
+        },
+        "spearman": {
+            "r": -0.18124320673540753,
+            "p": 0.23345667599878148
+        }
+    },
+    "VC.IHR.PSRC.P5__SE.SEC.CMPT.LO.ZS__10": {
+        "development_indicator": "VC.IHR.PSRC.P5",
+        "education_indicator": "SE.SEC.CMPT.LO.ZS",
+        "change_offset": 10,
+        "countries": 81,
+        "pearson": {
+            "r": 0.07770858091023247,
+            "p": 0.49047678340038003
+        },
+        "spearman": {
+            "r": 0.13279132791327913,
+            "p": 0.23728964099283595
+        }
+    },
+    "VC.IHR.PSRC.P5__SE.SEC.ENRL.TC.ZS__10": {
+        "development_indicator": "VC.IHR.PSRC.P5",
+        "education_indicator": "SE.SEC.ENRL.TC.ZS",
+        "change_offset": 10,
+        "countries": 81,
+        "pearson": {
+            "r": -0.20547098010541665,
+            "p": 0.06574124046656295
+        },
+        "spearman": {
+            "r": -0.07477416440831075,
+            "p": 0.5070504886472483
+        }
+    }
+}

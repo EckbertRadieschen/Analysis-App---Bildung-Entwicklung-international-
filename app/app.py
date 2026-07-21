@@ -11,7 +11,8 @@ if str(PROJECT_ROOT) not in sys.path:
 
 from src.paths import (
     DEVELOPMENT_CONFIG,
-    EDUCATION_CONFIG
+    EDUCATION_CONFIG,
+    CORRELATION_RESULTS
 )
 from src.preparations import load_config
 from src.analysis import (
@@ -19,6 +20,8 @@ from src.analysis import (
 )
 
 from src.visuals import choose_main_chart
+
+from app.save_combinations import get_or_create_correlation_result
 
 
 from app.selectors import (
@@ -35,11 +38,17 @@ from app.buttons import (
     choose_development, choose_education, choose_comparison
 )
 
-from app.app_content import set_main_chart_title
+from app.app_content import set_main_chart_title, display_correlation_info
 
 from utils.hilfsfunktionen import get_max_year_from_config
 
 from app.markdown import apply_markdown
+from app.save_combinations import load_json_if_exists
+
+if "correlation_results" not in st.session_state:
+    st.session_state["correlation_results"] = load_json_if_exists(
+        CORRELATION_RESULTS
+    )
 
 # =======================================================================================================
 # =======================================================================================================
@@ -171,6 +180,7 @@ selected_education_indicator = st.sidebar.selectbox(
 # ============================================================================================
 
 if st.session_state["are_all_sidebar_selectors"]:
+
     st.subheader(set_main_chart_title(education_config))
 
     po_top_bottom_column, blank_1, po_bar_source_column = st.columns([2, 1, 2])
@@ -245,9 +255,27 @@ if st.session_state["are_all_sidebar_selectors"]:
             education_config
         )
 
+        correlation_result = get_or_create_correlation_result(
+                selected_development_indicator["key"],
+                selected_education_indicator["key"],
+                selected_change_offset,
+                st.session_state["comparison_frame"],
+                CORRELATION_RESULTS
+        )
+
         fig = choose_main_chart()
-        
-        st.plotly_chart(fig)
+
+    # ====================================================================
+    # Visualisierung
+
+        if st.session_state.get("main_bar_source_choice", "Entwicklungsvariable") == "Zusammenhang":
+            scatter_column, blank_2, statistic_column = st.columns([4, 0.5, 2])
+            with scatter_column:
+                st.plotly_chart(fig)
+            with statistic_column:
+                display_correlation_info(st.session_state["current_correlation_result"])
+        else:
+            st.plotly_chart(fig)
 
 else:
     st.markdown("<br>", unsafe_allow_html=True)

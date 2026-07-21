@@ -197,7 +197,8 @@ def create_education_development_scatterplot():
         labels={
             education_column: edu_indicator_description,
             development_column: dev_indicator_description
-        }
+        },
+        trendline="ols"
     )
 
     fig.update_layout(
