@@ -30,5 +30,21 @@
             "r": -0.47337893367723904,
             "p": 0.0026843621192429567
         }
+    },
+    "SH.DYN.MORT__SE.PRM.CMPT.ZS__20": {
+        "development_indicator": "SH.DYN.MORT",
+        "development_category": "Gesundheit",
+        "education_indicator": "SE.PRM.CMPT.ZS",
+        "education_category": "Bildungserfolg",
+        "change_offset": 20,
+        "countries": 114,
+        "pearson": {
+            "r": 0.7961964487618538,
+            "p": 3.410677652138537e-26
+        },
+        "spearman": {
+            "r": 0.758690800915807,
+            "p": 1.4069542648035998e-22
+        }
     }
 }

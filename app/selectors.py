@@ -197,43 +197,27 @@ def all_sidebar_selected ():
 # Wählt nur jene Bildungskategorien aus, die für die Correlations-Results relevant sind
 # ================================================================================================================================
 
-def get_available_statistics_categories(correlation_results: pd.DataFrame, config: dict, category_type: str) -> list[dict]:
+def get_available_statistics_categories(correlation_results: pd.DataFrame, category_type: str) -> list[str]:
     """
-    Gibt Bildungskategorien zurück, die in den vorhandenenKorrelations-Ergebnissen vorkommen.
+    Gibt alle vorhandenen Kategorien eines Typs zurück.
     """
 
-    if category_type not in ["education", "development"]:
-        return []
+    if category_type == "development":
+        column = "development_category"
 
-    column = f"{category_type}_indicator"
+    elif category_type == "education":
+        column = "education_category"
 
-    available_indicator_keys = set(
-        correlation_results[column]
-    )
-
-    available_categories = []
-
-    for category in config["meta_data"]["categories"]:
-
-        category_key = category["category"]
-
-        has_indicator = False
-
-        for indicator_key, indicator in config["indicators"].items():
-
-            if indicator["category"] != category_key:
-                continue
-
-            if indicator_key in available_indicator_keys:
-                has_indicator = True
-                break
-
-        if has_indicator:
-            available_categories.append(category)
+    else:
+        raise ValueError(
+            "category_type muss 'development' oder 'education' sein"
+        )
 
     return sorted(
-        available_categories,
-        key=lambda x: x["name"]
+        correlation_results[column]
+        .dropna()
+        .unique()
+        .tolist()
     )
 
 

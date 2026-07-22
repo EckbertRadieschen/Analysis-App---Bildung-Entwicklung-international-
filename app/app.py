@@ -75,4 +75,4 @@ elif st.session_state["navigation_choice"] == "Analyse-Tool":
 elif st.session_state["navigation_choice"] == "Statistik-Seite":
     if (not "correlation_results_dataframe" in st.session_state) or (st.session_state["correlation_results_dataframe"] is None):
         st.session_state["correlation_results_dataframe"] = load_correlation_results()
-        statistic_page()
+    statistic_page()

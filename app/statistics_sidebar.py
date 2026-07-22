@@ -6,7 +6,7 @@ from app.selectors import get_available_statistics_categories
 
 def statistics_sidebar_content():
 
-    correlation_results = st.session_state["correlation_results"]
+    correlation_results = st.session_state["correlation_results_dataframe"]
 
     development_config = st.session_state["dev_config"]
     education_config = st.session_state["edu_config"]
@@ -36,7 +36,6 @@ def statistics_sidebar_content():
     development_categories = (
         get_available_statistics_categories(
             correlation_results,
-            development_config,
             "development"
         )
     )
@@ -68,7 +67,6 @@ def statistics_sidebar_content():
     education_categories = (
         get_available_statistics_categories(
             correlation_results,
-            education_config,
             "education"
         )
     )
