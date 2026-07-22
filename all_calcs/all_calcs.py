@@ -1,5 +1,5 @@
-from pathlib import Path
 import pandas as pd
+import random
 from utils.hilfsfunktionen import dump_json
 from app.save_combinations import (
     create_analysis_key, 
@@ -13,8 +13,9 @@ from src.analysis import (
     find_relevant_years,
 )
 
-def get_analysis_data(dev_indicator: str, edu_indicator: str, change_offset: int) -> tuple[str, str, int]:
-    return dev_indicator, edu_indicator, change_offset
+from src.preparations import load_config
+
+from src.paths import EDUCATION_CONFIG, DEVELOPMENT_CONFIG, CORRELATION_RESULTS, TEST_CORRELATION_RESULTS
 
 
 def merge_dev_edu_data(
@@ -37,20 +38,16 @@ def merge_dev_edu_data(
         ]
     )
 
+def create_indicator_frame (df: pd.DataFrame, indicator_code: str) -> pd.DataFrame:
 
-
-def create_indicator_frame (indicator_code: str, frame_name: str = "edu", indicator_title: str = "indicator") -> pd.DataFrame:
-    
-    df = select_dataframe(frame_name)
-
-    df_indicator = df[df["indicator_code"] == indicator_code]
+    df_indicator = df[df["indicator_code"] == indicator_code].copy()
 
     years = find_relevant_years(df_indicator)
 
-    df_indicator[f"{indicator_title}_data_count"] = df_indicator[years].notna().sum(axis=1)
+    df_indicator["indicator_data_count"] = df_indicator[years].notna().sum(axis=1)
 
     df_indicator = df_indicator[
-        df_indicator[f"{indicator_title}_data_count"] > 0
+        df_indicator["indicator_data_count"] > 0
     ]
 
     relevant_columns = [
@@ -58,23 +55,10 @@ def create_indicator_frame (indicator_code: str, frame_name: str = "edu", indica
         'country_code',
         'indicator_name',
         'indicator_code',
-        f'{indicator_title}_data_count'
+        'indicator_data_count'
     ] + years
 
     return df_indicator[relevant_columns]
-
-
-def create_analysis_frames (dev_indicator: str, edu_indicator: str, dev_config: dict, edu_config: dict):
-
-    dev_indicator, edu_indicator_dict, change_offset = get_analysis_data()
-
-    df_dev_raw = create_indicator_frame(dev_indicator, "dev")
-    df_edu_raw = create_indicator_frame(edu_indicator, "edu")
-
-    df_dev = create_development_dataframe(df_dev_raw, dev_config)
-    df_edu = create_education_dataframe(df_edu_raw, edu_config)
-    
-    return df_dev, df_edu
 
 
 def create_correlation_result(
@@ -85,21 +69,14 @@ def create_correlation_result(
     change_offset: int,
     analysis_df: pd.DataFrame
 ) -> dict:
-    """
-    Prüft, ob eine Korrelationsanalyse bereits existiert.
-    Falls nicht, wird sie berechnet, in das Dictionary aufgenommen
-    und dauerhaft gespeichert.
-
-    Gibt immer das Analyse-Ergebnis zurück.
-    """
 
     correlations = calculate_correlations(analysis_df, change_offset)
 
     correlation_result = {
         "development_indicator": development_indicator,
-        "development_category": development_category["name"],
+        "development_category": development_category,
         "education_indicator": education_indicator,
-        "education_category": education_category["name"],
+        "education_category": education_category,
      
         "change_offset": change_offset,
 
@@ -119,16 +96,130 @@ def create_correlation_result(
     return correlation_result
 
 
-def main_function (education_config: dict, development_config: dict):
+def get_category_name(config: dict, category_key: str) -> str:
+    for category in config["meta_data"]["categories"]:
+        if category["category"] == category_key:
+            return category["name"]
 
-    dev_indicators = development_config["indicators"].keys()
-    edu_indicators = education_config["indicators"].keys()
+    return category_key
+
+
+def main_function():
+
+    dev_config = load_config(DEVELOPMENT_CONFIG)
+    edu_config = load_config(EDUCATION_CONFIG)
+
+    dev_indicators = list(dev_config["indicators"].keys())
+    edu_indicators = list(edu_config["indicators"].keys())
+
+    min_available_countries = (
+        edu_config["meta_data"]["min_available_countries"]
+    )
+    change_offsets = edu_config["meta_data"]["change_offsets"]
+
+    df_dev_origin = select_dataframe("dev")
+    df_edu_origin = select_dataframe("edu")
+
+    # -------------------------------------------------------
+    # Entwicklungs-DataFrames vorberechnen
+    # -------------------------------------------------------
+
+    dev_frames = {}
 
     for dev_indicator in dev_indicators:
-        dev_frame_raw = create_indicator_frame(dev_indicator, "dev")
-        for edu_indicator in edu_indicators:
-            edu_frame_raw = create_indicator_frame(edu_indicator, "edu")
-            create_analysis_frames()
-            df_
 
-    analysis_key = create_analysis_key(development_indicator, education_indicator, change_offset)
+        df_dev_raw = create_indicator_frame(df_dev_origin, dev_indicator)
+
+        dev_category = dev_config["indicators"][dev_indicator]["category"]
+
+        dev_category_name = get_category_name(dev_config, dev_category)
+
+        dev_frames[dev_indicator] = {
+            "frame": create_development_dataframe(
+                df_dev_raw,
+                dev_config
+            ),
+            "description": dev_config["indicators"][dev_indicator]["short_description"],
+            "category": dev_category_name
+        }
+
+    # -------------------------------------------------------
+    # Bildungs-DataFrames vorberechnen
+    # -------------------------------------------------------
+
+    edu_frames = {}
+
+    for edu_indicator in edu_indicators:
+
+        edu_data = edu_config["indicators"][edu_indicator]
+
+        valid_offsets = {
+            int(offset): data
+            for offset, data in edu_data["education_years"].items()
+            if (
+                data["year"] is not None
+                and data["records"] >= min_available_countries
+            )
+        }
+
+        if not valid_offsets:
+            continue
+
+        df_edu_raw = create_indicator_frame(df_edu_origin, edu_indicator)
+
+        edu_category = edu_config["indicators"][edu_indicator]["category"]
+        
+        edu_category_name = get_category_name(edu_config, edu_category)
+
+        edu_frames[edu_indicator] = {
+            "frame": create_education_dataframe(
+                df_edu_raw,
+                edu_config
+            ),
+            "description": edu_data["short_description"],
+            "category": edu_category_name,
+            "valid_offsets": valid_offsets
+        }
+
+    # -------------------------------------------------------
+    # Alle Kombinationen berechnen
+    # -------------------------------------------------------
+
+    results = {}
+
+    for dev_indicator, dev_info in dev_frames.items():
+
+        df_dev = dev_info["frame"]
+        dev_category = dev_info["category"]
+        dev_description = dev_info["description"]
+
+        for edu_indicator, edu_info in edu_frames.items():
+
+            df_edu = edu_info["frame"]
+            edu_category = edu_info["category"]
+            edu_description = edu_info["description"]
+
+            for change_offset in change_offsets:
+
+                if change_offset not in edu_info["valid_offsets"]:
+                    continue
+
+                df_analysis = merge_dev_edu_data(df_dev, df_edu, change_offset)
+
+                if len(df_analysis) < min_available_countries:
+                    continue
+
+                analysis_key = create_analysis_key(dev_indicator, edu_indicator, change_offset)
+
+                results[analysis_key] = create_correlation_result(
+                    development_indicator=dev_description,
+                    education_indicator=edu_description,
+                    development_category=dev_category,
+                    education_category=edu_category,
+                    change_offset=change_offset,
+                    analysis_df=df_analysis
+                )
+
+    dump_json(TEST_CORRELATION_RESULTS, results)
+
+main_function()

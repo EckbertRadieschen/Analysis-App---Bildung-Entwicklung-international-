@@ -111,14 +111,14 @@ def get_or_create_correlation_result(
     Gibt immer das Analyse-Ergebnis zurück.
     """
 
-    # correlation_results = st.session_state.get("correlation_results", {})
+    correlation_results = st.session_state.get("correlation_results", {})
     correlation_results = {}
 
     analysis_key = create_analysis_key(development_indicator, education_indicator, change_offset)
 
-    # if correlation_results and (analysis_key in correlation_results):
-    #     st.session_state["current_correlation_result"] = correlation_results[analysis_key]
-    #     return correlation_results[analysis_key]
+    if correlation_results and (analysis_key in correlation_results):
+        st.session_state["current_correlation_result"] = correlation_results[analysis_key]
+        return correlation_results[analysis_key]
 
     correlations = calculate_correlations(analysis_df, change_offset)
 
@@ -145,11 +145,11 @@ def get_or_create_correlation_result(
 
     correlation_results[analysis_key] = correlation_result
 
-    # dump_json(
-    #     save_path,
-    #     correlation_results
-    # )
+    dump_json(
+        save_path,
+        correlation_results
+    )
 
-    # st.session_state["current_correlation_result"] = correlation_result
+    st.session_state["current_correlation_result"] = correlation_result
 
-    # return correlation_result
+    return correlation_result

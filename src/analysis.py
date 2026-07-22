@@ -235,9 +235,9 @@ def calculate_row_education_values(
 
     for offset in change_offsets:
 
-        lag = recommended_lag + offset
+        lag = (recommended_lag * 2) + offset
 
-        target_year = max_year - lag
+        target_year = max_year - lag 
 
         education_year = find_comparison_year(
             row,
