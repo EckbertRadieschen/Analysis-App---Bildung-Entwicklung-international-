@@ -11,40 +11,40 @@
         "min_correlation_countries": 40,
         "categories": [
             {
+                "category": "path",
+                "name": "Bildungsverlauf"
+            },
+            {
                 "category": "investment",
                 "name": "Bildungsinvestitionen"
+            },
+            {
+                "category": "access",
+                "name": "Bildungszugang"
             },
             {
                 "category": "outcomes",
                 "name": "Bildungserfolg"
             },
             {
-                "category": "path",
-                "name": "Bildungsverlauf"
-            },
-            {
-                "category": "tertiary",
-                "name": "Hochschulbildung"
-            },
-            {
-                "category": "structure",
-                "name": "Bildungsstruktur"
-            },
-            {
-                "category": "transition",
-                "name": "Arbeitsmarktübergang"
+                "category": "quality",
+                "name": "Bildungsqualität"
             },
             {
                 "category": "capital",
                 "name": "Leistungspotenzial"
             },
             {
-                "category": "quality",
-                "name": "Bildungsqualität"
+                "category": "transition",
+                "name": "Arbeitsmarktübergang"
             },
             {
-                "category": "access",
-                "name": "Bildungszugang"
+                "category": "structure",
+                "name": "Bildungsstruktur"
+            },
+            {
+                "category": "tertiary",
+                "name": "Hochschulbildung"
             },
             {
                 "category": "skills",
@@ -155,7 +155,7 @@
             "level": "secondary",
             "higher_is_better": true,
             "recommended_lag": 10,
-            "short_description": "Erwartete Schuljahre Sekundarbereich (Jahre)",
+            "short_description": "Erwartete Schuljahre, Sekundarbereich (Jahre)",
             "education_years": {
                 "10": {
                     "year": 2004,
@@ -174,7 +174,7 @@
             "level": "primary_secondary",
             "higher_is_better": true,
             "recommended_lag": 10,
-            "short_description": "Erwartete Schuljahre Primar- bis Sekundarbereich (Jahre)",
+            "short_description": "Erwartete Schuljahre, Primar- bis Sekundarbereich (Jahre)",
             "education_years": {
                 "10": {
                     "year": 2004,
@@ -193,7 +193,7 @@
             "level": "primary_tertiary",
             "higher_is_better": true,
             "recommended_lag": 10,
-            "short_description": "Verhältnis SchülerInnen vs ausgebildete Lehrkräfte (Sekundarbereich)",
+            "short_description": "Erwartete Bildungsjahren, Schuleintritt bis Hochschulbildung (Jahre)",
             "education_years": {
                 "10": {
                     "year": 2004,

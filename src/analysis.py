@@ -12,7 +12,8 @@ from src.paths import (
     DEVELOPMENT_CONFIG,
     DEVELOPMENT_OUTPUT,
     EDUCATION_CONFIG,
-    EDUCATION_OUTPUT
+    EDUCATION_OUTPUT,
+    CORRELATION_RESULTS
 )
 
 
@@ -210,7 +211,7 @@ def calculate_row_development_values(
 
 
 # ================================================================================
-# Erzeugt Change-Werte für eine einzelne Zeile des Bildungs-DataFrames
+# Erzeugt neue Zeilen für den Bildungs-DataFrame
 # ================================================================================
 
 def calculate_row_education_values(
@@ -441,3 +442,37 @@ def create_analysis_frames (dev_indicator: str, edu_indicator: str, dev_config: 
     st.session_state["education_frame"] = df_edu
     st.session_state["comparison_frame"] = merge_dev_edu_data(df_dev, df_edu)
 
+
+# =============================================================================================
+# Schreibt einen DataFrame auf Basis der Korrelationsergebnisse im JSON-Format
+# =============================================================================================
+
+def load_correlation_results() -> pd.DataFrame:
+    """
+    Lädt Korrelations-Ergebnisse aus JSON
+    und wandelt sie in einen flachen DataFrame um.
+    """
+
+    data = load_config(CORRELATION_RESULTS)
+
+    rows = []
+
+    for correlation_id, result in data.items():
+
+        rows.append({
+            "correlation_id": correlation_id,
+            "development_indicator": result["development_indicator"],
+            "development_category": result["development_category"],
+            "education_indicator": result["education_indicator"],
+            "education_category": result["education_category"],
+            "change_offset": result["change_offset"],
+            "countries": result["countries"],
+
+            "pearson_r": result["pearson"]["r"],
+            "pearson_p": result["pearson"]["p"],
+
+            "spearman_r": result["spearman"]["r"],
+            "spearman_p": result["spearman"]["p"]
+        })
+
+    return pd.DataFrame(rows)

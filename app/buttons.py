@@ -1,5 +1,14 @@
 import streamlit as st
 
+
+def choose_analytics_tool():
+    st.session_state["navigation_choice"] = "Analyse-Tool"
+
+def choose_statistics_page():
+    st.session_state["navigation_choice"] = "Statistik-Seite"
+
+# =================================================================
+
 def choose_top():
     st.session_state["top_bottom_choice"] = "Top 10"
 

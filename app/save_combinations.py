@@ -96,6 +96,8 @@ def calculate_correlations(
 def get_or_create_correlation_result(
     development_indicator: str,
     education_indicator: str,
+    development_category: str,
+    education_category: str,
     change_offset: int,
     analysis_df: pd.DataFrame,
     save_path: Path
@@ -108,11 +110,11 @@ def get_or_create_correlation_result(
     Gibt immer das Analyse-Ergebnis zurück.
     """
 
-    correlation_results = st.session_state["correlation_results"]
+    correlation_results = st.session_state.get("correlation_results", {})
 
     analysis_key = create_analysis_key(development_indicator, education_indicator, change_offset)
 
-    if analysis_key in correlation_results:
+    if correlation_results and (analysis_key in correlation_results):
         st.session_state["current_correlation_result"] = correlation_results[analysis_key]
         return correlation_results[analysis_key]
 
@@ -120,7 +122,10 @@ def get_or_create_correlation_result(
 
     correlation_result = {
         "development_indicator": development_indicator,
+        "development_category": development_category["name"],
         "education_indicator": education_indicator,
+        "education_category": education_category["name"],
+     
         "change_offset": change_offset,
 
         "countries": correlations["n"],

@@ -103,6 +103,8 @@ def get_available_education_categories(
         key=lambda x: x["name"]
     )
 
+
+
 # ==============================================================================================
 # Wählt nur jene Bildungsindikatoren aus, die über ausreichend Werte verfügen
 # ==============================================================================================
@@ -156,6 +158,10 @@ def get_available_education_indicators(
         key=lambda indicator: indicator["name"]
     )
 
+# ==============================================================================================
+# Gibt eine Liste mit allen Config-Offset-Werten aus
+# ==============================================================================================
+
 
 def get_change_offset_options(indicator_config: dict) -> list[int]:
     """
@@ -185,3 +191,52 @@ def all_sidebar_selected ():
         st.session_state["are_all_sidebar_selectors"] = True  
     else:
         st.session_state["are_all_sidebar_selectors"] = False
+
+
+# ================================================================================================================================
+# Wählt nur jene Bildungskategorien aus, die für die Correlations-Results relevant sind
+# ================================================================================================================================
+
+def get_available_statistics_categories(correlation_results: pd.DataFrame, config: dict, category_type: str) -> list[dict]:
+    """
+    Gibt Bildungskategorien zurück, die in den vorhandenenKorrelations-Ergebnissen vorkommen.
+    """
+
+    if category_type not in ["education", "development"]:
+        return []
+
+    column = f"{category_type}_indicator"
+
+    available_indicator_keys = set(
+        correlation_results[column]
+    )
+
+    available_categories = []
+
+    for category in config["meta_data"]["categories"]:
+
+        category_key = category["category"]
+
+        has_indicator = False
+
+        for indicator_key, indicator in config["indicators"].items():
+
+            if indicator["category"] != category_key:
+                continue
+
+            if indicator_key in available_indicator_keys:
+                has_indicator = True
+                break
+
+        if has_indicator:
+            available_categories.append(category)
+
+    return sorted(
+        available_categories,
+        key=lambda x: x["name"]
+    )
+
+
+# ================================================================================================================================
+# Wählt nur jene Entwicklungskategorien aus, die für die Correlations-Results relevant sind
+# ================================================================================================================================

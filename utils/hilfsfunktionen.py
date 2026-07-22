@@ -336,4 +336,4 @@ def dump_json (save_path: Path, json_data: dict) -> None:
 
 def drop_incomplete_records(df: pd.DataFrame):
     year_columns = extract_year_columns(df)
-    
+

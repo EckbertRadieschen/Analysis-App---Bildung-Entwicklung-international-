@@ -1,7 +1,7 @@
 import streamlit as st
 from src.analysis import get_analysis_data
 
-def set_main_chart_title (edu_config: dict):
+def set_main_chart_title (edu_config: dict) -> tuple[str, str]:
     dev_indicator_dict, edu_indicator_dict, change_offset = get_analysis_data()
 
     source = st.session_state.get("main_bar_source_choice", "Entwicklungsvariable")
@@ -22,15 +22,16 @@ def set_main_chart_title (edu_config: dict):
     edu_description = edu_indicator_dict["name"].split('(')[0]
 
     if source == "Entwicklungsvariable":
-        title = f"{dev_description}\nTrend im Zeitraum {comparison_period}"
-
+        title = f"{dev_description}\n"
+        subtitle = f"Trend im Zeitraum {comparison_period}"
     elif source == "Bildungsindikator":
-        title = f"{edu_description}\nBildungsjahr ca. {comparison_year}"
-
+        title = f"{edu_description}\n"
+        subtitle = f"Bildungsjahr ca. {comparison_year}"
     else:
-        title = f"Zusammenhang:\n{edu_description} - vs - {dev_description}"
+        title = f"{edu_description}<br> - vs - <br>{dev_description}"
+        subtitle = ""
 
-    return title
+    return title, subtitle
 
 
 # ==================================================================================
