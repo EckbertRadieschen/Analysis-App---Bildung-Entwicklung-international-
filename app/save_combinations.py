@@ -13,13 +13,15 @@ from scipy.stats import pearsonr, spearmanr
 def create_analysis_key(
     development_indicator: str,
     education_indicator: str,
-    change_offset: int
+    change_offset: int,
+    lag_factor: int
 ) -> str:
 
     return (
         f"{development_indicator}"
         f"__{education_indicator}"
         f"__{change_offset}"
+        f"__{lag_factor}"
     )
 
 
@@ -45,13 +47,14 @@ def load_json_if_exists(path: Path) -> dict:
 
 def get_correlation_data(
     df: pd.DataFrame,
-    change_offset: int
+    change_offset: int,
+    lag_factor: int
 ) -> pd.DataFrame:
 
     return (
         df[
             [
-                f"value_education_year_{change_offset}",
+                f"value_education_year_{change_offset}_factor_{lag_factor}",
                 f"change_over_{change_offset}_years"
             ]
         ]
@@ -65,12 +68,13 @@ def get_correlation_data(
 
 def calculate_correlations(
     df: pd.DataFrame,
-    change_offset: int
+    change_offset: int,
+    lag_factor: int
 ) -> dict:
 
-    correlation_df = get_correlation_data(df, change_offset)
+    correlation_df = get_correlation_data(df, change_offset, lag_factor)
 
-    x = correlation_df[f"value_education_year_{change_offset}"]
+    x = correlation_df[f"value_education_year_{change_offset}_factor_{lag_factor}"]
     y = correlation_df[f"change_over_{change_offset}_years"]
 
     pearson_r, pearson_p = pearsonr(x, y)
@@ -100,6 +104,7 @@ def get_or_create_correlation_result(
     development_category: str,
     education_category: str,
     change_offset: int,
+    lag_factor: int,
     analysis_df: pd.DataFrame,
     save_path: Path
 ) -> dict:
@@ -120,7 +125,7 @@ def get_or_create_correlation_result(
         st.session_state["current_correlation_result"] = correlation_results[analysis_key]
         return correlation_results[analysis_key]
 
-    correlations = calculate_correlations(analysis_df, change_offset)
+    correlations = calculate_correlations(analysis_df, change_offset, lag_factor)
 
     correlation_result = {
         "development_indicator": development_indicator,
@@ -129,6 +134,7 @@ def get_or_create_correlation_result(
         "education_category": education_category["name"],
      
         "change_offset": change_offset,
+        "lag_factor": lag_factor,
 
         "countries": correlations["n"],
 

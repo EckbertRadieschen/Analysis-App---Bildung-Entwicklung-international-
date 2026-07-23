@@ -24,7 +24,6 @@ DEVELOPMENT_CONFIG = CONFIG_DIR / "development_indicators.json"
 EDUCATION_CONFIG = CONFIG_DIR / "education_indicators.json"
 
 CORRELATION_RESULTS = APP_DIR / "correlation_results.json"
-TEST_CORRELATION_RESULTS = APP_DIR / "test_correlation_results.json"
 
 # ==================================================================
 # Datenquellen

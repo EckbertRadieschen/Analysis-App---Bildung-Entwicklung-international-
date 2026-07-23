@@ -51,6 +51,7 @@ def set_edu_change_data(config: dict, indicator: str) -> tuple[int, list[int], i
     max_year = meta_data["max_year"]
     change_offsets = meta_data["change_offsets"]
     offset_tolerance = meta_data["offset_tolerance"]
+    lag_factors = meta_data["lag_factors"]
 
     indicator_data = config["indicators"]
     values = indicator_data[indicator]
@@ -61,7 +62,8 @@ def set_edu_change_data(config: dict, indicator: str) -> tuple[int, list[int], i
         max_year,
         change_offsets,
         offset_tolerance,
-        recommended_lag,
+        lag_factors,
+        recommended_lag
     )
 
 # ======================================================================================
@@ -170,6 +172,7 @@ def calculate_row_development_values(
         "country_code": row["country_code"],
         "dev_indicator_name": row["indicator_name"],
         "dev_indicator_code": row["indicator_code"],
+
         "available_max_year": available_max_year,
         "value_available_max_year": (
             row[str(available_max_year)]
@@ -189,6 +192,7 @@ def calculate_row_development_values(
         )
 
         result[f"available_comparison_year_{offset}"] = comparison_year
+        
 
         if comparison_year is not None:
 
@@ -218,6 +222,7 @@ def calculate_row_education_values(
     row: pd.Series,
     max_year: int,
     recommended_lag: int,
+    lag_factors: list[int],
     change_offsets: list[int],
     offset_tolerance: int,
 ) -> pd.Series:
@@ -234,23 +239,24 @@ def calculate_row_education_values(
     }
 
     for offset in change_offsets:
+        for lag_factor in lag_factors:    
 
-        lag = (recommended_lag * 2) + offset
+            lag = (recommended_lag * lag_factor) + offset
 
-        target_year = max_year - lag 
+            target_year = max_year - lag 
 
-        education_year = find_comparison_year(
-            row,
-            target_year,
-            offset_tolerance
-        )
+            education_year = find_comparison_year(
+                row,
+                target_year,
+                offset_tolerance
+            )
 
-        result[f"education_year_{offset}"] = education_year
+            result[f"education_year_{offset}_factor_{lag_factor}"] = education_year
 
-        if education_year is not None:
-            result[f"value_education_year_{offset}"] = row[education_year]
-        else:
-            result[f"value_education_year_{offset}"] = np.nan
+            if education_year is not None:
+                result[f"value_education_year_{offset}_factor_{lag_factor}"] = row[education_year]
+            else:
+                result[f"value_education_year_{offset}_factor_{lag_factor}"] = np.nan
 
     return pd.Series(result)
 
@@ -305,7 +311,7 @@ def create_education_dataframe(
 
     indicator = df["indicator_code"].iloc[0]
 
-    max_year, change_offsets, offset_tolerance, recommended_lag = set_edu_change_data(config, indicator)
+    max_year, change_offsets, offset_tolerance, lag_factors, recommended_lag = set_edu_change_data(config, indicator)
 
     result = df.apply(
         calculate_row_education_values,
@@ -313,6 +319,7 @@ def create_education_dataframe(
         args=(
             max_year,
             recommended_lag,
+            lag_factors,
             change_offsets,
             offset_tolerance,
         )
@@ -447,13 +454,13 @@ def create_analysis_frames (dev_indicator: str, edu_indicator: str, dev_config: 
 # Schreibt einen DataFrame auf Basis der Korrelationsergebnisse im JSON-Format
 # =============================================================================================
 
-def load_correlation_results() -> pd.DataFrame:
+def load_correlation_results(load_path: Path) -> pd.DataFrame:
     """
     Lädt Korrelations-Ergebnisse aus JSON
     und wandelt sie in einen flachen DataFrame um.
     """
 
-    data = load_config(CORRELATION_RESULTS)
+    data = load_config(load_path)
 
     rows = []
 
@@ -461,11 +468,24 @@ def load_correlation_results() -> pd.DataFrame:
 
         rows.append({
             "correlation_id": correlation_id,
+
             "development_indicator": result["development_indicator"],
             "development_category": result["development_category"],
+
             "education_indicator": result["education_indicator"],
             "education_category": result["education_category"],
+
             "change_offset": result["change_offset"],
+            "lag_factor": result["lag_factor"],
+
+            "education_year_min": result["education_years"]["min"],
+            "education_year_max": result["education_years"]["max"],
+
+            "development_start_year_min": result["development_years"]["start_min"],
+            "development_start_year_max": result["development_years"]["start_max"],
+            "development_end_year_min": result["development_years"]["end_min"],
+            "development_end_year_max": result["development_years"]["end_max"],
+
             "countries": result["countries"],
 
             "pearson_r": result["pearson"]["r"],

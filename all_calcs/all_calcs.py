@@ -15,13 +15,14 @@ from src.analysis import (
 
 from src.preparations import load_config
 
-from src.paths import EDUCATION_CONFIG, DEVELOPMENT_CONFIG, CORRELATION_RESULTS, TEST_CORRELATION_RESULTS
+from src.paths import EDUCATION_CONFIG, DEVELOPMENT_CONFIG, CORRELATION_RESULTS
 
 
 def merge_dev_edu_data(
     df_dev: pd.DataFrame,
     df_edu: pd.DataFrame, 
-    change_offset: int
+    change_offset: int,
+    lag_factor: int
 ) -> pd.DataFrame:
     """
     Führt Entwicklungs- und Bildungs-Daten anhand des Landes zusammen.
@@ -34,7 +35,7 @@ def merge_dev_edu_data(
     ).dropna(
         subset=[
             f"change_over_{change_offset}_years",
-            f"value_education_year_{change_offset}"
+            f"value_education_year_{change_offset}_factor_{lag_factor}"
         ]
     )
 
@@ -67,18 +68,41 @@ def create_correlation_result(
     development_category: str,
     education_category: str,
     change_offset: int,
+    lag_factor: int,
     analysis_df: pd.DataFrame
 ) -> dict:
 
-    correlations = calculate_correlations(analysis_df, change_offset)
+    correlations = calculate_correlations(analysis_df, change_offset, lag_factor)
 
     correlation_result = {
         "development_indicator": development_indicator,
         "development_category": development_category,
         "education_indicator": education_indicator,
         "education_category": education_category,
-     
         "change_offset": change_offset,
+        "lag_factor": lag_factor,
+        "education_years": {
+            "min": int(
+                analysis_df[f"education_year_{change_offset}_factor_{lag_factor}"].min()
+            ),
+            "max": int(
+                analysis_df[f"education_year_{change_offset}_factor_{lag_factor}"].max()
+            )
+        },
+        "development_years": {
+            "start_min": int(
+                analysis_df[f"available_comparison_year_{change_offset}"].min()
+            ),
+            "start_max": int(
+                analysis_df[f"available_comparison_year_{change_offset}"].max()
+            ),
+            "end_min": int(
+                analysis_df["available_max_year"].min()
+            ),
+            "end_max": int(
+                analysis_df["available_max_year"].max()
+            )
+        },
 
         "countries": correlations["n"],
 
@@ -116,6 +140,7 @@ def main_function():
         edu_config["meta_data"]["min_available_countries"]
     )
     change_offsets = edu_config["meta_data"]["change_offsets"]
+    lag_factors = edu_config["meta_data"]["lag_factors"]
 
     df_dev_origin = select_dataframe("dev")
     df_edu_origin = select_dataframe("edu")
@@ -135,10 +160,7 @@ def main_function():
         dev_category_name = get_category_name(dev_config, dev_category)
 
         dev_frames[dev_indicator] = {
-            "frame": create_development_dataframe(
-                df_dev_raw,
-                dev_config
-            ),
+            "frame": create_development_dataframe(df_dev_raw, dev_config),
             "description": dev_config["indicators"][dev_indicator]["short_description"],
             "category": dev_category_name
         }
@@ -172,10 +194,7 @@ def main_function():
         edu_category_name = get_category_name(edu_config, edu_category)
 
         edu_frames[edu_indicator] = {
-            "frame": create_education_dataframe(
-                df_edu_raw,
-                edu_config
-            ),
+            "frame": create_education_dataframe(df_edu_raw, edu_config),
             "description": edu_data["short_description"],
             "category": edu_category_name,
             "valid_offsets": valid_offsets
@@ -200,26 +219,27 @@ def main_function():
             edu_description = edu_info["description"]
 
             for change_offset in change_offsets:
+                for lag_factor in lag_factors:
+                    if change_offset not in edu_info["valid_offsets"]:
+                        continue
 
-                if change_offset not in edu_info["valid_offsets"]:
-                    continue
+                    df_analysis = merge_dev_edu_data(df_dev, df_edu, change_offset, lag_factor)
 
-                df_analysis = merge_dev_edu_data(df_dev, df_edu, change_offset)
+                    if len(df_analysis) < min_available_countries:
+                        continue
 
-                if len(df_analysis) < min_available_countries:
-                    continue
+                    analysis_key = create_analysis_key(dev_indicator, edu_indicator, change_offset, lag_factor)
 
-                analysis_key = create_analysis_key(dev_indicator, edu_indicator, change_offset)
+                    results[analysis_key] = create_correlation_result(
+                        development_indicator=dev_description,
+                        education_indicator=edu_description,
+                        development_category=dev_category,
+                        education_category=edu_category,
+                        change_offset=change_offset,
+                        lag_factor=lag_factor,
+                        analysis_df=df_analysis
+                    )
 
-                results[analysis_key] = create_correlation_result(
-                    development_indicator=dev_description,
-                    education_indicator=edu_description,
-                    development_category=dev_category,
-                    education_category=edu_category,
-                    change_offset=change_offset,
-                    analysis_df=df_analysis
-                )
-
-    dump_json(TEST_CORRELATION_RESULTS, results)
+    dump_json(CORRELATION_RESULTS, results)
 
 main_function()

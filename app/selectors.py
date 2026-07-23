@@ -224,3 +224,24 @@ def get_available_statistics_categories(correlation_results: pd.DataFrame, categ
 # ================================================================================================================================
 # Wählt nur jene Entwicklungskategorien aus, die für die Correlations-Results relevant sind
 # ================================================================================================================================
+
+def get_statistics_category_options(category_type: str) -> list[str]:
+    """
+    Liefert Kategorien sortiert nach Bewertung. Die stärkste Kategorie steht oben.
+    """
+
+    df = st.session_state["category_statistics"]
+
+    df = df[df["category_type"] == category_type].copy()
+
+    evaluation = st.session_state["selected_statistics_evaluation"]
+
+    if evaluation == "Anzahl Zusammenhänge":
+        sort_column = "count"
+    else:
+        sort_column = "median_abs_r"
+
+
+    df = df.sort_values(sort_column,ascending=False)
+
+    return df["category"].tolist()

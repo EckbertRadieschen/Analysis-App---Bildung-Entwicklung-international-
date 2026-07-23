@@ -1,6 +1,6 @@
 import streamlit as st
 
-from app.selectors import get_available_statistics_categories
+from app.selectors import get_statistics_category_options
 
 
 
@@ -28,33 +28,37 @@ def statistics_sidebar_content():
 
 
     # ============================================================================================
+    # Ansicht
+    # ============================================================================================
+
+    view_options = ["Gesamtübersicht", "Einzelkategorien"]
+
+    selected_view = st.sidebar.radio(
+        "Ansicht",
+        options=view_options,
+        key="statistics_view"
+    )
+
+    details_selected = selected_view == "Einzelkategorien"
+
+
+    # ============================================================================================
     # Entwicklungskategorie
     # ============================================================================================
 
+    st.sidebar.divider()
+
     st.sidebar.markdown("#### Entwicklung")
 
-    development_categories = (
-        get_available_statistics_categories(
-            correlation_results,
-            "development"
-        )
-    )
-
-    development_categories = [
-        {
-            "category": "all",
-            "name": "Alle"
-        }
-    ] + development_categories
-
-
+    development_categories = get_statistics_category_options("development")
+    
     selected_development_category = st.sidebar.selectbox(
         "Kategorie",
         options=development_categories,
         format_func=lambda x: x["name"],
-        key="statistics_development_category"
+        key="statistics_development_category",
+        disabled=not details_selected
     )
-
 
     # ============================================================================================
     # Bildungskategorie
@@ -64,55 +68,36 @@ def statistics_sidebar_content():
 
     st.sidebar.markdown("#### Bildung")
 
-    education_categories = (
-        get_available_statistics_categories(
-            correlation_results,
-            "education"
-        )
-    )
-
-    education_categories = [
-        {
-            "category": "all",
-            "name": "Alle"
-        }
-    ] + education_categories
-
+    education_categories = get_available_statistics_categories(correlation_results, "education")
+    
 
     selected_education_category = st.sidebar.selectbox(
         "Kategorie",
         options=education_categories,
         format_func=lambda x: x["name"],
-        key="statistics_education_category"
+        key="statistics_education_category",
+        disabled=not details_selected
     )
 
 
     # ============================================================================================
-    # Auswertung
+    # Bewertung
     # ============================================================================================
 
     st.sidebar.divider()
 
     st.sidebar.markdown("#### Bewertung")
 
-    evaluation_options = [
-        {
-            "key": "count",
-            "name": "Anzahl Zusammenhänge"
-        },
-        {
-            "key": "strength",
-            "name": "Stärke der Zusammenhänge"
-        }
-    ]
+    evaluation_options = ["Anzahl Zusammenhänge", "Stärke der Zusammenhänge"]
 
     selected_evaluation = st.sidebar.selectbox(
         "Bewertung",
         options=evaluation_options,
-        format_func=lambda x: x["name"],
         key="statistics_evaluation"
     )
 
+    st.session_state["selected_statistics_view"] = selected_view
     st.session_state["selected_statistics_development_category"] = selected_development_category
     st.session_state["selected_statistics_education_category"] = selected_education_category
     st.session_state["selected_statistics_evaluation"] = selected_evaluation
+    
