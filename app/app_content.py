@@ -2,7 +2,7 @@ import streamlit as st
 from src.analysis import get_analysis_data
 
 def set_main_chart_title (edu_config: dict) -> tuple[str, str]:
-    dev_indicator_dict, edu_indicator_dict, change_offset = get_analysis_data()
+    dev_indicator_dict, edu_indicator_dict, change_offset, lag_factor = get_analysis_data()
 
     source = st.session_state.get("main_bar_source_choice", "Entwicklungsvariable")
 
@@ -15,7 +15,7 @@ def set_main_chart_title (edu_config: dict) -> tuple[str, str]:
     )
 
     max_year = edu_config["meta_data"]["max_year"]
-    comparison_year = max_year - change_offset - lag
+    comparison_year = max_year - change_offset - (lag * lag_factor)
     comparison_period = f"ca. {comparison_year} - {max_year}"
 
     dev_description = dev_indicator_dict["name"].split('(')[0]

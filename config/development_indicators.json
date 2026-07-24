@@ -9,14 +9,6 @@
         "offset_tolerance": 2,
         "categories": [
             {
-                "category": "environment",
-                "name": "Umwelt"
-            },
-            {
-                "category": "technology",
-                "name": "Technologie"
-            },
-            {
                 "category": "economy",
                 "name": "Wirtschaft"
             },
@@ -25,16 +17,24 @@
                 "name": "Gesellschaft"
             },
             {
-                "category": "innovation",
-                "name": "Innovation"
+                "category": "governance",
+                "name": "Staat & Institutionen"
+            },
+            {
+                "category": "technology",
+                "name": "Technologie"
             },
             {
                 "category": "health",
                 "name": "Gesundheit"
             },
             {
-                "category": "governance",
-                "name": "Staat & Institutionen"
+                "category": "environment",
+                "name": "Umwelt"
+            },
+            {
+                "category": "innovation",
+                "name": "Innovation"
             }
         ]
     },

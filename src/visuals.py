@@ -29,12 +29,12 @@ def format_value(value):
 # Top 10 Bar Chart
 # ======================================================================================================================
 
-def create_top_bottom_10_bar_chart(df: pd.DataFrame, change_offset: int) -> tuple[Figure, bool]:
+def create_top_bottom_10_bar_chart(df: pd.DataFrame, change_offset: int, lag_factor: int) -> tuple[Figure, bool]:
 
     x_column = (
         f"change_over_{str(change_offset)}_years" 
         if f"change_over_{str(change_offset)}_years" in df.columns
-        else f"value_education_year_{change_offset}"
+        else f"value_education_year_{change_offset}_factor_{lag_factor}"
     )
 
     df = df[df[x_column].notna()]
@@ -110,7 +110,7 @@ def set_bar_layouts (fig: Figure, config: dict, indicator_code: str) -> Figure:
 
 def create_indicator_bar_chart() -> Figure | None:
 
-    dev_indicator_dict, edu_indicator_dict, change_offset = get_analysis_data()
+    dev_indicator_dict, edu_indicator_dict, change_offset, lag_factor = get_analysis_data()
 
     dev_indicator = dev_indicator_dict["key"]
     edu_indicator = edu_indicator_dict["key"]
@@ -132,7 +132,7 @@ def create_indicator_bar_chart() -> Figure | None:
     else:
         return None
 
-    fig, value_checker = create_top_bottom_10_bar_chart(df, change_offset)
+    fig, value_checker = create_top_bottom_10_bar_chart(df, change_offset, lag_factor)
 
     fig.update_traces(
         marker_color="#e49650"
@@ -166,7 +166,7 @@ def create_education_development_scatterplot():
     """
 
     df = st.session_state["comparison_frame"]
-    dev_indicator_dict, edu_indicator_dict, change_offset = get_analysis_data()
+    dev_indicator_dict, edu_indicator_dict, change_offset, lag_factor = get_analysis_data()
 
     dev_indicator_description = dev_indicator_dict["name"]
     edu_indicator_description = edu_indicator_dict["name"]
@@ -177,12 +177,12 @@ def create_education_development_scatterplot():
 
     education_year = round(
         pd.to_numeric(
-            df[f"education_year_{change_offset}"],
+            df[f"education_year_{change_offset}_factor_{lag_factor}"],
             errors="coerce"
         ).mean()
     )
 
-    education_column = f"value_education_year_{change_offset}"
+    education_column = f"value_education_year_{change_offset}_factor_{lag_factor}"
     development_column = f"change_over_{change_offset}_years"
 
     fig = px.scatter(

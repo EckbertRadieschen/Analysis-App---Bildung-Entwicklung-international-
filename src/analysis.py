@@ -340,6 +340,7 @@ def merge_dev_edu_data(
     Führt Entwicklungs- und Bildungs-Daten anhand des Landes zusammen.
     """
 
+    lag_factor = st.session_state["selected_lag_factor"]["factor"]
     change_offset = st.session_state["selected_change_offset"]
 
     return df_dev.merge(
@@ -349,7 +350,7 @@ def merge_dev_edu_data(
     ).dropna(
         subset=[
             f"change_over_{change_offset}_years",
-            f"value_education_year_{change_offset}"
+            f"value_education_year_{change_offset}_factor_{lag_factor}"
         ]
     )
 
@@ -423,7 +424,11 @@ def get_analysis_data ():
 
     change_offset = st.session_state.get("selected_change_offset", None)
 
-    return dev_indicator_dict, edu_indicator_dict, change_offset
+    lag_factor_dict = st.session_state.get("selected_lag_factor", None)
+
+    lag_factor = lag_factor_dict["factor"] if lag_factor_dict else None
+
+    return dev_indicator_dict, edu_indicator_dict, change_offset, lag_factor
 
 
 # ==============================================================================================
@@ -431,7 +436,7 @@ def get_analysis_data ():
 # ==============================================================================================
 
 def create_analysis_frames (dev_indicator: str, edu_indicator: str, dev_config: dict, edu_config: dict):
-    dev_indicator_dict, edu_indicator_dict, change_offset = get_analysis_data()
+    dev_indicator_dict, edu_indicator_dict = get_analysis_data()[:2]
 
     if not st.session_state.get("are_all_sidebar_selectors", False):
         return 

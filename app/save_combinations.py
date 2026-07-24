@@ -98,7 +98,6 @@ def calculate_correlations(
 # =========================================================
 
 def get_or_create_correlation_result(
-    correlation_result: dict,
     development_indicator: str,
     education_indicator: str,
     development_category: str,
@@ -117,9 +116,8 @@ def get_or_create_correlation_result(
     """
 
     correlation_results = st.session_state.get("correlation_results", {})
-    correlation_results = {}
 
-    analysis_key = create_analysis_key(development_indicator, education_indicator, change_offset)
+    analysis_key = create_analysis_key(development_indicator, education_indicator, change_offset, lag_factor)
 
     if correlation_results and (analysis_key in correlation_results):
         st.session_state["current_correlation_result"] = correlation_results[analysis_key]
@@ -128,26 +126,47 @@ def get_or_create_correlation_result(
     correlations = calculate_correlations(analysis_df, change_offset, lag_factor)
 
     correlation_result = {
-        "development_indicator": development_indicator,
-        "development_category": development_category["name"],
-        "education_indicator": education_indicator,
-        "education_category": education_category["name"],
-     
-        "change_offset": change_offset,
-        "lag_factor": lag_factor,
-
-        "countries": correlations["n"],
-
-        "pearson": {
-            "r": correlations["pearson_r"],
-            "p": correlations["pearson_p"]
-        },
-
-        "spearman": {
-            "r": correlations["spearman_r"],
-            "p": correlations["spearman_p"]
+            "development_indicator": development_indicator,
+            "development_category": development_category,
+            "education_indicator": education_indicator,
+            "education_category": education_category,
+            "change_offset": change_offset,
+            "lag_factor": lag_factor,
+            "education_years": {
+                "min": int(
+                    analysis_df[f"education_year_{change_offset}_factor_{lag_factor}"].min()
+                ),
+                "max": int(
+                    analysis_df[f"education_year_{change_offset}_factor_{lag_factor}"].max()
+                )
+            },
+            "development_years": {
+                "start_min": int(
+                    analysis_df[f"available_comparison_year_{change_offset}"].min()
+                ),
+                "start_max": int(
+                    analysis_df[f"available_comparison_year_{change_offset}"].max()
+                ),
+                "end_min": int(
+                    analysis_df["available_max_year"].min()
+                ),
+                "end_max": int(
+                    analysis_df["available_max_year"].max()
+                )
+            },
+    
+            "countries": correlations["n"],
+    
+            "pearson": {
+                "r": correlations["pearson_r"],
+                "p": correlations["pearson_p"]
+            },
+    
+            "spearman": {
+                "r": correlations["spearman_r"],
+                "p": correlations["spearman_p"]
+            }
         }
-    }
 
     correlation_results[analysis_key] = correlation_result
 

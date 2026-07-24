@@ -6,7 +6,10 @@ from app.selectors import (
     get_available_development_category_indicators,
     get_available_education_categories,
     get_available_education_indicators,
-    get_change_offset_options
+    get_change_offset_options,
+    reset_development_indicator,
+    reset_education_category,
+    reset_education_indicator
 )
 
 def sidebar_content ():
@@ -48,7 +51,8 @@ def sidebar_content ():
         index=None,
         placeholder="Bitte Kategorie auswählen",
         format_func=lambda x: x["name"],
-        key="selected_development_category"
+        key="selected_development_category",
+        on_change=reset_development_indicator
     )
 
     development_indicators = get_available_development_category_indicators(development_config, selected_development_category)
@@ -75,7 +79,8 @@ def sidebar_content ():
         index=None,
         placeholder="Bitte Zeitraum auswählen",
         format_func=lambda x: f"{x} Jahre",
-        key="selected_change_offset"
+        key="selected_change_offset",
+        on_change=reset_education_category
     )
 
     # ============================================================================================
@@ -86,26 +91,72 @@ def sidebar_content ():
 
     st.sidebar.markdown("#### Bildungsindikator")
 
-    education_categories = get_available_education_categories(
-        education_config,
-        selected_change_offset,
-        education_meta["min_available_countries"]
+    lag_options = [
+        {
+            "factor": 1,
+            "label": "Bildungsrelevanz nach kurzer Verzögerung"
+        },
+        {
+            "factor": 2,
+            "label": "Bildungsrelevanz nach langer Verzögerung"
+        }
+    ]
+                
+    selected_lag_factor = st.sidebar.selectbox(
+        "Bildungsvorlauf",
+        options=lag_options,
+        index=None,
+        placeholder="Bitte Bildungsvorlauf auswählen",
+        format_func=lambda x: x["label"],
+        key="selected_lag_factor",
+        on_change=reset_education_category
+    )
+
+    education_categories = (
+        []
+        if not selected_lag_factor
+        else get_available_education_categories(
+            education_config,
+            selected_change_offset,
+            selected_lag_factor["factor"],
+            education_meta["min_available_countries"]
+        )
     )
 
     selected_education_category = st.sidebar.selectbox(
         "Kategorie",
         options=education_categories,
         index=None,
-        placeholder="Bitte Kategorie auswählen",
+        placeholder=(
+            "Bitte Kategorie auswählen" 
+            if (
+                selected_change_offset is not None
+                and selected_lag_factor is not None
+            )
+            else "Bitte zunächst Bildungsvorlauf auswählen" 
+            if selected_change_offset is not None
+            else "Bitte zunächst Vergleichszeitraum auswählen"
+        ),
         format_func=lambda x: x["name"],
-        key="selected_education_category"
+        disabled=(
+            selected_change_offset is None
+            or selected_lag_factor is None
+        ),
+        key="selected_education_category",
+        on_change=reset_education_indicator
     )
 
-    education_indicators = get_available_education_indicators(
-        education_config, 
-        selected_education_category,
-        selected_change_offset,
-        education_meta["min_available_countries"]
+
+    education_indicators = (
+        []
+        if not selected_lag_factor
+        else get_available_education_indicators(
+            education_config, 
+            selected_education_category,
+            selected_change_offset,
+            selected_lag_factor["factor"],
+            education_meta["min_available_countries"]
+        )
     )
 
     selected_education_indicator = st.sidebar.selectbox(
@@ -117,13 +168,19 @@ def sidebar_content ():
             if (
                 selected_education_category is not None
                 and selected_change_offset is not None
+                and selected_lag_factor is not None
             )
-            else "Bitte zunächst Kategorie und Vergleichszeitraum auswählen"
+            else "Bitte zunächst Kategorie auswählen"
+            if selected_change_offset is not None
+            else "---"
         ),
         format_func=lambda x: x["name"],
         disabled=(
             selected_education_category is None
             or selected_change_offset is None
+            or selected_lag_factor is None
         ),
         key="selected_education_indicator"
     )
+
+

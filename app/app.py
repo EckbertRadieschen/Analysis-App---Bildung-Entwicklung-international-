@@ -10,7 +10,8 @@ if str(PROJECT_ROOT) not in sys.path:
 
 from src.paths import (
     DEVELOPMENT_CONFIG,
-    EDUCATION_CONFIG
+    EDUCATION_CONFIG,
+    CORRELATION_RESULTS
 )
 from src.preparations import load_config
 from src.analysis import load_correlation_results
@@ -65,6 +66,8 @@ navigation_content()
 # ============================================================================================
 # Hauptbereich
 # ============================================================================================
+if (not "correlation_results_dataframe" in st.session_state) or (st.session_state["correlation_results_dataframe"] is None):
+        st.session_state["correlation_results_dataframe"] = load_correlation_results(CORRELATION_RESULTS)
 
 if st.session_state["navigation_choice"] == "Intro-Seite":
     intro_page()
@@ -73,6 +76,4 @@ elif st.session_state["navigation_choice"] == "Analyse-Tool":
     analytic_tool()
 
 elif st.session_state["navigation_choice"] == "Statistik-Seite":
-    if (not "correlation_results_dataframe" in st.session_state) or (st.session_state["correlation_results_dataframe"] is None):
-        st.session_state["correlation_results_dataframe"] = load_correlation_results()
     statistic_page()

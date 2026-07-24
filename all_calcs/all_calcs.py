@@ -139,8 +139,6 @@ def main_function():
     min_available_countries = (
         edu_config["meta_data"]["min_available_countries"]
     )
-    change_offsets = edu_config["meta_data"]["change_offsets"]
-    lag_factors = edu_config["meta_data"]["lag_factors"]
 
     df_dev_origin = select_dataframe("dev")
     df_edu_origin = select_dataframe("edu")
@@ -153,17 +151,32 @@ def main_function():
 
     for dev_indicator in dev_indicators:
 
-        df_dev_raw = create_indicator_frame(df_dev_origin, dev_indicator)
+        df_dev_raw = create_indicator_frame(
+            df_dev_origin,
+            dev_indicator
+        )
 
-        dev_category = dev_config["indicators"][dev_indicator]["category"]
+        dev_category = (
+            dev_config["indicators"][dev_indicator]["category"]
+        )
 
-        dev_category_name = get_category_name(dev_config, dev_category)
+        dev_category_name = get_category_name(
+            dev_config,
+            dev_category
+        )
 
         dev_frames[dev_indicator] = {
-            "frame": create_development_dataframe(df_dev_raw, dev_config),
-            "description": dev_config["indicators"][dev_indicator]["short_description"],
+            "frame": create_development_dataframe(
+                df_dev_raw,
+                dev_config
+            ),
+            "description": (
+                dev_config["indicators"][dev_indicator]
+                ["short_description"]
+            ),
             "category": dev_category_name
         }
+
 
     # -------------------------------------------------------
     # Bildungs-DataFrames vorberechnen
@@ -175,30 +188,58 @@ def main_function():
 
         edu_data = edu_config["indicators"][edu_indicator]
 
-        valid_offsets = {
-            int(offset): data
-            for offset, data in edu_data["education_years"].items()
-            if (
-                data["year"] is not None
-                and data["records"] >= min_available_countries
-            )
-        }
+        valid_offsets = {}
 
+        for entry in edu_data["education_years"]:
+
+            if (
+                entry["year"] is None
+                or entry["records"] < min_available_countries
+            ):
+                continue
+
+            change_offset = entry["change_offset"]
+            lag_factor = entry["lag_factor"]
+
+            if change_offset not in valid_offsets:
+                valid_offsets[change_offset] = {}
+
+            valid_offsets[change_offset][lag_factor] = {
+                "year": entry["year"],
+                "records": entry["records"]
+            }
+
+
+        # Kein ausreichender Datensatz vorhanden
         if not valid_offsets:
             continue
 
-        df_edu_raw = create_indicator_frame(df_edu_origin, edu_indicator)
 
-        edu_category = edu_config["indicators"][edu_indicator]["category"]
-        
-        edu_category_name = get_category_name(edu_config, edu_category)
+        df_edu_raw = create_indicator_frame(
+            df_edu_origin,
+            edu_indicator
+        )
+
+        edu_category = (
+            edu_config["indicators"][edu_indicator]["category"]
+        )
+
+        edu_category_name = get_category_name(
+            edu_config,
+            edu_category
+        )
+
 
         edu_frames[edu_indicator] = {
-            "frame": create_education_dataframe(df_edu_raw, edu_config),
+            "frame": create_education_dataframe(
+                df_edu_raw,
+                edu_config
+            ),
             "description": edu_data["short_description"],
             "category": edu_category_name,
             "valid_offsets": valid_offsets
         }
+
 
     # -------------------------------------------------------
     # Alle Kombinationen berechnen
@@ -206,29 +247,47 @@ def main_function():
 
     results = {}
 
+
     for dev_indicator, dev_info in dev_frames.items():
 
         df_dev = dev_info["frame"]
+
         dev_category = dev_info["category"]
         dev_description = dev_info["description"]
+
 
         for edu_indicator, edu_info in edu_frames.items():
 
             df_edu = edu_info["frame"]
+
             edu_category = edu_info["category"]
             edu_description = edu_info["description"]
 
-            for change_offset in change_offsets:
-                for lag_factor in lag_factors:
-                    if change_offset not in edu_info["valid_offsets"]:
-                        continue
 
-                    df_analysis = merge_dev_edu_data(df_dev, df_edu, change_offset, lag_factor)
+            # Nur tatsächlich vorhandene Kombinationen nutzen
+            for change_offset, lag_data in edu_info["valid_offsets"].items():
+
+                for lag_factor in lag_data.keys():
+
+                    df_analysis = merge_dev_edu_data(
+                        df_dev,
+                        df_edu,
+                        change_offset,
+                        lag_factor
+                    )
+
 
                     if len(df_analysis) < min_available_countries:
                         continue
 
-                    analysis_key = create_analysis_key(dev_indicator, edu_indicator, change_offset, lag_factor)
+
+                    analysis_key = create_analysis_key(
+                        dev_indicator,
+                        edu_indicator,
+                        change_offset,
+                        lag_factor
+                    )
+
 
                     results[analysis_key] = create_correlation_result(
                         development_indicator=dev_description,
@@ -240,6 +299,10 @@ def main_function():
                         analysis_df=df_analysis
                     )
 
-    dump_json(CORRELATION_RESULTS, results)
+
+    dump_json(
+        CORRELATION_RESULTS,
+        results
+    )
 
 main_function()

@@ -84,13 +84,16 @@ def analytic_tool():
         # Visualisierung
 
             if st.session_state.get("main_bar_source_choice", "Entwicklungsvariable") == "Zusammenhang":
-                scatter_column, blank_2, statistic_column = st.columns([4, 0.5, 2])
+                sc_blank_1, scatter_column, sc_blank_2, statistic_column, sc_blank_3 = st.columns([1, 4, 0.5, 2, 1])
                 with scatter_column:
                     st.plotly_chart(fig)
                 with statistic_column:
                     display_correlation_info(st.session_state["current_correlation_result"])
             else:
-                st.plotly_chart(fig)
+                bar_blank_1, bar_column, bar_blank_2 = st.columns([0.5, 3, 0.5])
+
+                with bar_column:
+                    st.plotly_chart(fig)
 
     else:
         des_blank1, description_column, des_blank2 = st.columns([1, 5, 1])

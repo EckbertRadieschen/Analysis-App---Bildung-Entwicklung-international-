@@ -18,6 +18,7 @@ def spinner_content():
     selected_development_category = st.session_state["selected_development_category"]
     selected_education_category = st.session_state["selected_education_category"]
     selected_change_offset = st.session_state["selected_change_offset"]
+    selected_lag_factor = st.session_state["selected_lag_factor"]["factor"]
 
 
     st.session_state["main_chart"] = None
@@ -39,6 +40,7 @@ def spinner_content():
                     selected_development_category,
                     selected_education_category,
                     selected_change_offset,
+                    selected_lag_factor,
                     st.session_state["comparison_frame"],
                     CORRELATION_RESULTS
             )

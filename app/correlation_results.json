@@ -26,33 +26,6 @@
             "p": 0.16099242696849855
         }
     },
-    "NY.GDP.PCAP.KD__UIS.NERA.2__10__2": {
-        "development_indicator": "Bruttoinlandsprodukt pro Einwohner ($)",
-        "development_category": "Wirtschaft",
-        "education_indicator": "Anteil Kinder in Sekundarstufe I (%)",
-        "education_category": "Bildungszugang",
-        "change_offset": 10,
-        "lag_factor": 2,
-        "education_years": {
-            "min": 1991,
-            "max": 1998
-        },
-        "development_years": {
-            "start_min": 2012,
-            "start_max": 2014,
-            "end_min": 2022,
-            "end_max": 2024
-        },
-        "countries": 79,
-        "pearson": {
-            "r": 0.17135831368306165,
-            "p": 0.1310479134044755
-        },
-        "spearman": {
-            "r": 0.19883154819863683,
-            "p": 0.07897406484504253
-        }
-    },
     "NY.GDP.PCAP.KD__SE.SEC.ENRR__10__1": {
         "development_indicator": "Bruttoinlandsprodukt pro Einwohner ($)",
         "development_category": "Wirtschaft",
@@ -2028,7 +2001,7 @@
         "development_indicator": "Bruttoinlandsprodukt pro Einwohner ($)",
         "development_category": "Wirtschaft",
         "education_indicator": "Anteil nicht in Erwerb bzw. Ausbildung, junge Menschen (%)",
-        "education_category": "Arbeitsmarktübergang",
+        "education_category": "Leistungspotenzial",
         "change_offset": 10,
         "lag_factor": 1,
         "education_years": {
@@ -2076,33 +2049,6 @@
         "spearman": {
             "r": -0.030883766709393887,
             "p": 0.7292939622474721
-        }
-    },
-    "NY.GDP.PCAP.KD__UIS.ROFST.2__10__2": {
-        "development_indicator": "Bruttoinlandsprodukt pro Einwohner ($)",
-        "development_category": "Wirtschaft",
-        "education_indicator": "Anteil kein Schulbesuch, Alter: Sekundarstufe I (%)",
-        "education_category": "Bildungszugang",
-        "change_offset": 10,
-        "lag_factor": 2,
-        "education_years": {
-            "min": 1991,
-            "max": 1998
-        },
-        "development_years": {
-            "start_min": 2012,
-            "start_max": 2014,
-            "end_min": 2022,
-            "end_max": 2024
-        },
-        "countries": 64,
-        "pearson": {
-            "r": -0.05693525990502578,
-            "p": 0.6549705978260325
-        },
-        "spearman": {
-            "r": -0.12326007326007324,
-            "p": 0.33187083867776396
         }
     },
     "NY.GDP.PCAP.KD__UIS.ROFST.3.CP__10__1": {
@@ -2157,33 +2103,6 @@
         "spearman": {
             "r": -0.37273643327467265,
             "p": 1.3608449290499174e-05
-        }
-    },
-    "SL.UEM.TOTL.ZS__UIS.NERA.2__10__2": {
-        "development_indicator": "Arbeitslosenquote (%)",
-        "development_category": "Wirtschaft",
-        "education_indicator": "Anteil Kinder in Sekundarstufe I (%)",
-        "education_category": "Bildungszugang",
-        "change_offset": 10,
-        "lag_factor": 2,
-        "education_years": {
-            "min": 1991,
-            "max": 1998
-        },
-        "development_years": {
-            "start_min": 2014,
-            "start_max": 2014,
-            "end_min": 2024,
-            "end_max": 2024
-        },
-        "countries": 79,
-        "pearson": {
-            "r": -0.433641463151874,
-            "p": 6.545547167437164e-05
-        },
-        "spearman": {
-            "r": -0.4590948094949273,
-            "p": 2.085158041394414e-05
         }
     },
     "SL.UEM.TOTL.ZS__SE.SEC.ENRR__10__1": {
@@ -4161,7 +4080,7 @@
         "development_indicator": "Arbeitslosenquote (%)",
         "development_category": "Wirtschaft",
         "education_indicator": "Anteil nicht in Erwerb bzw. Ausbildung, junge Menschen (%)",
-        "education_category": "Arbeitsmarktübergang",
+        "education_category": "Leistungspotenzial",
         "change_offset": 10,
         "lag_factor": 1,
         "education_years": {
@@ -4209,33 +4128,6 @@
         "spearman": {
             "r": 0.2868373406082274,
             "p": 0.001297336741666217
-        }
-    },
-    "SL.UEM.TOTL.ZS__UIS.ROFST.2__10__2": {
-        "development_indicator": "Arbeitslosenquote (%)",
-        "development_category": "Wirtschaft",
-        "education_indicator": "Anteil kein Schulbesuch, Alter: Sekundarstufe I (%)",
-        "education_category": "Bildungszugang",
-        "change_offset": 10,
-        "lag_factor": 2,
-        "education_years": {
-            "min": 1991,
-            "max": 1998
-        },
-        "development_years": {
-            "start_min": 2014,
-            "start_max": 2014,
-            "end_min": 2024,
-            "end_max": 2024
-        },
-        "countries": 64,
-        "pearson": {
-            "r": 0.26931159642788094,
-            "p": 0.031400403186419845
-        },
-        "spearman": {
-            "r": 0.38015545052227956,
-            "p": 0.0019448278772976164
         }
     },
     "SL.UEM.TOTL.ZS__UIS.ROFST.3.CP__10__1": {
@@ -4290,33 +4182,6 @@
         "spearman": {
             "r": 0.01011518553619596,
             "p": 0.9259147577194716
-        }
-    },
-    "SL.TLF.ADVN.ZS__UIS.NERA.2__10__2": {
-        "development_indicator": "Anteil Erwerbstätige mit höherer Bildung (%)",
-        "development_category": "Wirtschaft",
-        "education_indicator": "Anteil Kinder in Sekundarstufe I (%)",
-        "education_category": "Bildungszugang",
-        "change_offset": 10,
-        "lag_factor": 2,
-        "education_years": {
-            "min": 1991,
-            "max": 1998
-        },
-        "development_years": {
-            "start_min": 2011,
-            "start_max": 2017,
-            "end_min": 2022,
-            "end_max": 2024
-        },
-        "countries": 55,
-        "pearson": {
-            "r": -0.23977125910822916,
-            "p": 0.07787219559522957
-        },
-        "spearman": {
-            "r": -0.15043290043290045,
-            "p": 0.2729614562099568
         }
     },
     "SL.TLF.ADVN.ZS__SE.SEC.ENRR__10__1": {
@@ -6105,7 +5970,7 @@
         "development_indicator": "Anteil Erwerbstätige mit höherer Bildung (%)",
         "development_category": "Wirtschaft",
         "education_indicator": "Anteil nicht in Erwerb bzw. Ausbildung, junge Menschen (%)",
-        "education_category": "Arbeitsmarktübergang",
+        "education_category": "Leistungspotenzial",
         "change_offset": 10,
         "lag_factor": 1,
         "education_years": {
@@ -6153,33 +6018,6 @@
         "spearman": {
             "r": -0.03314069285271166,
             "p": 0.7675540595442877
-        }
-    },
-    "SL.TLF.ADVN.ZS__UIS.ROFST.2__10__2": {
-        "development_indicator": "Anteil Erwerbstätige mit höherer Bildung (%)",
-        "development_category": "Wirtschaft",
-        "education_indicator": "Anteil kein Schulbesuch, Alter: Sekundarstufe I (%)",
-        "education_category": "Bildungszugang",
-        "change_offset": 10,
-        "lag_factor": 2,
-        "education_years": {
-            "min": 1991,
-            "max": 1998
-        },
-        "development_years": {
-            "start_min": 2011,
-            "start_max": 2017,
-            "end_min": 2022,
-            "end_max": 2024
-        },
-        "countries": 44,
-        "pearson": {
-            "r": 0.3563069871647894,
-            "p": 0.017599922880243358
-        },
-        "spearman": {
-            "r": 0.19238900634249473,
-            "p": 0.21087872939510174
         }
     },
     "SL.TLF.ADVN.ZS__UIS.ROFST.3.CP__10__1": {
@@ -6234,33 +6072,6 @@
         "spearman": {
             "r": -0.06763465542091496,
             "p": 0.44274013520117583
-        }
-    },
-    "NV.IND.MANF.ZS__UIS.NERA.2__10__2": {
-        "development_indicator": "Wertschöpfung verarbeitende Industrie (%)",
-        "development_category": "Wirtschaft",
-        "education_indicator": "Anteil Kinder in Sekundarstufe I (%)",
-        "education_category": "Bildungszugang",
-        "change_offset": 10,
-        "lag_factor": 2,
-        "education_years": {
-            "min": 1991,
-            "max": 1998
-        },
-        "development_years": {
-            "start_min": 2012,
-            "start_max": 2018,
-            "end_min": 2022,
-            "end_max": 2024
-        },
-        "countries": 76,
-        "pearson": {
-            "r": 0.012065485955167252,
-            "p": 0.9176098305135932
-        },
-        "spearman": {
-            "r": -0.06373205741626795,
-            "p": 0.5844119964769228
         }
     },
     "NV.IND.MANF.ZS__SE.SEC.ENRR__10__1": {
@@ -8103,7 +7914,7 @@
         "development_indicator": "Wertschöpfung verarbeitende Industrie (%)",
         "development_category": "Wirtschaft",
         "education_indicator": "Anteil nicht in Erwerb bzw. Ausbildung, junge Menschen (%)",
-        "education_category": "Arbeitsmarktübergang",
+        "education_category": "Leistungspotenzial",
         "change_offset": 10,
         "lag_factor": 1,
         "education_years": {
@@ -8151,33 +7962,6 @@
         "spearman": {
             "r": 0.06549803304484657,
             "p": 0.4698364870460925
-        }
-    },
-    "NV.IND.MANF.ZS__UIS.ROFST.2__10__2": {
-        "development_indicator": "Wertschöpfung verarbeitende Industrie (%)",
-        "development_category": "Wirtschaft",
-        "education_indicator": "Anteil kein Schulbesuch, Alter: Sekundarstufe I (%)",
-        "education_category": "Bildungszugang",
-        "change_offset": 10,
-        "lag_factor": 2,
-        "education_years": {
-            "min": 1991,
-            "max": 1998
-        },
-        "development_years": {
-            "start_min": 2012,
-            "start_max": 2014,
-            "end_min": 2022,
-            "end_max": 2024
-        },
-        "countries": 61,
-        "pearson": {
-            "r": 0.05350657392011669,
-            "p": 0.6821376504622051
-        },
-        "spearman": {
-            "r": 0.1264939185616076,
-            "p": 0.33133926999359986
         }
     },
     "NV.IND.MANF.ZS__UIS.ROFST.3.CP__10__1": {
@@ -8232,33 +8016,6 @@
         "spearman": {
             "r": -0.006631005374131848,
             "p": 0.9393863701821191
-        }
-    },
-    "NV.IND.TOTL.ZS__UIS.NERA.2__10__2": {
-        "development_indicator": "Industrielle Wertschöpfung (%)",
-        "development_category": "Wirtschaft",
-        "education_indicator": "Anteil Kinder in Sekundarstufe I (%)",
-        "education_category": "Bildungszugang",
-        "change_offset": 10,
-        "lag_factor": 2,
-        "education_years": {
-            "min": 1991,
-            "max": 1998
-        },
-        "development_years": {
-            "start_min": 2012,
-            "start_max": 2014,
-            "end_min": 2022,
-            "end_max": 2024
-        },
-        "countries": 78,
-        "pearson": {
-            "r": 0.0210892714497733,
-            "p": 0.8545872366190769
-        },
-        "spearman": {
-            "r": 0.05039264532935418,
-            "p": 0.661278363755564
         }
     },
     "NV.IND.TOTL.ZS__SE.SEC.ENRR__10__1": {
@@ -10236,7 +9993,7 @@
         "development_indicator": "Industrielle Wertschöpfung (%)",
         "development_category": "Wirtschaft",
         "education_indicator": "Anteil nicht in Erwerb bzw. Ausbildung, junge Menschen (%)",
-        "education_category": "Arbeitsmarktübergang",
+        "education_category": "Leistungspotenzial",
         "change_offset": 10,
         "lag_factor": 1,
         "education_years": {
@@ -10284,33 +10041,6 @@
         "spearman": {
             "r": -0.03531003937007873,
             "p": 0.6934980164661182
-        }
-    },
-    "NV.IND.TOTL.ZS__UIS.ROFST.2__10__2": {
-        "development_indicator": "Industrielle Wertschöpfung (%)",
-        "development_category": "Wirtschaft",
-        "education_indicator": "Anteil kein Schulbesuch, Alter: Sekundarstufe I (%)",
-        "education_category": "Bildungszugang",
-        "change_offset": 10,
-        "lag_factor": 2,
-        "education_years": {
-            "min": 1991,
-            "max": 1998
-        },
-        "development_years": {
-            "start_min": 2012,
-            "start_max": 2014,
-            "end_min": 2022,
-            "end_max": 2024
-        },
-        "countries": 63,
-        "pearson": {
-            "r": -0.0546794722687855,
-            "p": 0.6703755792877721
-        },
-        "spearman": {
-            "r": -0.20746927803379417,
-            "p": 0.10277073487779544
         }
     },
     "NV.IND.TOTL.ZS__UIS.ROFST.3.CP__10__1": {
@@ -10365,33 +10095,6 @@
         "spearman": {
             "r": 0.17827513023345554,
             "p": 0.13406295397289147
-        }
-    },
-    "GB.XPD.RSDV.GD.ZS__UIS.NERA.2__10__2": {
-        "development_indicator": "Ausgaben für Forschung und Entwicklung (%)",
-        "development_category": "Innovation",
-        "education_indicator": "Anteil Kinder in Sekundarstufe I (%)",
-        "education_category": "Bildungszugang",
-        "change_offset": 10,
-        "lag_factor": 2,
-        "education_years": {
-            "min": 1991,
-            "max": 1998
-        },
-        "development_years": {
-            "start_min": 2012,
-            "start_max": 2018,
-            "end_min": 2022,
-            "end_max": 2024
-        },
-        "countries": 50,
-        "pearson": {
-            "r": 0.33073642835996125,
-            "p": 0.018978529474634354
-        },
-        "spearman": {
-            "r": 0.4139735894357743,
-            "p": 0.0028032072641336492
         }
     },
     "GB.XPD.RSDV.GD.ZS__SE.SEC.ENRR__10__1": {
@@ -12207,7 +11910,7 @@
         "development_indicator": "Ausgaben für Forschung und Entwicklung (%)",
         "development_category": "Innovation",
         "education_indicator": "Anteil nicht in Erwerb bzw. Ausbildung, junge Menschen (%)",
-        "education_category": "Arbeitsmarktübergang",
+        "education_category": "Leistungspotenzial",
         "change_offset": 10,
         "lag_factor": 1,
         "education_years": {
@@ -12255,33 +11958,6 @@
         "spearman": {
             "r": -0.20334389433904645,
             "p": 0.09628147174216686
-        }
-    },
-    "GB.XPD.RSDV.GD.ZS__UIS.ROFST.2__10__2": {
-        "development_indicator": "Ausgaben für Forschung und Entwicklung (%)",
-        "development_category": "Innovation",
-        "education_indicator": "Anteil kein Schulbesuch, Alter: Sekundarstufe I (%)",
-        "education_category": "Bildungszugang",
-        "change_offset": 10,
-        "lag_factor": 2,
-        "education_years": {
-            "min": 1991,
-            "max": 1998
-        },
-        "development_years": {
-            "start_min": 2012,
-            "start_max": 2018,
-            "end_min": 2022,
-            "end_max": 2024
-        },
-        "countries": 42,
-        "pearson": {
-            "r": -0.3324950832423097,
-            "p": 0.03144361529929944
-        },
-        "spearman": {
-            "r": -0.315776679361478,
-            "p": 0.04163398456508928
         }
     },
     "GB.XPD.RSDV.GD.ZS__UIS.ROFST.3.CP__10__1": {
@@ -12336,33 +12012,6 @@
         "spearman": {
             "r": 0.23639968528717545,
             "p": 0.008208966375149894
-        }
-    },
-    "NE.EXP.GNFS.ZS__UIS.NERA.2__10__2": {
-        "development_indicator": "Exportanteil relativ zur Wirtschaftsleistung (%)",
-        "development_category": "Wirtschaft",
-        "education_indicator": "Anteil Kinder in Sekundarstufe I (%)",
-        "education_category": "Bildungszugang",
-        "change_offset": 10,
-        "lag_factor": 2,
-        "education_years": {
-            "min": 1991,
-            "max": 1998
-        },
-        "development_years": {
-            "start_min": 2012,
-            "start_max": 2018,
-            "end_min": 2022,
-            "end_max": 2024
-        },
-        "countries": 75,
-        "pearson": {
-            "r": 0.08360370456676915,
-            "p": 0.47577246922314037
-        },
-        "spearman": {
-            "r": 0.03684210526315789,
-            "p": 0.753665650088109
         }
     },
     "NE.EXP.GNFS.ZS__SE.SEC.ENRR__10__1": {
@@ -14340,7 +13989,7 @@
         "development_indicator": "Exportanteil relativ zur Wirtschaftsleistung (%)",
         "development_category": "Wirtschaft",
         "education_indicator": "Anteil nicht in Erwerb bzw. Ausbildung, junge Menschen (%)",
-        "education_category": "Arbeitsmarktübergang",
+        "education_category": "Leistungspotenzial",
         "change_offset": 10,
         "lag_factor": 1,
         "education_years": {
@@ -14388,33 +14037,6 @@
         "spearman": {
             "r": -0.18347345232207884,
             "p": 0.047691877097391526
-        }
-    },
-    "NE.EXP.GNFS.ZS__UIS.ROFST.2__10__2": {
-        "development_indicator": "Exportanteil relativ zur Wirtschaftsleistung (%)",
-        "development_category": "Wirtschaft",
-        "education_indicator": "Anteil kein Schulbesuch, Alter: Sekundarstufe I (%)",
-        "education_category": "Bildungszugang",
-        "change_offset": 10,
-        "lag_factor": 2,
-        "education_years": {
-            "min": 1991,
-            "max": 1998
-        },
-        "development_years": {
-            "start_min": 2012,
-            "start_max": 2014,
-            "end_min": 2022,
-            "end_max": 2024
-        },
-        "countries": 61,
-        "pearson": {
-            "r": 0.10484922706547882,
-            "p": 0.4212944921511441
-        },
-        "spearman": {
-            "r": 0.1014806980433633,
-            "p": 0.43644833044989606
         }
     },
     "NE.EXP.GNFS.ZS__UIS.ROFST.3.CP__10__1": {
@@ -14469,33 +14091,6 @@
         "spearman": {
             "r": 0.3437797010228167,
             "p": 9.258799015377028e-05
-        }
-    },
-    "NE.IMP.GNFS.ZS__UIS.NERA.2__10__2": {
-        "development_indicator": "Importanteil relativ zur Wirtschaftsleistung (%)",
-        "development_category": "Wirtschaft",
-        "education_indicator": "Anteil Kinder in Sekundarstufe I (%)",
-        "education_category": "Bildungszugang",
-        "change_offset": 10,
-        "lag_factor": 2,
-        "education_years": {
-            "min": 1991,
-            "max": 1998
-        },
-        "development_years": {
-            "start_min": 2012,
-            "start_max": 2018,
-            "end_min": 2022,
-            "end_max": 2024
-        },
-        "countries": 75,
-        "pearson": {
-            "r": 0.19088773684776325,
-            "p": 0.10090264136544468
-        },
-        "spearman": {
-            "r": 0.16964438122332856,
-            "p": 0.14565341096512807
         }
     },
     "NE.IMP.GNFS.ZS__SE.SEC.ENRR__10__1": {
@@ -16473,7 +16068,7 @@
         "development_indicator": "Importanteil relativ zur Wirtschaftsleistung (%)",
         "development_category": "Wirtschaft",
         "education_indicator": "Anteil nicht in Erwerb bzw. Ausbildung, junge Menschen (%)",
-        "education_category": "Arbeitsmarktübergang",
+        "education_category": "Leistungspotenzial",
         "change_offset": 10,
         "lag_factor": 1,
         "education_years": {
@@ -16521,33 +16116,6 @@
         "spearman": {
             "r": -0.26454015495511696,
             "p": 0.00394846473059924
-        }
-    },
-    "NE.IMP.GNFS.ZS__UIS.ROFST.2__10__2": {
-        "development_indicator": "Importanteil relativ zur Wirtschaftsleistung (%)",
-        "development_category": "Wirtschaft",
-        "education_indicator": "Anteil kein Schulbesuch, Alter: Sekundarstufe I (%)",
-        "education_category": "Bildungszugang",
-        "change_offset": 10,
-        "lag_factor": 2,
-        "education_years": {
-            "min": 1991,
-            "max": 1998
-        },
-        "development_years": {
-            "start_min": 2012,
-            "start_max": 2014,
-            "end_min": 2022,
-            "end_max": 2024
-        },
-        "countries": 61,
-        "pearson": {
-            "r": -0.10799333986876808,
-            "p": 0.40742564546860655
-        },
-        "spearman": {
-            "r": 0.027710206240084603,
-            "p": 0.8321172118888193
         }
     },
     "NE.IMP.GNFS.ZS__UIS.ROFST.3.CP__10__1": {
@@ -16602,33 +16170,6 @@
         "spearman": {
             "r": 0.19062176864631566,
             "p": 0.039525967699153876
-        }
-    },
-    "TX.VAL.TECH.MF.ZS__UIS.NERA.2__10__2": {
-        "development_indicator": "High-Tech-Exportanteil (%)",
-        "development_category": "Innovation",
-        "education_indicator": "Anteil Kinder in Sekundarstufe I (%)",
-        "education_category": "Bildungszugang",
-        "change_offset": 10,
-        "lag_factor": 2,
-        "education_years": {
-            "min": 1991,
-            "max": 1998
-        },
-        "development_years": {
-            "start_min": 2012,
-            "start_max": 2018,
-            "end_min": 2022,
-            "end_max": 2024
-        },
-        "countries": 72,
-        "pearson": {
-            "r": 0.28130933760394605,
-            "p": 0.01667620502516292
-        },
-        "spearman": {
-            "r": 0.384108302784745,
-            "p": 0.0008653758585578697
         }
     },
     "TX.VAL.TECH.MF.ZS__SE.SEC.ENRR__10__1": {
@@ -18471,7 +18012,7 @@
         "development_indicator": "High-Tech-Exportanteil (%)",
         "development_category": "Innovation",
         "education_indicator": "Anteil nicht in Erwerb bzw. Ausbildung, junge Menschen (%)",
-        "education_category": "Arbeitsmarktübergang",
+        "education_category": "Leistungspotenzial",
         "change_offset": 10,
         "lag_factor": 1,
         "education_years": {
@@ -18519,33 +18060,6 @@
         "spearman": {
             "r": -0.05194416920080637,
             "p": 0.5864925558379361
-        }
-    },
-    "TX.VAL.TECH.MF.ZS__UIS.ROFST.2__10__2": {
-        "development_indicator": "High-Tech-Exportanteil (%)",
-        "development_category": "Innovation",
-        "education_indicator": "Anteil kein Schulbesuch, Alter: Sekundarstufe I (%)",
-        "education_category": "Bildungszugang",
-        "change_offset": 10,
-        "lag_factor": 2,
-        "education_years": {
-            "min": 1991,
-            "max": 1998
-        },
-        "development_years": {
-            "start_min": 2012,
-            "start_max": 2018,
-            "end_min": 2022,
-            "end_max": 2024
-        },
-        "countries": 60,
-        "pearson": {
-            "r": -0.34330122989055084,
-            "p": 0.00724416214034114
-        },
-        "spearman": {
-            "r": -0.36682411781050295,
-            "p": 0.003940741895701775
         }
     },
     "TX.VAL.TECH.MF.ZS__UIS.ROFST.3.CP__10__1": {
@@ -18600,33 +18114,6 @@
         "spearman": {
             "r": -0.5004013665129651,
             "p": 4.770461679601229e-10
-        }
-    },
-    "SP.DYN.LE00.IN__UIS.NERA.2__10__2": {
-        "development_indicator": "Lebenserwartung (Jahre)",
-        "development_category": "Gesundheit",
-        "education_indicator": "Anteil Kinder in Sekundarstufe I (%)",
-        "education_category": "Bildungszugang",
-        "change_offset": 10,
-        "lag_factor": 2,
-        "education_years": {
-            "min": 1991,
-            "max": 1998
-        },
-        "development_years": {
-            "start_min": 2014,
-            "start_max": 2014,
-            "end_min": 2024,
-            "end_max": 2024
-        },
-        "countries": 80,
-        "pearson": {
-            "r": -0.5842908762504577,
-            "p": 1.271471501555936e-08
-        },
-        "spearman": {
-            "r": -0.6012423816221284,
-            "p": 3.6966350096938225e-09
         }
     },
     "SP.DYN.LE00.IN__SE.SEC.ENRR__10__1": {
@@ -20604,7 +20091,7 @@
         "development_indicator": "Lebenserwartung (Jahre)",
         "development_category": "Gesundheit",
         "education_indicator": "Anteil nicht in Erwerb bzw. Ausbildung, junge Menschen (%)",
-        "education_category": "Arbeitsmarktübergang",
+        "education_category": "Leistungspotenzial",
         "change_offset": 10,
         "lag_factor": 1,
         "education_years": {
@@ -20652,33 +20139,6 @@
         "spearman": {
             "r": 0.44424203525925526,
             "p": 1.1935411382231138e-07
-        }
-    },
-    "SP.DYN.LE00.IN__UIS.ROFST.2__10__2": {
-        "development_indicator": "Lebenserwartung (Jahre)",
-        "development_category": "Gesundheit",
-        "education_indicator": "Anteil kein Schulbesuch, Alter: Sekundarstufe I (%)",
-        "education_category": "Bildungszugang",
-        "change_offset": 10,
-        "lag_factor": 2,
-        "education_years": {
-            "min": 1991,
-            "max": 1998
-        },
-        "development_years": {
-            "start_min": 2014,
-            "start_max": 2014,
-            "end_min": 2024,
-            "end_max": 2024
-        },
-        "countries": 65,
-        "pearson": {
-            "r": 0.4067850861371585,
-            "p": 0.0007719698485195705
-        },
-        "spearman": {
-            "r": 0.5148164335664336,
-            "p": 1.1464523181847787e-05
         }
     },
     "SP.DYN.LE00.IN__UIS.ROFST.3.CP__10__1": {
@@ -20733,33 +20193,6 @@
         "spearman": {
             "r": 0.6842612019853574,
             "p": 1.0950127111778967e-19
-        }
-    },
-    "SP.DYN.IMRT.IN__UIS.NERA.2__10__2": {
-        "development_indicator": "Säuglingssterblichkeit (pro 1000 Geburten)",
-        "development_category": "Gesundheit",
-        "education_indicator": "Anteil Kinder in Sekundarstufe I (%)",
-        "education_category": "Bildungszugang",
-        "change_offset": 10,
-        "lag_factor": 2,
-        "education_years": {
-            "min": 1991,
-            "max": 1998
-        },
-        "development_years": {
-            "start_min": 2014,
-            "start_max": 2014,
-            "end_min": 2024,
-            "end_max": 2024
-        },
-        "countries": 79,
-        "pearson": {
-            "r": 0.7538937502753513,
-            "p": 1.0671876205057428e-15
-        },
-        "spearman": {
-            "r": 0.6851289473428801,
-            "p": 3.303596273555691e-12
         }
     },
     "SP.DYN.IMRT.IN__SE.SEC.ENRR__10__1": {
@@ -22737,7 +22170,7 @@
         "development_indicator": "Säuglingssterblichkeit (pro 1000 Geburten)",
         "development_category": "Gesundheit",
         "education_indicator": "Anteil nicht in Erwerb bzw. Ausbildung, junge Menschen (%)",
-        "education_category": "Arbeitsmarktübergang",
+        "education_category": "Leistungspotenzial",
         "change_offset": 10,
         "lag_factor": 1,
         "education_years": {
@@ -22785,33 +22218,6 @@
         "spearman": {
             "r": -0.6308699066488607,
             "p": 2.4236478538493997e-15
-        }
-    },
-    "SP.DYN.IMRT.IN__UIS.ROFST.2__10__2": {
-        "development_indicator": "Säuglingssterblichkeit (pro 1000 Geburten)",
-        "development_category": "Gesundheit",
-        "education_indicator": "Anteil kein Schulbesuch, Alter: Sekundarstufe I (%)",
-        "education_category": "Bildungszugang",
-        "change_offset": 10,
-        "lag_factor": 2,
-        "education_years": {
-            "min": 1991,
-            "max": 1998
-        },
-        "development_years": {
-            "start_min": 2014,
-            "start_max": 2014,
-            "end_min": 2024,
-            "end_max": 2024
-        },
-        "countries": 64,
-        "pearson": {
-            "r": -0.6211794105745417,
-            "p": 4.3327430114600156e-08
-        },
-        "spearman": {
-            "r": -0.6076821888223958,
-            "p": 1.0101317094562769e-07
         }
     },
     "SP.DYN.IMRT.IN__UIS.ROFST.3.CP__10__1": {
@@ -22866,33 +22272,6 @@
         "spearman": {
             "r": 0.7275857498969925,
             "p": 3.448122662593565e-23
-        }
-    },
-    "SH.DYN.MORT__UIS.NERA.2__10__2": {
-        "development_indicator": "Kindersterblichkeit (pro 1000 Geburten)",
-        "development_category": "Gesundheit",
-        "education_indicator": "Anteil Kinder in Sekundarstufe I (%)",
-        "education_category": "Bildungszugang",
-        "change_offset": 10,
-        "lag_factor": 2,
-        "education_years": {
-            "min": 1991,
-            "max": 1998
-        },
-        "development_years": {
-            "start_min": 2014,
-            "start_max": 2014,
-            "end_min": 2024,
-            "end_max": 2024
-        },
-        "countries": 79,
-        "pearson": {
-            "r": 0.7716653766816759,
-            "p": 8.588246065877456e-17
-        },
-        "spearman": {
-            "r": 0.7574101395405913,
-            "p": 6.594315658185415e-16
         }
     },
     "SH.DYN.MORT__SE.SEC.ENRR__10__1": {
@@ -24870,7 +24249,7 @@
         "development_indicator": "Kindersterblichkeit (pro 1000 Geburten)",
         "development_category": "Gesundheit",
         "education_indicator": "Anteil nicht in Erwerb bzw. Ausbildung, junge Menschen (%)",
-        "education_category": "Arbeitsmarktübergang",
+        "education_category": "Leistungspotenzial",
         "change_offset": 10,
         "lag_factor": 1,
         "education_years": {
@@ -24918,33 +24297,6 @@
         "spearman": {
             "r": -0.6609781818678699,
             "p": 3.685599153365713e-17
-        }
-    },
-    "SH.DYN.MORT__UIS.ROFST.2__10__2": {
-        "development_indicator": "Kindersterblichkeit (pro 1000 Geburten)",
-        "development_category": "Gesundheit",
-        "education_indicator": "Anteil kein Schulbesuch, Alter: Sekundarstufe I (%)",
-        "education_category": "Bildungszugang",
-        "change_offset": 10,
-        "lag_factor": 2,
-        "education_years": {
-            "min": 1991,
-            "max": 1998
-        },
-        "development_years": {
-            "start_min": 2014,
-            "start_max": 2014,
-            "end_min": 2024,
-            "end_max": 2024
-        },
-        "countries": 64,
-        "pearson": {
-            "r": -0.7486379957034788,
-            "p": 1.1416528751918592e-12
-        },
-        "spearman": {
-            "r": -0.6974539822270932,
-            "p": 1.5200276390067144e-10
         }
     },
     "SH.DYN.MORT__UIS.ROFST.3.CP__10__1": {
@@ -24999,33 +24351,6 @@
         "spearman": {
             "r": 0.7070202361170629,
             "p": 1.9025336879762434e-21
-        }
-    },
-    "SH.STA.MMRT__UIS.NERA.2__10__2": {
-        "development_indicator": "Müttersterblichkeit (pro 100.000 Geburten)",
-        "development_category": "Gesundheit",
-        "education_indicator": "Anteil Kinder in Sekundarstufe I (%)",
-        "education_category": "Bildungszugang",
-        "change_offset": 10,
-        "lag_factor": 2,
-        "education_years": {
-            "min": 1991,
-            "max": 1998
-        },
-        "development_years": {
-            "start_min": 2013,
-            "start_max": 2013,
-            "end_min": 2023,
-            "end_max": 2023
-        },
-        "countries": 79,
-        "pearson": {
-            "r": 0.6704054682252334,
-            "p": 1.397406617773338e-11
-        },
-        "spearman": {
-            "r": 0.7705487746702776,
-            "p": 1.0128211332932366e-16
         }
     },
     "SH.STA.MMRT__SE.SEC.ENRR__10__1": {
@@ -27003,7 +26328,7 @@
         "development_indicator": "Müttersterblichkeit (pro 100.000 Geburten)",
         "development_category": "Gesundheit",
         "education_indicator": "Anteil nicht in Erwerb bzw. Ausbildung, junge Menschen (%)",
-        "education_category": "Arbeitsmarktübergang",
+        "education_category": "Leistungspotenzial",
         "change_offset": 10,
         "lag_factor": 1,
         "education_years": {
@@ -27051,33 +26376,6 @@
         "spearman": {
             "r": -0.6340164073248712,
             "p": 1.5987623848646217e-15
-        }
-    },
-    "SH.STA.MMRT__UIS.ROFST.2__10__2": {
-        "development_indicator": "Müttersterblichkeit (pro 100.000 Geburten)",
-        "development_category": "Gesundheit",
-        "education_indicator": "Anteil kein Schulbesuch, Alter: Sekundarstufe I (%)",
-        "education_category": "Bildungszugang",
-        "change_offset": 10,
-        "lag_factor": 2,
-        "education_years": {
-            "min": 1991,
-            "max": 1998
-        },
-        "development_years": {
-            "start_min": 2013,
-            "start_max": 2013,
-            "end_min": 2023,
-            "end_max": 2023
-        },
-        "countries": 64,
-        "pearson": {
-            "r": -0.5467759750579639,
-            "p": 2.9473606636992194e-06
-        },
-        "spearman": {
-            "r": -0.6843329755408463,
-            "p": 4.536267778506877e-10
         }
     },
     "SH.STA.MMRT__UIS.ROFST.3.CP__10__1": {
@@ -27132,33 +26430,6 @@
         "spearman": {
             "r": 0.43641223463039275,
             "p": 3.325969183388878e-05
-        }
-    },
-    "SH.MED.PHYS.ZS__UIS.NERA.2__10__2": {
-        "development_indicator": "Ärztedichte (pro 1000 Personen)",
-        "development_category": "Gesundheit",
-        "education_indicator": "Anteil Kinder in Sekundarstufe I (%)",
-        "education_category": "Bildungszugang",
-        "change_offset": 10,
-        "lag_factor": 2,
-        "education_years": {
-            "min": 1991,
-            "max": 1998
-        },
-        "development_years": {
-            "start_min": 2009,
-            "start_max": 2016,
-            "end_min": 2022,
-            "end_max": 2023
-        },
-        "countries": 56,
-        "pearson": {
-            "r": 0.26081829495074865,
-            "p": 0.05219597667010409
-        },
-        "spearman": {
-            "r": 0.5631087873687696,
-            "p": 6.2452005672034005e-06
         }
     },
     "SH.MED.PHYS.ZS__SE.SEC.ENRR__10__1": {
@@ -29001,7 +28272,7 @@
         "development_indicator": "Ärztedichte (pro 1000 Personen)",
         "development_category": "Gesundheit",
         "education_indicator": "Anteil nicht in Erwerb bzw. Ausbildung, junge Menschen (%)",
-        "education_category": "Arbeitsmarktübergang",
+        "education_category": "Leistungspotenzial",
         "change_offset": 10,
         "lag_factor": 1,
         "education_years": {
@@ -29049,33 +28320,6 @@
         "spearman": {
             "r": -0.47126887380788296,
             "p": 1.3314752287471134e-05
-        }
-    },
-    "SH.MED.PHYS.ZS__UIS.ROFST.2__10__2": {
-        "development_indicator": "Ärztedichte (pro 1000 Personen)",
-        "development_category": "Gesundheit",
-        "education_indicator": "Anteil kein Schulbesuch, Alter: Sekundarstufe I (%)",
-        "education_category": "Bildungszugang",
-        "change_offset": 10,
-        "lag_factor": 2,
-        "education_years": {
-            "min": 1991,
-            "max": 1998
-        },
-        "development_years": {
-            "start_min": 2009,
-            "start_max": 2016,
-            "end_min": 2022,
-            "end_max": 2023
-        },
-        "countries": 48,
-        "pearson": {
-            "r": -0.2820951390318116,
-            "p": 0.052070722896719254
-        },
-        "spearman": {
-            "r": -0.4944637429439861,
-            "p": 0.0003539616074872739
         }
     },
     "SH.MED.PHYS.ZS__UIS.ROFST.3.CP__10__1": {
@@ -29130,33 +28374,6 @@
         "spearman": {
             "r": 0.41547088787834463,
             "p": 7.774493862174221e-06
-        }
-    },
-    "SH.DYN.AIDS.ZS__UIS.NERA.2__10__2": {
-        "development_indicator": "HIV-Prävalenz (%)",
-        "development_category": "Gesundheit",
-        "education_indicator": "Anteil Kinder in Sekundarstufe I (%)",
-        "education_category": "Bildungszugang",
-        "change_offset": 10,
-        "lag_factor": 2,
-        "education_years": {
-            "min": 1991,
-            "max": 1998
-        },
-        "development_years": {
-            "start_min": 2012,
-            "start_max": 2017,
-            "end_min": 2022,
-            "end_max": 2024
-        },
-        "countries": 67,
-        "pearson": {
-            "r": 0.3132247345762113,
-            "p": 0.009854169865421428
-        },
-        "spearman": {
-            "r": 0.3005471962141972,
-            "p": 0.013465572297822564
         }
     },
     "SH.DYN.AIDS.ZS__SE.SEC.ENRR__10__1": {
@@ -31022,33 +30239,6 @@
             "p": 0.02614784701190462
         }
     },
-    "SH.DYN.AIDS.ZS__UIS.ROFST.2__10__2": {
-        "development_indicator": "HIV-Prävalenz (%)",
-        "development_category": "Gesundheit",
-        "education_indicator": "Anteil kein Schulbesuch, Alter: Sekundarstufe I (%)",
-        "education_category": "Bildungszugang",
-        "change_offset": 10,
-        "lag_factor": 2,
-        "education_years": {
-            "min": 1991,
-            "max": 1998
-        },
-        "development_years": {
-            "start_min": 2012,
-            "start_max": 2017,
-            "end_min": 2022,
-            "end_max": 2024
-        },
-        "countries": 56,
-        "pearson": {
-            "r": -0.0384047052800691,
-            "p": 0.7786980054387902
-        },
-        "spearman": {
-            "r": -0.13688547756348957,
-            "p": 0.3144161916136647
-        }
-    },
     "SH.DYN.AIDS.ZS__UIS.ROFST.3.CP__10__1": {
         "development_indicator": "HIV-Prävalenz (%)",
         "development_category": "Gesundheit",
@@ -31101,33 +30291,6 @@
         "spearman": {
             "r": -0.2823335017547693,
             "p": 0.0011359980466710607
-        }
-    },
-    "IT.NET.USER.ZS__UIS.NERA.2__10__2": {
-        "development_indicator": "Internetnutzung (%)",
-        "development_category": "Technologie",
-        "education_indicator": "Anteil Kinder in Sekundarstufe I (%)",
-        "education_category": "Bildungszugang",
-        "change_offset": 10,
-        "lag_factor": 2,
-        "education_years": {
-            "min": 1991,
-            "max": 1998
-        },
-        "development_years": {
-            "start_min": 2014,
-            "start_max": 2014,
-            "end_min": 2024,
-            "end_max": 2024
-        },
-        "countries": 76,
-        "pearson": {
-            "r": -0.4067970350280878,
-            "p": 0.0002656819362674889
-        },
-        "spearman": {
-            "r": -0.4891319207108681,
-            "p": 7.341247892079918e-06
         }
     },
     "IT.NET.USER.ZS__SE.SEC.ENRR__10__1": {
@@ -33105,7 +32268,7 @@
         "development_indicator": "Internetnutzung (%)",
         "development_category": "Technologie",
         "education_indicator": "Anteil nicht in Erwerb bzw. Ausbildung, junge Menschen (%)",
-        "education_category": "Arbeitsmarktübergang",
+        "education_category": "Leistungspotenzial",
         "change_offset": 10,
         "lag_factor": 1,
         "education_years": {
@@ -33153,33 +32316,6 @@
         "spearman": {
             "r": 0.3220969676645471,
             "p": 0.00028006694124791965
-        }
-    },
-    "IT.NET.USER.ZS__UIS.ROFST.2__10__2": {
-        "development_indicator": "Internetnutzung (%)",
-        "development_category": "Technologie",
-        "education_indicator": "Anteil kein Schulbesuch, Alter: Sekundarstufe I (%)",
-        "education_category": "Bildungszugang",
-        "change_offset": 10,
-        "lag_factor": 2,
-        "education_years": {
-            "min": 1991,
-            "max": 1998
-        },
-        "development_years": {
-            "start_min": 2014,
-            "start_max": 2014,
-            "end_min": 2024,
-            "end_max": 2024
-        },
-        "countries": 62,
-        "pearson": {
-            "r": 0.31337191843277923,
-            "p": 0.013134814446911029
-        },
-        "spearman": {
-            "r": 0.5192264108181612,
-            "p": 1.5321195303164545e-05
         }
     },
     "IT.NET.USER.ZS__UIS.ROFST.3.CP__10__1": {
@@ -33666,33 +32802,6 @@
         "spearman": {
             "r": -0.26682876345091583,
             "p": 0.0018299007496981171
-        }
-    },
-    "EN.GHG.ALL.PC.CE.AR5__UIS.NERA.2__10__2": {
-        "development_indicator": "Treibhausgasemissionen pro Kopf (Tonnen CO2e)",
-        "development_category": "Umwelt",
-        "education_indicator": "Anteil Kinder in Sekundarstufe I (%)",
-        "education_category": "Bildungszugang",
-        "change_offset": 10,
-        "lag_factor": 2,
-        "education_years": {
-            "min": 1991,
-            "max": 1998
-        },
-        "development_years": {
-            "start_min": 2014,
-            "start_max": 2014,
-            "end_min": 2024,
-            "end_max": 2024
-        },
-        "countries": 80,
-        "pearson": {
-            "r": -0.44862190714527883,
-            "p": 2.9990774813823977e-05
-        },
-        "spearman": {
-            "r": -0.515799343647445,
-            "p": 9.753215008021572e-07
         }
     },
     "EN.GHG.ALL.PC.CE.AR5__SE.SEC.ENRR__10__1": {
@@ -35562,7 +34671,7 @@
         "development_indicator": "Treibhausgasemissionen pro Kopf (Tonnen CO2e)",
         "development_category": "Umwelt",
         "education_indicator": "Anteil nicht in Erwerb bzw. Ausbildung, junge Menschen (%)",
-        "education_category": "Arbeitsmarktübergang",
+        "education_category": "Leistungspotenzial",
         "change_offset": 10,
         "lag_factor": 1,
         "education_years": {
@@ -35610,33 +34719,6 @@
         "spearman": {
             "r": 0.3127050524934383,
             "p": 0.00034443619316142153
-        }
-    },
-    "EN.GHG.ALL.PC.CE.AR5__UIS.ROFST.2__10__2": {
-        "development_indicator": "Treibhausgasemissionen pro Kopf (Tonnen CO2e)",
-        "development_category": "Umwelt",
-        "education_indicator": "Anteil kein Schulbesuch, Alter: Sekundarstufe I (%)",
-        "education_category": "Bildungszugang",
-        "change_offset": 10,
-        "lag_factor": 2,
-        "education_years": {
-            "min": 1991,
-            "max": 1998
-        },
-        "development_years": {
-            "start_min": 2014,
-            "start_max": 2014,
-            "end_min": 2024,
-            "end_max": 2024
-        },
-        "countries": 65,
-        "pearson": {
-            "r": 0.43991373409931106,
-            "p": 0.00024566856659985356
-        },
-        "spearman": {
-            "r": 0.6068181818181818,
-            "p": 8.400840411386475e-08
         }
     },
     "EN.GHG.ALL.PC.CE.AR5__UIS.ROFST.3.CP__10__1": {
@@ -35691,33 +34773,6 @@
         "spearman": {
             "r": -0.39059487252731556,
             "p": 3.3509636456432338e-06
-        }
-    },
-    "EN.ATM.PM25.MC.M3__UIS.NERA.2__10__2": {
-        "development_indicator": "Feinstaubbelastung (mg/m³)",
-        "development_category": "Umwelt",
-        "education_indicator": "Anteil Kinder in Sekundarstufe I (%)",
-        "education_category": "Bildungszugang",
-        "change_offset": 10,
-        "lag_factor": 2,
-        "education_years": {
-            "min": 1991,
-            "max": 1998
-        },
-        "development_years": {
-            "start_min": 2013,
-            "start_max": 2013,
-            "end_min": 2023,
-            "end_max": 2023
-        },
-        "countries": 79,
-        "pearson": {
-            "r": -0.39484764103760756,
-            "p": 0.0003169542332064334
-        },
-        "spearman": {
-            "r": -0.42200584225900684,
-            "p": 0.00010720751247294627
         }
     },
     "EN.ATM.PM25.MC.M3__SE.SEC.ENRR__10__1": {
@@ -37695,7 +36750,7 @@
         "development_indicator": "Feinstaubbelastung (mg/m³)",
         "development_category": "Umwelt",
         "education_indicator": "Anteil nicht in Erwerb bzw. Ausbildung, junge Menschen (%)",
-        "education_category": "Arbeitsmarktübergang",
+        "education_category": "Leistungspotenzial",
         "change_offset": 10,
         "lag_factor": 1,
         "education_years": {
@@ -37743,33 +36798,6 @@
         "spearman": {
             "r": 0.3676610423697038,
             "p": 2.283812131861123e-05
-        }
-    },
-    "EN.ATM.PM25.MC.M3__UIS.ROFST.2__10__2": {
-        "development_indicator": "Feinstaubbelastung (mg/m³)",
-        "development_category": "Umwelt",
-        "education_indicator": "Anteil kein Schulbesuch, Alter: Sekundarstufe I (%)",
-        "education_category": "Bildungszugang",
-        "change_offset": 10,
-        "lag_factor": 2,
-        "education_years": {
-            "min": 1991,
-            "max": 1998
-        },
-        "development_years": {
-            "start_min": 2013,
-            "start_max": 2013,
-            "end_min": 2023,
-            "end_max": 2023
-        },
-        "countries": 64,
-        "pearson": {
-            "r": 0.328453390588736,
-            "p": 0.008054138331246113
-        },
-        "spearman": {
-            "r": 0.37596153846153835,
-            "p": 0.0022016977117281797
         }
     },
     "EN.ATM.PM25.MC.M3__UIS.ROFST.3.CP__10__1": {
@@ -37824,33 +36852,6 @@
         "spearman": {
             "r": 0.17746127937869682,
             "p": 0.1826335807468009
-        }
-    },
-    "SI.POV.UMIC__UIS.NERA.2__10__2": {
-        "development_indicator": "Armutsquote (%)",
-        "development_category": "Gesellschaft",
-        "education_indicator": "Anteil Kinder in Sekundarstufe I (%)",
-        "education_category": "Bildungszugang",
-        "change_offset": 10,
-        "lag_factor": 2,
-        "education_years": {
-            "min": 1991,
-            "max": 1998
-        },
-        "development_years": {
-            "start_min": 2009,
-            "start_max": 2018,
-            "end_min": 2022,
-            "end_max": 2024
-        },
-        "countries": 40,
-        "pearson": {
-            "r": 0.07023537369627743,
-            "p": 0.6667198043671738
-        },
-        "spearman": {
-            "r": 0.18696937025118635,
-            "p": 0.24799902472247398
         }
     },
     "SI.POV.UMIC__SE.SEC.ENRR__10__1": {
@@ -39500,33 +38501,6 @@
             "p": 0.07108558952782958
         }
     },
-    "SI.POV.GINI__UIS.NERA.2__10__2": {
-        "development_indicator": "Einkommensungleichheit (Index)",
-        "development_category": "Gesellschaft",
-        "education_indicator": "Anteil Kinder in Sekundarstufe I (%)",
-        "education_category": "Bildungszugang",
-        "change_offset": 10,
-        "lag_factor": 2,
-        "education_years": {
-            "min": 1991,
-            "max": 1998
-        },
-        "development_years": {
-            "start_min": 2009,
-            "start_max": 2018,
-            "end_min": 2022,
-            "end_max": 2024
-        },
-        "countries": 40,
-        "pearson": {
-            "r": 0.5031254941600053,
-            "p": 0.0009361946518275177
-        },
-        "spearman": {
-            "r": 0.491837126317738,
-            "p": 0.0012673056201865083
-        }
-    },
     "SI.POV.GINI__SE.SEC.ENRR__10__1": {
         "development_indicator": "Einkommensungleichheit (Index)",
         "development_category": "Gesellschaft",
@@ -41172,33 +40146,6 @@
         "spearman": {
             "r": 0.054735114861697146,
             "p": 0.6296479186959686
-        }
-    },
-    "VC.IHR.PSRC.P5__UIS.NERA.2__10__2": {
-        "development_indicator": "Vorsätzliche Tötungsdelikte (pro 100.000 Personen)",
-        "development_category": "Gesellschaft",
-        "education_indicator": "Anteil Kinder in Sekundarstufe I (%)",
-        "education_category": "Bildungszugang",
-        "change_offset": 10,
-        "lag_factor": 2,
-        "education_years": {
-            "min": 1991,
-            "max": 1998
-        },
-        "development_years": {
-            "start_min": 2011,
-            "start_max": 2015,
-            "end_min": 2022,
-            "end_max": 2023
-        },
-        "countries": 48,
-        "pearson": {
-            "r": 0.04651928070363856,
-            "p": 0.7535442389385635
-        },
-        "spearman": {
-            "r": -0.019973947025618756,
-            "p": 0.8928101948107408
         }
     },
     "VC.IHR.PSRC.P5__SE.SEC.ENRR__10__1": {
@@ -43041,7 +41988,7 @@
         "development_indicator": "Vorsätzliche Tötungsdelikte (pro 100.000 Personen)",
         "development_category": "Gesellschaft",
         "education_indicator": "Anteil nicht in Erwerb bzw. Ausbildung, junge Menschen (%)",
-        "education_category": "Arbeitsmarktübergang",
+        "education_category": "Leistungspotenzial",
         "change_offset": 10,
         "lag_factor": 1,
         "education_years": {
@@ -43089,33 +42036,6 @@
         "spearman": {
             "r": 0.017564713767245412,
             "p": 0.8786864767861
-        }
-    },
-    "VC.IHR.PSRC.P5__UIS.ROFST.2__10__2": {
-        "development_indicator": "Vorsätzliche Tötungsdelikte (pro 100.000 Personen)",
-        "development_category": "Gesellschaft",
-        "education_indicator": "Anteil kein Schulbesuch, Alter: Sekundarstufe I (%)",
-        "education_category": "Bildungszugang",
-        "change_offset": 10,
-        "lag_factor": 2,
-        "education_years": {
-            "min": 1991,
-            "max": 1998
-        },
-        "development_years": {
-            "start_min": 2012,
-            "start_max": 2015,
-            "end_min": 2022,
-            "end_max": 2023
-        },
-        "countries": 40,
-        "pearson": {
-            "r": 0.35565330335893885,
-            "p": 0.024308025912374173
-        },
-        "spearman": {
-            "r": 0.06848030018761728,
-            "p": 0.6745825219016204
         }
     },
     "VC.IHR.PSRC.P5__UIS.ROFST.3.CP__10__1": {
@@ -43170,33 +42090,6 @@
         "spearman": {
             "r": -0.1009904663674992,
             "p": 0.2403000725111247
-        }
-    },
-    "GOV_WGI_PV_EST__UIS.NERA.2__10__2": {
-        "development_indicator": "Politische Stabilität (Index)",
-        "development_category": "Staat & Institutionen",
-        "education_indicator": "Anteil Kinder in Sekundarstufe I (%)",
-        "education_category": "Bildungszugang",
-        "change_offset": 10,
-        "lag_factor": 2,
-        "education_years": {
-            "min": 1991,
-            "max": 1998
-        },
-        "development_years": {
-            "start_min": 2014,
-            "start_max": 2014,
-            "end_min": 2024,
-            "end_max": 2024
-        },
-        "countries": 80,
-        "pearson": {
-            "r": 0.04871076272145783,
-            "p": 0.6678648792029122
-        },
-        "spearman": {
-            "r": -0.06526019690576652,
-            "p": 0.5652020794266142
         }
     },
     "GOV_WGI_PV_EST__SE.SEC.ENRR__10__1": {
@@ -45174,7 +44067,7 @@
         "development_indicator": "Politische Stabilität (Index)",
         "development_category": "Staat & Institutionen",
         "education_indicator": "Anteil nicht in Erwerb bzw. Ausbildung, junge Menschen (%)",
-        "education_category": "Arbeitsmarktübergang",
+        "education_category": "Leistungspotenzial",
         "change_offset": 10,
         "lag_factor": 1,
         "education_years": {
@@ -45222,33 +44115,6 @@
         "spearman": {
             "r": 0.16814672895552824,
             "p": 0.05583901204041292
-        }
-    },
-    "GOV_WGI_PV_EST__UIS.ROFST.2__10__2": {
-        "development_indicator": "Politische Stabilität (Index)",
-        "development_category": "Staat & Institutionen",
-        "education_indicator": "Anteil kein Schulbesuch, Alter: Sekundarstufe I (%)",
-        "education_category": "Bildungszugang",
-        "change_offset": 10,
-        "lag_factor": 2,
-        "education_years": {
-            "min": 1991,
-            "max": 1998
-        },
-        "development_years": {
-            "start_min": 2014,
-            "start_max": 2014,
-            "end_min": 2024,
-            "end_max": 2024
-        },
-        "countries": 65,
-        "pearson": {
-            "r": -0.005984643135341909,
-            "p": 0.9622630185429367
-        },
-        "spearman": {
-            "r": 0.18037587412587414,
-            "p": 0.1504785475418393
         }
     },
     "GOV_WGI_PV_EST__UIS.ROFST.3.CP__10__1": {
@@ -45303,33 +44169,6 @@
         "spearman": {
             "r": 0.027988313700599243,
             "p": 0.7454408318506969
-        }
-    },
-    "GOV_WGI_GE_EST__UIS.NERA.2__10__2": {
-        "development_indicator": "Staatliche Effektivität (Index)",
-        "development_category": "Staat & Institutionen",
-        "education_indicator": "Anteil Kinder in Sekundarstufe I (%)",
-        "education_category": "Bildungszugang",
-        "change_offset": 10,
-        "lag_factor": 2,
-        "education_years": {
-            "min": 1991,
-            "max": 1998
-        },
-        "development_years": {
-            "start_min": 2014,
-            "start_max": 2014,
-            "end_min": 2024,
-            "end_max": 2024
-        },
-        "countries": 80,
-        "pearson": {
-            "r": 0.10303189237297447,
-            "p": 0.3631047205431739
-        },
-        "spearman": {
-            "r": 0.10768870135958744,
-            "p": 0.3417026470712999
         }
     },
     "GOV_WGI_GE_EST__SE.SEC.ENRR__10__1": {
@@ -47307,7 +46146,7 @@
         "development_indicator": "Staatliche Effektivität (Index)",
         "development_category": "Staat & Institutionen",
         "education_indicator": "Anteil nicht in Erwerb bzw. Ausbildung, junge Menschen (%)",
-        "education_category": "Arbeitsmarktübergang",
+        "education_category": "Leistungspotenzial",
         "change_offset": 10,
         "lag_factor": 1,
         "education_years": {
@@ -47355,33 +46194,6 @@
         "spearman": {
             "r": -0.008267216539895397,
             "p": 0.9256239438910784
-        }
-    },
-    "GOV_WGI_GE_EST__UIS.ROFST.2__10__2": {
-        "development_indicator": "Staatliche Effektivität (Index)",
-        "development_category": "Staat & Institutionen",
-        "education_indicator": "Anteil kein Schulbesuch, Alter: Sekundarstufe I (%)",
-        "education_category": "Bildungszugang",
-        "change_offset": 10,
-        "lag_factor": 2,
-        "education_years": {
-            "min": 1991,
-            "max": 1998
-        },
-        "development_years": {
-            "start_min": 2014,
-            "start_max": 2014,
-            "end_min": 2024,
-            "end_max": 2024
-        },
-        "countries": 65,
-        "pearson": {
-            "r": 0.040361879885647434,
-            "p": 0.7495566376431605
-        },
-        "spearman": {
-            "r": 0.035576923076923075,
-            "p": 0.7784389327585315
         }
     },
     "GOV_WGI_GE_EST__UIS.ROFST.3.CP__10__1": {
@@ -47436,33 +46248,6 @@
         "spearman": {
             "r": 0.15388232528066775,
             "p": 0.11353176633323549
-        }
-    },
-    "IC.BUS.NDNS.ZS__UIS.NERA.2__10__2": {
-        "development_indicator": "Neue Unternehmensgründungen (pro 1000 Personen)",
-        "development_category": "Innovation",
-        "education_indicator": "Anteil Kinder in Sekundarstufe I (%)",
-        "education_category": "Bildungszugang",
-        "change_offset": 10,
-        "lag_factor": 2,
-        "education_years": {
-            "min": 1991,
-            "max": 1998
-        },
-        "development_years": {
-            "start_min": 2012,
-            "start_max": 2016,
-            "end_min": 2022,
-            "end_max": 2024
-        },
-        "countries": 63,
-        "pearson": {
-            "r": -0.03418870663960784,
-            "p": 0.790232943804427
-        },
-        "spearman": {
-            "r": 0.025969662058371736,
-            "p": 0.8398900408862027
         }
     },
     "IC.BUS.NDNS.ZS__SE.SEC.ENRR__10__1": {
@@ -49305,7 +48090,7 @@
         "development_indicator": "Neue Unternehmensgründungen (pro 1000 Personen)",
         "development_category": "Innovation",
         "education_indicator": "Anteil nicht in Erwerb bzw. Ausbildung, junge Menschen (%)",
-        "education_category": "Arbeitsmarktübergang",
+        "education_category": "Leistungspotenzial",
         "change_offset": 10,
         "lag_factor": 1,
         "education_years": {
@@ -49353,33 +48138,6 @@
         "spearman": {
             "r": -0.23004437024996707,
             "p": 0.01940558868506091
-        }
-    },
-    "IC.BUS.NDNS.ZS__UIS.ROFST.2__10__2": {
-        "development_indicator": "Neue Unternehmensgründungen (pro 1000 Personen)",
-        "development_category": "Innovation",
-        "education_indicator": "Anteil kein Schulbesuch, Alter: Sekundarstufe I (%)",
-        "education_category": "Bildungszugang",
-        "change_offset": 10,
-        "lag_factor": 2,
-        "education_years": {
-            "min": 1991,
-            "max": 1998
-        },
-        "development_years": {
-            "start_min": 2012,
-            "start_max": 2016,
-            "end_min": 2022,
-            "end_max": 2024
-        },
-        "countries": 53,
-        "pearson": {
-            "r": 0.01663660340165405,
-            "p": 0.9058803709599654
-        },
-        "spearman": {
-            "r": -0.054426705370101594,
-            "p": 0.6987034519522097
         }
     },
     "IC.BUS.NDNS.ZS__UIS.ROFST.3.CP__10__1": {

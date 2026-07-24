@@ -57,6 +57,7 @@ def get_available_development_category_indicators(indicator_config: dict, catego
 def get_available_education_categories(
     indicator_config: dict,
     change_offset: int,
+    lag_factor: int,
     min_available_countries: int
 ) -> list[dict]:
     """
@@ -80,17 +81,16 @@ def get_available_education_categories(
             if indicator["category"] != category_key:
                 continue
 
-            offset_data = indicator.get(
-                "education_years",
-                {}
-            ).get(
-                str(change_offset)
-            )
+            offset_factor_data = {}
+            for entry in indicator["education_years"]:
+                if (entry["change_offset"] == change_offset) and (entry["lag_factor"] == lag_factor):
+                    offset_factor_data = entry
+                    break
 
             if (
-                offset_data
-                and offset_data["year"] is not None
-                and offset_data["records"] >= min_available_countries
+                offset_factor_data
+                and offset_factor_data["year"] is not None
+                and offset_factor_data["records"] >= min_available_countries
             ):
                 has_available_indicator = True
                 break
@@ -113,11 +113,12 @@ def get_available_education_indicators(
     indicator_config: dict,
     category_dict: dict,
     change_offset: int,
+    lag_factor: int,
     min_available_countries: int
 ) -> list[dict]:
     """
     Gibt alle Bildungsindikatoren einer Kategorie zurück,
-    die für den gewählten Change-Offset ausreichend Länderwerte besitzen.
+    die für gewählten Change-Offset und Lag-Factor ausreichend Länderwerte besitzen.
 
     Rückgabe: [{"name": "...", "key": "..."}, ...]
     """
@@ -135,16 +136,16 @@ def get_available_education_indicators(
         if indicator["category"] != category:
             continue
 
-        offset_data = (
-            indicator
-            .get("education_years", {})
-            .get(str(change_offset))
-        )
+        offset_factor_data = {}
+        for entry in indicator["education_years"]:
+            if (entry["change_offset"] == change_offset) and (entry["lag_factor"] == lag_factor):
+                offset_factor_data = entry
+                break
 
         if (
-            offset_data is not None
-            and offset_data["year"] is not None
-            and offset_data["records"] >= min_available_countries
+            offset_factor_data is not None
+            and offset_factor_data["year"] is not None
+            and offset_factor_data["records"] >= min_available_countries
         ):
             indicator_list.append(
                 {
@@ -173,6 +174,22 @@ def get_change_offset_options(indicator_config: dict) -> list[int]:
     return meta.get("change_offsets", [])
 
 
+# ====================================================================
+# Resetter
+# ====================================================================  
+
+def reset_development_indicator():
+    st.session_state.selected_development_indicator = None
+
+
+def reset_education_category():
+    st.session_state.selected_education_category = None
+    st.session_state.selected_education_indicator = None
+
+
+def reset_education_indicator():
+    st.session_state.selected_education_indicator = None
+
 
 # ====================================================================
 # Überprüft Vollständigkeit der Sidebar-Selector Eingaben
@@ -184,7 +201,8 @@ def all_sidebar_selected ():
         st.session_state.get("selected_development_indicator", None),
         st.session_state.get("selected_education_category", None),
         st.session_state.get("selected_education_indicator", None),
-        st.session_state.get("selected_change_offset", None)
+        st.session_state.get("selected_change_offset", None),
+        st.session_state.get("selected_lag_factor", None)
     ]
 
     if all(selector is not None for selector in selectors):
@@ -194,35 +212,7 @@ def all_sidebar_selected ():
 
 
 # ================================================================================================================================
-# Wählt nur jene Bildungskategorien aus, die für die Correlations-Results relevant sind
-# ================================================================================================================================
-
-def get_available_statistics_categories(correlation_results: pd.DataFrame, category_type: str) -> list[str]:
-    """
-    Gibt alle vorhandenen Kategorien eines Typs zurück.
-    """
-
-    if category_type == "development":
-        column = "development_category"
-
-    elif category_type == "education":
-        column = "education_category"
-
-    else:
-        raise ValueError(
-            "category_type muss 'development' oder 'education' sein"
-        )
-
-    return sorted(
-        correlation_results[column]
-        .dropna()
-        .unique()
-        .tolist()
-    )
-
-
-# ================================================================================================================================
-# Wählt nur jene Entwicklungskategorien aus, die für die Correlations-Results relevant sind
+# Wählt die Kategorien für die Statistik Selektoren
 # ================================================================================================================================
 
 def get_statistics_category_options(category_type: str) -> list[str]:
@@ -234,7 +224,7 @@ def get_statistics_category_options(category_type: str) -> list[str]:
 
     df = df[df["category_type"] == category_type].copy()
 
-    evaluation = st.session_state["selected_statistics_evaluation"]
+    evaluation = st.session_state.get("selected_statistics_evaluation", None)
 
     if evaluation == "Anzahl Zusammenhänge":
         sort_column = "count"

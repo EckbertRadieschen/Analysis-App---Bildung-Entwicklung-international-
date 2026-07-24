@@ -336,6 +336,7 @@ def update_education_years(config: dict) -> dict:
 
     max_year = meta["max_year"]
     offsets = meta["change_offsets"]
+    lag_factors = meta["lag_factors"]
     tolerance = meta["offset_tolerance"]
 
     df = pd.read_csv(EDUCATION_OUTPUT, encoding="utf-8")
@@ -348,30 +349,35 @@ def update_education_years(config: dict) -> dict:
 
         available_years = get_indicator_available_years(df, indicator_code)
 
-        education_years = {}
+        education_years = []
 
         for offset in offsets:
-            target_year = max_year - offset - lag
+            for lag_factor in lag_factors:
+                target_year = max_year - offset - (lag * lag_factor)
 
-            year = find_matching_year(
-                available_years,
-                target_year,
-                tolerance
-            )
-
-            if year is not None:
-                records = count_indicator_values(
-                    df,
-                    indicator_code,
-                    year
+                year = find_matching_year(
+                    available_years,
+                    target_year,
+                    tolerance
                 )
-            else:
-                records = 0
 
-            education_years[str(offset)] = {
-                "year": year,
-                "records": records
-            }    
+                if year is not None:
+                    records = count_indicator_values(
+                        df,
+                        indicator_code,
+                        year
+                    )
+                else:
+                    records = 0
+
+                education_years_entry = {
+                    "change_offset": offset,
+                    "lag_factor": lag_factor,
+                    "year": year,
+                    "records": records
+                }
+
+                education_years.append(education_years_entry)
 
         indicator_data["education_years"] = education_years
 
