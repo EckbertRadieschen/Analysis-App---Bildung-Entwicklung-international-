@@ -148,20 +148,20 @@ def apply_markdown():
         }
 
         .custom-title {
-            font-size: 1.25rem;
+            font-size: 1rem;
             font-weight: 600;
             line-height: 1.3;
         }
 
         .custom-subtitle {
-            font-size: 0.9rem;
+            font-size: 0.7rem;
             font-weight: 400;
             color: rgba(49, 51, 63, 0.7);
             margin-top: 0.2rem;
         }      
 
         .custom-sub_subtitle {
-            font-size: 0.6rem;
+            font-size: 0.5rem;
             font-weight: 400;
             color: rgba(49, 51, 63, 0.7);
             margin-top: 0.1rem;
@@ -178,8 +178,11 @@ def apply_markdown():
                 border: 1px solid rgba(128, 128, 128, 0.3);
                 border-radius: 0.5rem
             }
-
             
+            div[data-testid="stVerticalBlock"] > div[data-testid="stMainBlockContainer"] {
+                gap: 0 !important
+            } 
+
     /* ==========================================================
     === Textformate
     ========================================================== */
@@ -198,7 +201,25 @@ def apply_markdown():
 
             .wrapper-title {
                 font-size: 1.1rem;
-                font-weight: 700;
+                font-weight: 700
+            }
+
+            .info-text {
+                width: 85%;
+                font-size: 10px;
+                color: #666;
+                line-height: 1.4;
+
+                padding: 6px;
+                padding-left: 20px;
+
+                margin-top: 10px;
+                margin-left: 50px;
+                margin-bottom: 10px;
+
+                background-color: #fdf7f2;
+                border: 1px solid #e7c8aa;
+                border-radius: 6px
             }
         </style>
         """, unsafe_allow_html=True)

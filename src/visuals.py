@@ -3,6 +3,7 @@ import numpy as np
 import streamlit as st
 import re
 import plotly.express as px
+import plotly.graph_objects as go
 from plotly.graph_objects import Figure
 
 from src.analysis import get_analysis_data
@@ -282,7 +283,7 @@ def create_category_statistics_bar_chart(
         xaxis_title="",
         yaxis_title="",
         showlegend=False,
-        height=250,
+        height=220,
         margin=dict(
             l=160,
             r=20,
@@ -311,6 +312,51 @@ def create_category_statistics_bar_chart(
             texttemplate="%{text:.2f}"
         )
 
+    if value_column == "relevance_ratio":
+        hovertemplate = (
+            "<b>%{y}</b><br><br>"
+            "Relevante Zusammenhänge: "
+            "<b>%{customdata[0]}</b> von "
+            "<b>%{customdata[1]}</b><br>"
+            "Trefferquote: "
+            "<b>%{x:.1%}</b>"
+            "<extra></extra>"
+        )
+
+        customdata = df[["count", "total_count"]].values
+
+
+    elif value_column == "sum_abs_r":
+        hovertemplate = (
+            "<b>%{y}</b><br><br>"
+            "Kumulierte Zusammenhangsstärke: "
+            "<b>%{x:.2f}</b><br>"
+            "Relevante Zusammenhänge: "
+            "<b>%{customdata[0]}</b>"
+            "<extra></extra>"
+        )
+
+        customdata = df[["count"]].values
+
+
+    else:
+        hovertemplate = (
+            "<b>%{y}</b><br><br>"
+            "Durchschnittliche Zusammenhangsstärke: "
+            "<b>%{x:.2f}</b><br>"
+            "Basierend auf "
+            "<b>%{customdata[0]}</b> Zusammenhängen"
+            "<extra></extra>"
+        )
+
+        customdata = df[["count"]].values
+
+
+    fig.update_traces(
+        hovertemplate=hovertemplate,
+        customdata=customdata
+    )
+
     return fig
 
 
@@ -320,7 +366,7 @@ def create_category_statistics_bar_chart(
 
 def create_correlation_strength_boxplot(strictness_dict: dict):
     """
-    Erstellt einen Boxplot der absoluten Spearman-Korrelationen
+    Erstellt einen horizontalen Boxplot der absoluten Spearman-Korrelationen
     aller relevanten Zusammenhänge.
     """
 
@@ -328,48 +374,82 @@ def create_correlation_strength_boxplot(strictness_dict: dict):
 
     threshold = strictness_dict["value"]
 
-    fig = px.box(
-        df,
-        y="abs_spearman_r",
-        orientation="v",
-        points="outliers"
-    )
+    values = df["abs_spearman_r"]
 
-    fig.update_layout(
-        height=300,
-        width=350,
-        margin=dict(
-            l=100,
-            r=20,
-            t=50,
-            b=20
-        ),
-        yaxis_title="Absolute Spearman-Korrelation",
-        xaxis_title="(nur relevante Zusammenhänge betrachtet)",
-        showlegend=False,
-        title=dict(
-            text="Verteilung Zusammenhangsstärken",
-            x=0.5,
-            xanchor="center",
-            font=dict(size=14)
+    count = len(values)
+    median = values.median()
+    mean = values.mean()
+    q1 = values.quantile(0.25)
+    q3 = values.quantile(0.75)
+
+    max_abs_spearman_r = values.max()
+    x_scale_upper = np.ceil(max_abs_spearman_r * 1.01 * 10) / 10
+
+
+    fig = go.Figure()
+
+    fig.add_trace(
+        go.Box(
+            x=values,
+            orientation="h",
+            boxpoints=False,
+            width=0.4,
+            marker_color="#e49650",
+            hoverinfo="skip",
+            name=""
         )
     )
 
-    fig.update_traces(
-        width=0.5,
-        marker_color="#e49650",
+    fig.update_layout(
+        height=200,
+        width=350,
+        margin=dict(
+            l=20,
+            r=20,
+            t=50,
+            b=0
+        ),
+        title=dict(
+            text="Verteilung Zusammenhangsstärken",
+            x=0.58,
+            xanchor="center",
+            font=dict(size=14)
+        ),
+        xaxis_title="Absolute Spearman-Korrelation",
+        yaxis_title="",
+        showlegend=False
     )
 
     fig.update_xaxes(
-        showticklabels=False,
-        title_font=dict(size=10)
+        range=[
+            threshold - 0.05,
+            x_scale_upper
+        ],
+        title_font=dict(size=12)
     )
 
-    max_abs_spearman_r = df["abs_spearman_r"].max()
-    y_scale_upper = np.ceil(max_abs_spearman_r * 1.01 * 10) / 10
-
     fig.update_yaxes(
-        range=[threshold - 0.05, y_scale_upper]
+        showticklabels=False
+    )
+
+
+    fig.add_annotation(
+        x=0.56,
+        y=1.18,
+        xref="paper",
+        yref="paper",
+        text=(
+            f"n = <b>{count}</b>"
+            f"&nbsp;&nbsp;|&nbsp;&nbsp;"
+            f"Median: <b>{median:.2f}</b>"
+            f"&nbsp;&nbsp;|&nbsp;&nbsp;"
+            f"Mittelwert: <b>{mean:.2f}</b>"
+            f"&nbsp;&nbsp;|&nbsp;&nbsp;"
+            f"IQR: <b>{q1:.2f}–{q3:.2f}</b>"
+        ),
+        showarrow=False,
+        align="center",
+        font=dict(size=9)
     )
 
     return fig
@@ -380,24 +460,56 @@ def create_correlation_strength_boxplot(strictness_dict: dict):
 
 def create_category_heatmap():
     """
-    Erstellt eine Heatmap der Anzahl relevanter Korrelationen zwischen
+    Erstellt eine Heatmap der Trefferquote relevanter Korrelationen zwischen
     Bildungs- und Entwicklungskategorien.
     """
 
-    df = st.session_state["statistics_relevant_df"].copy()
-    df["education_category_short"] = df["education_category"].str.replace("Bildungs", "").str.title()
+    all_df = st.session_state["correlation_results_dataframe"].copy()
 
-    heatmap_df = pd.crosstab(
-        index=df["development_category"],
-        columns=df["education_category_short"]
-        
+    relevant_df = st.session_state["statistics_relevant_df"].copy()
+
+    all_counts = pd.crosstab(
+        index=all_df["development_category"],
+        columns=all_df["education_category"]
+    )
+
+    relevant_counts = pd.crosstab(
+        index=relevant_df["development_category"],
+        columns=relevant_df["education_category"]
+    )
+
+    relevant_counts = relevant_counts.reindex(
+        index=all_counts.index,
+        columns=all_counts.columns,
+        fill_value=0
+    )
+
+    heatmap_df = (
+        relevant_counts
+        .div(all_counts)
+        .mul(100)
+        .round(1)
     )
 
     fig = px.imshow(
         heatmap_df,
-        text_auto=True,
         aspect="auto",
-        color_continuous_scale="Oranges"
+        text_auto=".1f",
+        color_continuous_scale="Oranges",
+        zmin=0,
+        zmax=heatmap_df.max().max()
+    )
+
+    fig.update_traces(
+        text=heatmap_df.map(lambda x: f"{x:.1f}%"),
+        texttemplate="%{text}",
+        customdata=np.dstack((relevant_counts.values, all_counts.values)),
+        hovertemplate=(
+            "<b>%{y}</b> ↔ <b>%{x}</b><br><br>"
+            "Trefferquote: <b>%{z:.1f}%</b><br>"
+            "%{customdata[0]:.0f} von %{customdata[1]:.0f} getesteten Zusammenhängen"
+            "<extra></extra>"
+        )
     )
 
     fig.update_layout(
@@ -410,18 +522,128 @@ def create_category_heatmap():
             b=0
         ),
         title=dict(
-            text="Zusammenhänge zwischen Bildungs- und Entwicklungskategorien",
+            text="Trefferquote relevanter Zusammenhänge im Vergleich",
             x=0.5,
             xanchor="center",
             font=dict(size=14)
         ),
         xaxis_title="",
         yaxis_title="",
-        coloraxis_colorbar_title="Anzahl"
+        coloraxis_colorbar=dict(
+            title=dict(
+                text="Trefferquote (%)",
+                font=dict(size=12)
+            ),
+            tickfont=dict(size=10)
+        )
     )
 
     fig.update_xaxes(
         tickangle=-45
+    )
+
+    return fig
+
+
+# ===========================================================================================
+# Top Indikatoren - Barchart Kategorietyp
+# ===========================================================================================
+
+def create_top_indicator_bar_chart(
+    category_type: str,
+    selected_category: str,
+    top_n: int = 10
+):
+    """
+    Erstellt ein horizontales Balkendiagramm der stärksten
+    Indikatorzusammenhänge innerhalb einer Kategorie.
+    """
+
+    df = st.session_state["statistics_relevant_df"].copy()
+
+    category_column = f"{category_type}_category"
+
+    df = df[df[category_column] == selected_category].copy()
+
+    df = (
+        df
+        .sort_values("abs_spearman_r", ascending=False)
+        .head(top_n)
+        .copy()
+    )
+
+    df = df.sort_values(
+        "abs_spearman_r",
+        ascending=True
+    )
+
+    indicator_column = (
+        "education_indicator"
+        if category_type == "education"
+        else "development_indicator"
+    )
+
+    df["indicator_short"] = (
+        df[indicator_column]
+        .str.slice(0, 35)
+        .where(
+            df[indicator_column].str.len() <= 35,
+            df[indicator_column].str.slice(0, 35) + "..."
+        )
+    )
+
+    fig = px.bar(
+        df,
+        x="abs_spearman_r",
+        y="indicator_short",
+        orientation="h",
+        custom_data=[
+            "education_indicator",
+            "development_indicator",
+            "spearman_r",
+            "countries"
+        ]
+    )
+
+    fig.update_traces(
+        marker_color="#e49650",
+        hovertemplate=(
+            "<b>%{y}</b><br><br>"
+            "Bildungsindikator:<br>"
+            "%{customdata[0]}<br><br>"
+            "Entwicklungsindikator:<br>"
+            "%{customdata[1]}<br><br>"
+            "Spearman r: <b>%{customdata[2]:.2f}</b><br>"
+            "Absolute Stärke: <b>%{x:.2f}</b><br>"
+            "Länder: %{customdata[3]}"
+            "<extra></extra>"
+        )
+    )
+
+    fig.update_layout(
+        height=320,
+        margin=dict(
+            l=20,
+            r=20,
+            t=50,
+            b=30
+        ),
+        title=dict(
+            text=f"Top Zusammenhänge: {selected_category}",
+            x=0.5,
+            xanchor="center",
+            font=dict(size=14)
+        ),
+        xaxis_title="Absolute Spearman-Korrelation",
+        yaxis_title="",
+        showlegend=False
+    )
+
+    fig.update_xaxes(
+        range=[
+            0,
+            df["abs_spearman_r"].max() * 1.1
+        ]
     )
 
     return fig

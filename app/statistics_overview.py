@@ -7,6 +7,33 @@ from src.visuals import (
     create_category_heatmap
 )
 
+def create_analysis_scope_info():
+    """
+    Erstellt einen kleinen Info-Block mit dem Umfang der Analyse.
+    """
+
+    base_df = st.session_state["statistics_base_df"]
+    relevant_df = st.session_state["statistics_relevant_df"]
+
+    tested_combinations = len(base_df)
+
+    development_indicators = base_df["development_indicator"].nunique()
+
+    education_indicators = base_df["education_indicator"].nunique()
+
+    relevant_relationships = len(relevant_df)
+
+    return f"""
+    <div class="info-text">
+        <b>Analyseumfang</b><br>
+        Die Auswertung basiert auf allen Indikator-Kombinationen<br>
+        (mit ausreichender Datenlage)<br><br>
+        • Getestete Kombinationen: {tested_combinations:,}<br>
+        • Entwicklungsindikatoren: {development_indicators}<br>
+        • Bildungsindikatoren: {education_indicators}<br>
+    </div>
+    """
+
 def statistics_overview_content():
 
     evaluation = st.session_state["statistics_evaluation"]
@@ -40,29 +67,14 @@ def statistics_overview_content():
 
     st.divider()
 
-    barchart_blank_1, barchart_column_1, barchart_column_2, barchart_blank_2 = st.columns([1, 12, 12, 1])
-
-    with barchart_column_1:
-        st.plotly_chart(
-            fig_dev,
-            key="statistics_dev_category_bar",
-            config={
-                "displayModeBar": False
-            }
-        )
-    with barchart_column_2:    
-        st.plotly_chart(
-            fig_edu,
-            key="statistics_edu_category_bar",
-            config={
-                "displayModeBar": False
-            }   
-        )
-
-
-    bp_blank_1, boxplot_column, heatmap_column, bp_blank_2 = st.columns([2, 6, 12, 1])
+    bp_blank_1, boxplot_column, heatmap_column, bp_blank_2 = st.columns([1, 8, 12, 1])
 
     with boxplot_column:
+        st.markdown(
+            create_analysis_scope_info(),
+            unsafe_allow_html=True
+        )
+
         fig_boxplot = create_correlation_strength_boxplot(strictness)
         st.plotly_chart(
             fig_boxplot,
@@ -71,7 +83,6 @@ def statistics_overview_content():
                 "displayModeBar": False
             }
         )
-
 
     with heatmap_column:
         fig_heatmap = create_category_heatmap()
@@ -82,3 +93,22 @@ def statistics_overview_content():
                 "displayModeBar": False
             }
         )
+
+    barchart_blank_1, barchart_column_1, barchart_column_2, barchart_blank_2 = st.columns([1, 12, 12, 1])
+    with st.container(key="statistics_barcharts"):
+        with barchart_column_1:
+            st.plotly_chart(
+                fig_dev,
+                key="statistics_dev_category_bar",
+                config={
+                    "displayModeBar": False
+                }
+            )
+        with barchart_column_2:    
+            st.plotly_chart(
+                fig_edu,
+                key="statistics_edu_category_bar",
+                config={
+                    "displayModeBar": False
+                }   
+            )

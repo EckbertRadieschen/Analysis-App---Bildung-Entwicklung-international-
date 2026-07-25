@@ -588,6 +588,7 @@ def load_category_statistics():
             if category in relevant_groups.groups:
                 relevant_group = relevant_groups.get_group(category)
                 count = len(relevant_group)
+                total_count = len(all_group)
                 sum_abs_r = relevant_group["abs_spearman_r"].sum()
                 mean_abs_r = relevant_group["abs_spearman_r"].mean()
                 median_abs_r = relevant_group["abs_spearman_r"].median()
@@ -606,6 +607,7 @@ def load_category_statistics():
                     "category": category,
 
                     "count": count,
+                    "total_count": total_count,
                     "relevance_ratio": count / len(all_group),
                     "sum_abs_r": sum_abs_r,
                     "mean_abs_r": mean_abs_r,
