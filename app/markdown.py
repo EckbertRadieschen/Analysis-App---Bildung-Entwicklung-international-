@@ -132,6 +132,11 @@ def apply_markdown():
                 height: 20px !important
             }
 
+        /* Radio-Buttons */    
+            div[role="radiogroup"] p {
+                font-size: 12px !important;
+            }
+
     /* ==========================================================
     === Hauptbereich Header
     ========================================================== */
@@ -153,6 +158,13 @@ def apply_markdown():
             font-weight: 400;
             color: rgba(49, 51, 63, 0.7);
             margin-top: 0.2rem;
+        }      
+
+        .custom-sub_subtitle {
+            font-size: 0.6rem;
+            font-weight: 400;
+            color: rgba(49, 51, 63, 0.7);
+            margin-top: 0.1rem;
         }       
 
     /* ==========================================================
@@ -166,7 +178,8 @@ def apply_markdown():
                 border: 1px solid rgba(128, 128, 128, 0.3);
                 border-radius: 0.5rem
             }
-    
+
+            
     /* ==========================================================
     === Textformate
     ========================================================== */

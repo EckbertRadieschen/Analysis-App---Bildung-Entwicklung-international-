@@ -2,8 +2,6 @@ import pandas as pd
 import numpy as np
 from pathlib import Path
 import streamlit as st
-import plotly.express as px
-from plotly.graph_objects import Figure
 
 from utils.hilfsfunktionen import get_max_year_from_config, select_dataframe, find_relevant_years
 from src.preparations import load_config
@@ -497,7 +495,124 @@ def load_correlation_results(load_path: Path) -> pd.DataFrame:
             "pearson_p": result["pearson"]["p"],
 
             "spearman_r": result["spearman"]["r"],
+            "abs_spearman_r": abs(result["spearman"]["r"]),
             "spearman_p": result["spearman"]["p"]
         })
 
     return pd.DataFrame(rows)
+
+
+# =============================================================================================
+# Filtert den correlation_results_dataframe auf die eingestellte Kombination aus
+# change_offset und lag_factor
+# =============================================================================================
+
+def get_filtered_correlation_frame () -> pd.DataFrame:
+    df = st.session_state["correlation_results_dataframe"].copy()
+    print(f"Anzahl vor jeglicher Filterung: {df.shape[0]}\n")
+
+    threshold = st.session_state["statistics_strictness"]["value"]
+    lag_factor = st.session_state["statistics_lag_factor"]["factor"]
+    change_offset = st.session_state["statistics_change_offset"]
+
+    print(f"threshold: {threshold}")
+    print(f"lag_factor: {lag_factor}")
+    print(f"change_offset: {change_offset}\n")
+    print(f"Anzahl relevanter Zusammenhänge insgesamt: {df[df["abs_spearman_r"] >= threshold].shape[0]}\n")
+ 
+    lag_filter = df["lag_factor"] == lag_factor
+    offset_filter = df["change_offset"] == change_offset
+
+    print(f"Anzahl aller Einträge nach off_change/lag_factor: {df[lag_filter & offset_filter].copy().shape[0]}\n")
+    
+    return df[lag_filter & offset_filter].copy()
+
+
+# =============================================================================================
+# Filtert einen DataFrame anhand der gewählten Strictness
+# =============================================================================================
+
+
+def get_relevant_correlation_frame (df: pd.DataFrame) -> pd.DataFrame:
+    threshold = st.session_state["statistics_strictness"]["value"]
+
+    print(f"Relevante Einträge nach change_offset/lag_factor: {df[df["spearman_r"].abs() >= threshold].copy().shape[0]}\n")
+
+    print(50*"=")
+
+    return df[df["spearman_r"].abs() >= threshold].copy()
+
+
+# =============================================================================================
+# Sichert anhand von User-Auswahlen gefilterte DataFrames im Session State
+# =============================================================================================
+
+
+def update_statistics_frames():
+    base_df = get_filtered_correlation_frame()
+    relevant_df = get_relevant_correlation_frame(base_df)
+
+    st.session_state["statistics_base_df"] = base_df
+    st.session_state["statistics_relevant_df"] = relevant_df
+
+
+# =============================================================================================
+# Erzeugt einen nach Kategorien gruppierten DataFrame aus den Correlation Results
+# =============================================================================================
+
+
+def load_category_statistics():
+    """
+    Erstellt einen DataFrame mit Kennzahlen pro Bildungs- und
+    Entwicklungskategorie.
+
+    Die Correlation Results werden anhand der gewählten Strenge
+    bewertet. Anschließend werden Kennzahlen pro Kategorie berechnet.
+    """
+
+    df = st.session_state["statistics_base_df"]
+    relevant_df = st.session_state["statistics_relevant_df"]
+
+    rows = []
+
+    for category_type in ["development", "education"]:
+
+        category_column = f"{category_type}_category"
+
+        all_groups = df.groupby(category_column)
+
+        relevant_groups = relevant_df.groupby(category_column)
+
+
+        for category, all_group in all_groups:
+            if category in relevant_groups.groups:
+                relevant_group = relevant_groups.get_group(category)
+                count = len(relevant_group)
+                sum_abs_r = relevant_group["abs_spearman_r"].sum()
+                mean_abs_r = relevant_group["abs_spearman_r"].mean()
+                median_abs_r = relevant_group["abs_spearman_r"].median()
+                significant_count = (relevant_group["spearman_p"] < 0.05).sum()
+
+            else:
+                count = 0
+                sum_abs_r = 0
+                mean_abs_r = 0
+                median_abs_r = 0
+                significant_count = 0
+
+            rows.append(
+                {
+                    "category_type": category_type,
+                    "category": category,
+
+                    "count": count,
+                    "relevance_ratio": count / len(all_group),
+                    "sum_abs_r": sum_abs_r,
+                    "mean_abs_r": mean_abs_r,
+
+                    "significant_count": significant_count,
+                    "median_abs_r": median_abs_r
+                }
+            )
+
+    st.session_state["category_statistics"] = pd.DataFrame(rows)

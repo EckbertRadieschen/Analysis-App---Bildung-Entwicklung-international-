@@ -1,92 +1,84 @@
 import plotly.express as px
 import streamlit as st
 
-
-import plotly.express as px
-import streamlit as st
-
-
-def create_category_statistics_bar_chart(
-    category_type: str,
-    evaluation: dict
-):
-    """
-    Erstellt ein Balkendiagramm für Kategorie-Statistiken.
-
-    category_type: "development" oder "education"
-
-    evaluation: Dictionary mit label und value_column
-    """
-
-    
-
-    df = st.session_state["category_statistics"].copy()
-
-    df = df[df["category_type"] == category_type].copy()
-
-    value_column = evaluation["value_column"]
-    evaluation_type = evaluation["label"]
-
-    df = df.sort_values(value_column,ascending=True)
-
-    title_first_part = (
-        "Entwicklungskategorien" 
-        if category_type == "development"
-        else "Bildungskategorien"
-    )
-
-    chart_title = f"{title_first_part} - {evaluation_type}"
-
-    fig = px.bar(
-        df,
-        x=value_column,
-        y="category",
-        orientation="h",
-        text=value_column
-    )
-
-    fig.update_xaxes(showticklabels=False)
-
-    fig.update_layout(
-        xaxis_title=evaluation["label"],
-        yaxis_title="",
-        showlegend=False,
-        height=500,
-        title=chart_title,
-            title_x=0.5,
-            title_xanchor="center"
-    )
-
-    if value_column == "relevance_ratio":
-        fig.update_traces(
-            texttemplate="%{text:.2%}"
-        )
-    else:
-        fig.update_traces(
-            texttemplate="%{text:.2f}"
-        )
-
-    return fig
-
+from src.visuals import (
+    create_correlation_strength_boxplot, 
+    create_category_statistics_bar_chart, 
+    create_category_heatmap
+)
 
 def statistics_overview_content():
 
     evaluation = st.session_state["statistics_evaluation"]
+    strictness = st.session_state["statistics_strictness"]
 
-    fig_dev = create_category_statistics_bar_chart("development", evaluation)
-    fig_edu = create_category_statistics_bar_chart("education", evaluation)
+    fig_dev = create_category_statistics_bar_chart("development", evaluation, strictness)
+    fig_edu = create_category_statistics_bar_chart("education", evaluation, strictness)
 
-    
+    evaluation_type = evaluation["label"]
 
-    chart_column_1, chart_blank, chart_column_2 = st.columns([6, 1, 6])
+    sub_subdiv = """"""
+    if evaluation_type == "Anteil relevanter Zusammenhänge":
+        subtitle = "bezogen auf die Gesamtzahl der getesteten Zusammenhänge"
+    elif evaluation_type == "Durchschnittliche Zusammenhangsstärke":
+        subtitle = "Durchschnittliche 'Spearman'-Korrleation (Interpretation s.u.)"
+    elif evaluation_type == "Kumulierte Zusammenhangsstärke": 
+        subtitle = "Summe der absoluten Spearman-Korrelationskoeffizienten aller relevanten Zusammenhänge"
+        sub_subtitle = "(Höhere Werte entstehen durch mehr und/oder stärkere Zusammenhänge)"
+        sub_subdiv = f"""<div class="custom-sub_subtitle">{sub_subtitle}</div>"""
 
-    with chart_column_1:
+    st.markdown(
+        f"""
+        <div class="custom-subheader">
+            <div class="custom-title">Kategorien - {evaluation_type}</div>
+            <div class="custom-subtitle">{subtitle}</div>
+            {sub_subdiv}
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
+    st.divider()
+
+    barchart_blank_1, barchart_column_1, barchart_column_2, barchart_blank_2 = st.columns([1, 12, 12, 1])
+
+    with barchart_column_1:
         st.plotly_chart(
             fig_dev,
-            key="statistics_dev_category_bar"
+            key="statistics_dev_category_bar",
+            config={
+                "displayModeBar": False
+            }
         )
-    with chart_column_2:    
+    with barchart_column_2:    
         st.plotly_chart(
             fig_edu,
-            key="statistics_edu_category_bar"
+            key="statistics_edu_category_bar",
+            config={
+                "displayModeBar": False
+            }   
+        )
+
+
+    bp_blank_1, boxplot_column, heatmap_column, bp_blank_2 = st.columns([2, 6, 12, 1])
+
+    with boxplot_column:
+        fig_boxplot = create_correlation_strength_boxplot(strictness)
+        st.plotly_chart(
+            fig_boxplot,
+            key="statistics_category_boxplot",
+            config={
+                "displayModeBar": False
+            }
+        )
+
+
+    with heatmap_column:
+        fig_heatmap = create_category_heatmap()
+        st.plotly_chart(
+            fig_heatmap,
+            key="statistics_category_heatmap",
+            config={
+                "displayModeBar": False
+            }
         )

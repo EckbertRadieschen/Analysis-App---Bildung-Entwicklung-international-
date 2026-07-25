@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 import streamlit as st
 import re
 import plotly.express as px
@@ -226,3 +227,201 @@ def choose_main_chart ():
         return create_indicator_bar_chart()
     else: 
         return None
+
+
+# ===========================================================================================
+# Bar-Chart Korrelationen alle Kategorien
+# ===========================================================================================
+
+def create_category_statistics_bar_chart(
+    category_type: str,
+    evaluation: dict,
+    strictness: dict
+):
+    """
+    Erstellt ein Balkendiagramm für Kategorie-Statistiken.
+
+    category_type: "development" oder "education"
+
+    evaluation: Dictionary mit label und value_column
+    """
+
+    df = st.session_state["category_statistics"].copy()
+
+    df = df[df["category_type"] == category_type]
+
+    value_column = evaluation["value_column"]
+    evaluation_type = evaluation["label"]
+    threshold = strictness["value"]
+    
+
+    df = df.sort_values(value_column,ascending=True)
+
+    chart_title = (
+        "Entwicklung" 
+        if category_type == "development"
+        else "Bildung"
+    )
+
+    fig = px.bar(
+        df,
+        x=value_column,
+        y="category",
+        orientation="h",
+        text=value_column
+    )
+
+    max_value = df[value_column].max()
+    x_scale_upper = np.ceil(max_value * 1.01 * 10) / 10
+
+    fig.update_xaxes(visible=False)
+    if evaluation_type == "Durchschnittliche Zusammenhangsstärke":
+        fig.update_xaxes(range=[threshold, x_scale_upper])
+
+    fig.update_layout(
+        xaxis_title="",
+        yaxis_title="",
+        showlegend=False,
+        height=250,
+        margin=dict(
+            l=160,
+            r=20,
+            t=35,
+            b=5
+        ),
+        title=dict(
+            text=chart_title,
+            x=0.5,
+            xanchor="center",
+            font=dict(size=14)
+        )
+    )
+
+    fig.update_traces(
+        marker_color="#e49650",
+        textfont=dict(size=10)
+    )
+
+    if value_column == "relevance_ratio":
+        fig.update_traces(
+            texttemplate="%{text:.1%}"
+        )
+    else:
+        fig.update_traces(
+            texttemplate="%{text:.2f}"
+        )
+
+    return fig
+
+
+# ===========================================================================================
+# Boxplot Korrelationen
+# ===========================================================================================
+
+def create_correlation_strength_boxplot(strictness_dict: dict):
+    """
+    Erstellt einen Boxplot der absoluten Spearman-Korrelationen
+    aller relevanten Zusammenhänge.
+    """
+
+    df = st.session_state["statistics_relevant_df"].copy()
+
+    threshold = strictness_dict["value"]
+
+    fig = px.box(
+        df,
+        y="abs_spearman_r",
+        orientation="v",
+        points="outliers"
+    )
+
+    fig.update_layout(
+        height=300,
+        width=350,
+        margin=dict(
+            l=100,
+            r=20,
+            t=50,
+            b=20
+        ),
+        yaxis_title="Absolute Spearman-Korrelation",
+        xaxis_title="(nur relevante Zusammenhänge betrachtet)",
+        showlegend=False,
+        title=dict(
+            text="Verteilung Zusammenhangsstärken",
+            x=0.5,
+            xanchor="center",
+            font=dict(size=14)
+        )
+    )
+
+    fig.update_traces(
+        width=0.5,
+        marker_color="#e49650",
+    )
+
+    fig.update_xaxes(
+        showticklabels=False,
+        title_font=dict(size=10)
+    )
+
+    max_abs_spearman_r = df["abs_spearman_r"].max()
+    y_scale_upper = np.ceil(max_abs_spearman_r * 1.01 * 10) / 10
+
+    fig.update_yaxes(
+        range=[threshold - 0.05, y_scale_upper]
+    )
+
+    return fig
+
+# ===========================================================================================
+# Heatmap Anzahl relevanter Korrelationen
+# ===========================================================================================
+
+def create_category_heatmap():
+    """
+    Erstellt eine Heatmap der Anzahl relevanter Korrelationen zwischen
+    Bildungs- und Entwicklungskategorien.
+    """
+
+    df = st.session_state["statistics_relevant_df"].copy()
+    df["education_category_short"] = df["education_category"].str.replace("Bildungs", "").str.title()
+
+    heatmap_df = pd.crosstab(
+        index=df["development_category"],
+        columns=df["education_category_short"]
+        
+    )
+
+    fig = px.imshow(
+        heatmap_df,
+        text_auto=True,
+        aspect="auto",
+        color_continuous_scale="Oranges"
+    )
+
+    fig.update_layout(
+        height=350,
+        width=350,
+        margin=dict(
+            l=100,
+            r=20,
+            t=50,
+            b=0
+        ),
+        title=dict(
+            text="Zusammenhänge zwischen Bildungs- und Entwicklungskategorien",
+            x=0.5,
+            xanchor="center",
+            font=dict(size=14)
+        ),
+        xaxis_title="",
+        yaxis_title="",
+        coloraxis_colorbar_title="Anzahl"
+    )
+
+    fig.update_xaxes(
+        tickangle=-45
+    )
+
+    return fig

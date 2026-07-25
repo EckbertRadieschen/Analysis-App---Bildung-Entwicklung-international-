@@ -1,6 +1,4 @@
 import streamlit as st
-import pandas as pd
-
 
 # ===================================================================================================
 # Selector Konfiguration
@@ -235,3 +233,4 @@ def get_statistics_category_options(category_type: str) -> list[str]:
     df = df.sort_values(sort_column,ascending=False)
 
     return df["category"].tolist()
+

@@ -1,58 +1,17 @@
 import streamlit as st
-import pandas as pd
 
-from app.selectors import get_statistics_category_options
+from app.selectors import (
+    get_statistics_category_options,
+    get_change_offset_options 
+)
 
+from src.paths import DEVELOPMENT_CONFIG
 
-
-def load_category_statistics(strictness: dict) -> None:
-    """
-    Erstellt einen DataFrame mit Kennzahlen pro Bildungs- und
-    Entwicklungskategorie.
-
-    Die Correlation Results werden anhand der gewählten Strenge
-    bewertet. Anschließend werden Kennzahlen pro Kategorie berechnet.
-    """
-
-    df = st.session_state["correlation_results_dataframe"].copy()
-
-    threshold = strictness["value"]
-
-    filtered_df = df[df["spearman_r"].abs() >= threshold].copy()
-
-    rows = []
-
-    for category_type in ["development", "education"]:
-
-        category_column = f"{category_type}_category"
-
-        all_groups = df.groupby(category_column)
-
-        filtered_groups = filtered_df.groupby(category_column)
-
-
-        for category, all_group in all_groups:
-            if category in filtered_groups.groups:
-                relevant_group = filtered_groups.get_group(category)
-            else:
-                continue
-
-            rows.append(
-                {
-                    "category_type": category_type,
-                    "category": category,
-
-                    "count": len(relevant_group),
-                    "relevance_ratio": len(relevant_group) / len(all_group),
-                    "sum_abs_r": relevant_group["spearman_r"].abs().sum(),
-                    "mean_abs_r": relevant_group["spearman_r"].abs().mean(),
-
-                    "significant_count": (relevant_group["spearman_p"] < 0.05).sum(),
-                    "median_abs_r": relevant_group["spearman_r"].abs().median(),
-                }
-            )
-
-    st.session_state["category_statistics"] = pd.DataFrame(rows)
+from src.preparations import load_config
+from src.analysis import (
+    update_statistics_frames,
+    load_category_statistics,
+)
 
 def statistics_sidebar_content():
 
@@ -70,6 +29,7 @@ def statistics_sidebar_content():
             unsafe_allow_html=True
         )
 
+    
 
     # ============================================================================================
     # Ansicht
@@ -80,10 +40,52 @@ def statistics_sidebar_content():
     selected_view = st.sidebar.radio(
         "Ansicht",
         options=view_options,
+        horizontal=True,
         key="statistics_view"
     )
 
     details_selected = selected_view == "Einzelkategorien"
+
+
+    # ============================================================================================
+    # Bildungsvorlauf und Vergleichszeitraum
+    # ============================================================================================
+    
+    change_column, lag_column = st.sidebar.columns([1, 2])
+
+    with change_column:
+        development_config = load_config(DEVELOPMENT_CONFIG)
+        change_offsets = get_change_offset_options(development_config)
+
+        selected_change_offset = st.selectbox(
+            "Vergleichszeitraum",
+            options=change_offsets,
+            index=0,
+            format_func=lambda x: f"{x} Jahre",
+            key="statistics_change_offset"
+        )   
+
+    with lag_column:
+        lag_options = [
+            {
+                "factor": 1,
+                "label": "Bildungsrelevanz nach kurzer Verzögerung"
+            },
+            {
+                "factor": 2,
+                "label": "Bildungsrelevanz nach langer Verzögerung"
+            }
+        ]
+                    
+        selected_lag_factor = st.selectbox(
+            "Bildungsvorlauf",
+            options=lag_options,
+            index=0,
+            format_func=lambda x: x["label"],
+            key="statistics_lag_factor"
+        )
+
+
 
     # ============================================================================================
     # Bewertung
@@ -91,19 +93,17 @@ def statistics_sidebar_content():
 
     st.sidebar.divider()
 
-    st.sidebar.markdown("#### Bewertung")
-
     evaluation_options = evaluation_options = [
         {
             "label": "Anteil relevanter Zusammenhänge",
             "value_column": "relevance_ratio"
         },
         {
-            "label": "Gesamtstärke der Zusammenhänge",
+            "label": "Kumulierte Zusammenhangsstärke",
             "value_column": "sum_abs_r"
         },
         {
-            "label": "Durchschnittliche Stärke",
+            "label": "Durchschnittliche Zusammenhangsstärke",
             "value_column": "mean_abs_r"
         }
     ]
@@ -118,21 +118,21 @@ def statistics_sidebar_content():
 
 
     strictness_options = [
-        {"value": 0.3, "label": "geringe Strenge"}, 
-        {"value": 0.5, "label": "mittlere Strenge"}, 
-        {"value": 0.7, "label": "hohe Strenge"}
+        {"value": 0.3, "label": "geringe Strenge (r > 0.3)"}, 
+        {"value": 0.5, "label": "mittlere Strenge (r > 0.5)"}, 
+        {"value": 0.7, "label": "hohe Strenge (r > 0.7)"}
     ]
 
     selected_strictness = st.sidebar.selectbox(
-        "Strenge der Bewertung",
+        "Strenge der Bewertung (nach 'Spearman'-Koeffizient [r])",
         options=strictness_options,
         index=1,
         format_func=lambda x: x["label"],
         key="statistics_strictness"
     )
 
-    if not "category_statistics" in st.session_state:
-        load_category_statistics(selected_strictness)
+    update_statistics_frames()
+    load_category_statistics()
 
     # ============================================================================================
     # Entwicklungskategorie
@@ -140,12 +140,10 @@ def statistics_sidebar_content():
 
     st.sidebar.divider()
 
-    st.sidebar.markdown("#### Entwicklung")
-
     development_categories = get_statistics_category_options("development")
     
     selected_development_category = st.sidebar.selectbox(
-        "Kategorie",
+        "Entwicklungskategorie",
         options=development_categories,
         key="statistics_development_category",
         disabled=not details_selected
@@ -155,15 +153,11 @@ def statistics_sidebar_content():
     # Bildungskategorie
     # ============================================================================================
 
-    st.sidebar.divider()
-
-    st.sidebar.markdown("#### Bildung")
-
     education_categories = get_statistics_category_options("education")
     
 
     selected_education_category = st.sidebar.selectbox(
-        "Kategorie",
+        "Bildungskategorie",
         options=education_categories,
         key="statistics_education_category",
         disabled=not details_selected
