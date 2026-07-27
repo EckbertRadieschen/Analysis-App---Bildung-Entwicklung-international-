@@ -38,10 +38,7 @@ def statistics_overview_content():
 
     evaluation = st.session_state["statistics_evaluation"]
     strictness = st.session_state["statistics_strictness"]
-
-    fig_dev = create_category_statistics_bar_chart("development", evaluation, strictness)
-    fig_edu = create_category_statistics_bar_chart("education", evaluation, strictness)
-
+    
     evaluation_type = evaluation["label"]
 
     sub_subdiv = """"""
@@ -57,7 +54,7 @@ def statistics_overview_content():
     st.markdown(
         f"""
         <div class="custom-subheader">
-            <div class="custom-title">Kategorien - {evaluation_type}</div>
+            <div class="custom-title">Gesamtübersicht aller Kategorien - {evaluation_type}</div>
             <div class="custom-subtitle">{subtitle}</div>
             {sub_subdiv}
         </div>
@@ -67,48 +64,53 @@ def statistics_overview_content():
 
     st.divider()
 
-    bp_blank_1, boxplot_column, heatmap_column, bp_blank_2 = st.columns([1, 8, 12, 1])
-
-    with boxplot_column:
-        st.markdown(
-            create_analysis_scope_info(),
-            unsafe_allow_html=True
-        )
-
+    with st.spinner("Statistik-Daten werden geladen..."):
+        fig_dev = create_category_statistics_bar_chart("development", evaluation, strictness)
+        fig_edu = create_category_statistics_bar_chart("education", evaluation, strictness)
         fig_boxplot = create_correlation_strength_boxplot(strictness)
-        st.plotly_chart(
-            fig_boxplot,
-            key="statistics_category_boxplot",
-            config={
-                "displayModeBar": False
-            }
-        )
-
-    with heatmap_column:
         fig_heatmap = create_category_heatmap()
-        st.plotly_chart(
-            fig_heatmap,
-            key="statistics_category_heatmap",
-            config={
-                "displayModeBar": False
-            }
-        )
 
-    barchart_blank_1, barchart_column_1, barchart_column_2, barchart_blank_2 = st.columns([1, 12, 12, 1])
-    with st.container(key="statistics_barcharts"):
-        with barchart_column_1:
+
+        bp_blank_1, boxplot_column, heatmap_column, bp_blank_2 = st.columns([1, 8, 12, 1])
+
+        with boxplot_column:
+            st.markdown(
+                create_analysis_scope_info(),
+                unsafe_allow_html=True
+            )
+
             st.plotly_chart(
-                fig_dev,
-                key="statistics_dev_category_bar",
+                fig_boxplot,
+                key="statistics_category_boxplot",
                 config={
                     "displayModeBar": False
                 }
             )
-        with barchart_column_2:    
+
+        with heatmap_column:
             st.plotly_chart(
-                fig_edu,
-                key="statistics_edu_category_bar",
+                fig_heatmap,
+                key="statistics_category_heatmap",
                 config={
                     "displayModeBar": False
-                }   
+                }
             )
+
+        barchart_blank_1, barchart_column_1, barchart_column_2, barchart_blank_2 = st.columns([0.5, 12, 12, 2])
+        with st.container(key="statistics_barcharts"):
+            with barchart_column_1:
+                st.plotly_chart(
+                    fig_dev,
+                    key="statistics_dev_category_bar",
+                    config={
+                        "displayModeBar": False
+                    }
+                )
+            with barchart_column_2:    
+                st.plotly_chart(
+                    fig_edu,
+                    key="statistics_edu_category_bar",
+                    config={
+                        "displayModeBar": False
+                    }   
+                )

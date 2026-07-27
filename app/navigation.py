@@ -4,7 +4,7 @@ from buttons import choose_analytics_tool, choose_statistics_page
 def navigation_content():
     with st.container(key="navigation_container"):
 
-        navi_left, navi_right = st.columns([1, 0.8])
+        navi_left, navi_right = st.columns([1, 2])
 
         with navi_left:
             st.markdown(

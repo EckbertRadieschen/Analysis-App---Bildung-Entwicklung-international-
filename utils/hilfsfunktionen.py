@@ -337,3 +337,21 @@ def dump_json (save_path: Path, json_data: dict) -> None:
 def drop_incomplete_records(df: pd.DataFrame):
     year_columns = extract_year_columns(df)
 
+
+def format_p_value(p):
+    if p < 0.0001:
+        return "<0,01 %"
+    elif p < 0.01:
+        return f"{p:.2%}"
+    else:
+        return f"{p:.1%}"
+
+def significance_label(p):
+    if p < 0.001:
+        return "sehr starke statistische Evidenz"
+    elif p < 0.01:
+        return "starke statistische Evidenz"
+    elif p < 0.05:
+        return "statistisch signifikant"
+    else:
+        return "nicht statistisch abgesichert"

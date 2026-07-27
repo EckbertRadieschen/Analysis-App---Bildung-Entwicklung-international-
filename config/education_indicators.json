@@ -305,7 +305,7 @@
             "level": "primary_tertiary",
             "higher_is_better": true,
             "recommended_lag": 10,
-            "short_description": "Erwartete Bildungsjahren, Schuleintritt bis Hochschulbildung (Jahre)",
+            "short_description": "Erwartete Bildungsjahre, Schuleintritt bis Hochschulbildung (Jahre)",
             "education_years": [
                 {
                     "change_offset": 10,
@@ -1180,7 +1180,7 @@
             "level": "labor_force",
             "higher_is_better": false,
             "recommended_lag": 5,
-            "short_description": "Anteil grundlegendes Bildungsnvieau, Erwerbstätige (%)",
+            "short_description": "Anteil grundlegendes Bildungsniveau, Erwerbstätige (%)",
             "education_years": [
                 {
                     "change_offset": 10,

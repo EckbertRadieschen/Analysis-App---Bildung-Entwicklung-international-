@@ -48,13 +48,13 @@ def apply_markdown():
     ========================================================== */
 
             .st-key-navigation_container {
-                height: 2rem;
+                height: 100%;
                 background-color: #faedce;
-                padding: 0.8rem 3rem;
-                margin-top: 0 !important;
+                padding: 0.8rem 1rem;
+                margin: 0 !important;
                 border-radius: 0;
                 border-bottom: 1px solid;
-                border-color: #a67b5b
+                border-color: #cccccc
             }
 
             .st-key-navigation_container div[data-testid="stElementContainer"]:has(div[data-testid="stButton"]) {
@@ -62,12 +62,16 @@ def apply_markdown():
             }
 
             .st-key-navigation_container div[data-testid="stButton"] button {
-                height: 100% !important;
+                height: 25px !important;
                 min-height: 0 !important;
                 padding: 0 !important
             }
 
+            .st-key-navigation_container div[data-testid="stButton"] p {
+                font-size: 12px !important
+            }
             
+
     /* ==========================================================
     === Sidebar
     ========================================================== */
@@ -77,7 +81,6 @@ def apply_markdown():
             .st-key-sidebar_title_container {
                 background-color: #faedce;
                 width: 100%;
-                margin-top: 1rem !important;
                 margin-bottom: 1.5rem;
                 border-radius: 0
             }
@@ -85,15 +88,25 @@ def apply_markdown():
             section[data-testid="stSidebar"] {
                 width: 400px !important;
                 border-right: 1px solid;
-                border-color: #a67b5b
+                border-color: #a67b5b;
+                padding: 0 !important
             }
 
-            section[data-testid="stSidebar"] > div {
-                width: 400px !important
+            [data-testid="stSidebarContent"] {
+                padding: 0 10px
+            }
+
+            [data-testid="stSidebarContent"] > div {
+                padding: 0 !important;
+                margin: 0 !important;
             }
 
             [data-testid="stSidebarHeader"] {
                 display: none !important
+            }
+
+            div[data-testid="stLayoutWrapper"]:has(.wrapper-title) {
+                margin-top: 3px
             }
 
         /* Divider */
@@ -101,6 +114,7 @@ def apply_markdown():
                 margin-top: 0.25rem;
                 margin-bottom: 0.25rem
             }
+
 
         /* Selectbox Container */
             div[data-testid="stSelectbox"] div.react-aria-ComboBox > div {
@@ -141,9 +155,26 @@ def apply_markdown():
     === Hauptbereich Header
     ========================================================== */
 
+        .analytic-title {
+            width: 100%;
+            margin-top: 1rem;
+            margin-bottom: 1px;
+            font-size: 20px;
+            font-weight: 600;
+            text-align: center
+        }
+
+        .analytic-info {
+            width: 70%;
+            margin: auto;
+            margin-top: 10rem;
+            font-size: 16px
+        }
+
         .custom-subheader {
             width: fit-content;
-            margin: 0 auto;
+            margin: auto;
+            margin-top: 0.5rem;
             text-align: center;
         }
 
@@ -165,7 +196,78 @@ def apply_markdown():
             font-weight: 400;
             color: rgba(49, 51, 63, 0.7);
             margin-top: 0.1rem;
-        }       
+        }   
+
+        div[data-testid="stElementContainer"]:has(.stAlert) {
+            margin-top: 5rem;
+            padding: 1rem 2rem
+        }
+
+        div[data-testid="stAlertContainer"] {
+            background-color: #faedce;
+            font-size: 14px;
+            display: flex;
+            text-align: center
+        }
+
+        div[data-testid="stAlertContainer"] p {
+            font-size: 14px
+        }
+
+    /* ==========================================================
+    === PopOvers
+    ========================================================== */    
+        
+        div[data-testid="stLayoutWrapper"]:has(div[data-testid="stPopover"]) {
+            margin-top: 5px;
+            margin-bottom: -7px
+        }   
+
+        div[data-testid="stPopover"] p {
+            font-size: 12px
+        }
+
+        [data-testid="stPopover"] > div > button {
+            height: 25px;
+            min-height: 25px
+        }
+
+        [data-testid="stPopoverBody"] button p {
+            font-size: 12px
+        }
+
+        [data-testid="stPopoverBody"] {
+            padding: 10px 10px !important
+        }
+
+        [data-testid="stVerticalBlock"]:has(.st-key-top_10) {
+            gap: 0.5rem
+        }
+
+        [data-testid="stVerticalBlock"]:has(.st-key-entwicklungsvariable) {
+            gap: 0.5rem
+        }
+
+        [data-testid="stPopoverBody"] [data-testid="stButton"] > button {
+            height: 25px;
+            min-height: 25px;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+    /* ==========================================================
+    === Hauptbereich
+    ========================================================== */    
+
+        .st-key-intro_container {
+            margin: 4rem 7rem;
+            height: 90%;
+            width: 90%
+        }
+
+
 
     /* ==========================================================
     === Stats Container
@@ -178,10 +280,6 @@ def apply_markdown():
                 border: 1px solid rgba(128, 128, 128, 0.3);
                 border-radius: 0.5rem
             }
-            
-            div[data-testid="stVerticalBlock"] > div[data-testid="stMainBlockContainer"] {
-                gap: 0 !important
-            } 
 
     /* ==========================================================
     === Textformate
@@ -190,11 +288,31 @@ def apply_markdown():
         /* Text- und Titelformate */
             .small-text {
                 font-size: 13px;
-                padding-bottom: 12px;
-                margin-bottom: 15px
+                padding-bottom: 5px;
+                margin-bottom: 5px
+            }
+
+            ol, ul, blockquote {
+                font-size: 13px;
+                margin-left: 20px !important
             }
 
             .medium-title {
+                font-size: 16px;
+                font-weight: 600
+            }
+
+            .small-intro-text {
+                font-size: 13px;
+                padding-bottom: 5px;
+                margin-top: 10px
+            }
+
+            .small-intro-text li {
+                font-size: 13px;
+            }
+
+            .medium-intro-title {
                 font-size: 16px;
                 font-weight: 600
             }

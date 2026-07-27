@@ -36,7 +36,11 @@
                 "category": "governance",
                 "name": "Staat & Institutionen"
             }
-        ]
+        ],
+        "statistics": {
+            "strong_correlation": 0.7,
+            "moderate_correlation": 0.5
+        }
     },
     "indicators": {
         "NY.GDP.PCAP.KD": {

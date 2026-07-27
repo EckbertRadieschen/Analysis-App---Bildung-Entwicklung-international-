@@ -170,11 +170,6 @@ def get_or_create_correlation_result(
 
     correlation_results[analysis_key] = correlation_result
 
-    dump_json(
-        save_path,
-        correlation_results
-    )
-
     st.session_state["current_correlation_result"] = correlation_result
 
     return correlation_result

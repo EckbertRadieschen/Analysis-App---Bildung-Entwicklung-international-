@@ -9,8 +9,7 @@ from src.paths import DEVELOPMENT_CONFIG
 
 from src.preparations import load_config
 from src.analysis import (
-    update_statistics_frames,
-    load_category_statistics,
+    update_statistics_data
 )
 
 def statistics_sidebar_content():
@@ -28,8 +27,6 @@ def statistics_sidebar_content():
             """,
             unsafe_allow_html=True
         )
-
-    
 
     # ============================================================================================
     # Ansicht
@@ -62,7 +59,8 @@ def statistics_sidebar_content():
             options=change_offsets,
             index=0,
             format_func=lambda x: f"{x} Jahre",
-            key="statistics_change_offset"
+            key="statistics_change_offset",
+            on_change=update_statistics_data
         )   
 
     with lag_column:
@@ -82,7 +80,8 @@ def statistics_sidebar_content():
             options=lag_options,
             index=0,
             format_func=lambda x: x["label"],
-            key="statistics_lag_factor"
+            key="statistics_lag_factor",
+            on_change=update_statistics_data
         )
 
 
@@ -128,11 +127,12 @@ def statistics_sidebar_content():
         options=strictness_options,
         index=1,
         format_func=lambda x: x["label"],
-        key="statistics_strictness"
+        key="statistics_strictness",
+        on_change=update_statistics_data
     )
 
-    update_statistics_frames()
-    load_category_statistics()
+    if not "statistics_base_df" in st.session_state:
+        update_statistics_data()
 
     # ============================================================================================
     # Entwicklungskategorie

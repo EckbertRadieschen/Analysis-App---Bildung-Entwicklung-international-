@@ -8,7 +8,7 @@ from app.buttons import (
 
 
 def popovers_content():
-    po_blank_1, po_top_bottom_column, po_blank_2, po_bar_source_column, po_blank_3 = st.columns([1, 2, 1, 2, 1])
+    po_blank_1, po_top_bottom_column, po_blank_2, po_bar_source_column, po_blank_3 = st.columns([3, 2, 1, 2, 3])
 
     if st.session_state.get("main_bar_source_choice", "Entwicklungsvariable") in ["Entwicklungsvariable", "Bildungsindikator"]:
         with po_top_bottom_column:
@@ -17,6 +17,7 @@ def popovers_content():
                     "Top 10",
                     type="primary" if st.session_state.get("top_bottom_choice", "Top 10") == "Top 10" else "secondary",
                     use_container_width="stretch",
+                    key="top_10",
                     on_click=choose_top
                 )
 
@@ -24,6 +25,7 @@ def popovers_content():
                     "Bottom 10",
                     type="primary" if st.session_state.get("top_bottom_choice", "Top 10") == "Bottom 10" else "secondary",
                     use_container_width="stretch",
+                    key="bottom_10",
                     on_click=choose_bottom
                 )
 
@@ -37,6 +39,7 @@ def popovers_content():
                     else "secondary"
                 ),
                 use_container_width="stretch",
+                key="entwicklungsvariable",
                 on_click=choose_development
             )
 
@@ -48,6 +51,7 @@ def popovers_content():
                     else "secondary"
                 ),
                 use_container_width="stretch",
+                key="bildungsindikator",
                 on_click=choose_education
             )
 
@@ -59,5 +63,6 @@ def popovers_content():
                     else "secondary"
                 ),
                 use_container_width="stretch",
+                key="zusammenhang",
                 on_click=choose_comparison
             )

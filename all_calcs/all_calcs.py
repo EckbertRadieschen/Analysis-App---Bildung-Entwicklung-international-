@@ -8,7 +8,6 @@ from app.save_combinations import (
 from src.analysis import (
     create_development_dataframe, 
     create_education_dataframe,
-    merge_dev_edu_data,
     select_dataframe,
     find_relevant_years,
 )
@@ -67,12 +66,22 @@ def create_correlation_result(
     education_indicator: str,
     development_category: str,
     education_category: str,
+    development_higher_is_better: bool,
+    education_higher_is_better: bool,
     change_offset: int,
     lag_factor: int,
     analysis_df: pd.DataFrame
 ) -> dict:
 
     correlations = calculate_correlations(analysis_df, change_offset, lag_factor)
+
+    positive_corr = correlations["spearman_r"] >= 0
+    opposite = development_higher_is_better != education_higher_is_better
+
+    is_inverted = (
+        (positive_corr and opposite) 
+        or (not positive_corr and not opposite)
+    )
 
     correlation_result = {
         "development_indicator": development_indicator,
@@ -114,7 +123,9 @@ def create_correlation_result(
         "spearman": {
             "r": correlations["spearman_r"],
             "p": correlations["spearman_p"]
-        }
+        },
+
+        "is_inverted": is_inverted
     }
 
     return correlation_result
@@ -160,6 +171,10 @@ def main_function():
             dev_config["indicators"][dev_indicator]["category"]
         )
 
+        dev_higher_is_better = (
+            dev_config["indicators"][dev_indicator]["higher_is_better"]
+        )
+
         dev_category_name = get_category_name(
             dev_config,
             dev_category
@@ -174,7 +189,8 @@ def main_function():
                 dev_config["indicators"][dev_indicator]
                 ["short_description"]
             ),
-            "category": dev_category_name
+            "category": dev_category_name,
+            "higher_is_better": dev_higher_is_better
         }
 
 
@@ -209,11 +225,8 @@ def main_function():
                 "records": entry["records"]
             }
 
-
-        # Kein ausreichender Datensatz vorhanden
         if not valid_offsets:
             continue
-
 
         df_edu_raw = create_indicator_frame(
             df_edu_origin,
@@ -229,6 +242,9 @@ def main_function():
             edu_category
         )
 
+        edu_higher_is_better = (
+            edu_config["indicators"][edu_indicator]["higher_is_better"]
+        )
 
         edu_frames[edu_indicator] = {
             "frame": create_education_dataframe(
@@ -237,6 +253,7 @@ def main_function():
             ),
             "description": edu_data["short_description"],
             "category": edu_category_name,
+            "higher_is_better": edu_higher_is_better,
             "valid_offsets": valid_offsets
         }
 
@@ -247,13 +264,13 @@ def main_function():
 
     results = {}
 
-
     for dev_indicator, dev_info in dev_frames.items():
 
         df_dev = dev_info["frame"]
 
         dev_category = dev_info["category"]
         dev_description = dev_info["description"]
+        dev_higher_is_better = dev_info["higher_is_better"]
 
 
         for edu_indicator, edu_info in edu_frames.items():
@@ -262,9 +279,9 @@ def main_function():
 
             edu_category = edu_info["category"]
             edu_description = edu_info["description"]
+            edu_higher_is_better = edu_info["higher_is_better"]
 
 
-            # Nur tatsächlich vorhandene Kombinationen nutzen
             for change_offset, lag_data in edu_info["valid_offsets"].items():
 
                 for lag_factor in lag_data.keys():
@@ -294,6 +311,8 @@ def main_function():
                         education_indicator=edu_description,
                         development_category=dev_category,
                         education_category=edu_category,
+                        development_higher_is_better=dev_higher_is_better,
+                        education_higher_is_better=edu_higher_is_better,
                         change_offset=change_offset,
                         lag_factor=lag_factor,
                         analysis_df=df_analysis

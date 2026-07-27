@@ -10,7 +10,7 @@ from app.save_combinations import load_json_if_exists
 
 from app.sidebar import sidebar_content
 from app.popovers import popovers_content
-from app.spinner import spinner_content
+from app.spinner import analytic_spinner_content
 
 
 def analytic_tool():
@@ -60,7 +60,13 @@ def analytic_tool():
     else:
         header_blank1, header_column, header_blank2 = st.columns([1, 7, 1])
         with header_column:
-            st.title("Willkommen im Analyse-Tool")
+            st.markdown("""
+            <div class="analytic-title">
+            Willkommen im Analyse-Tool
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
 
     st.divider()
 
@@ -75,7 +81,7 @@ def analytic_tool():
                 CORRELATION_RESULTS
             )
 
-        spinner_content()
+        analytic_spinner_content()
 
         if "main_chart" in st.session_state and st.session_state["main_chart"] is not None:
             fig = st.session_state["main_chart"]
@@ -86,25 +92,34 @@ def analytic_tool():
             if st.session_state.get("main_bar_source_choice", "Entwicklungsvariable") == "Zusammenhang":
                 sc_blank_1, scatter_column, sc_blank_2, statistic_column, sc_blank_3 = st.columns([1, 4, 0.5, 2, 1])
                 with scatter_column:
-                    st.plotly_chart(fig)
+                    st.plotly_chart(
+                        fig, 
+                        config={
+                            "displayModeBar": False
+                        }
+                    )
                 with statistic_column:
                     display_correlation_info(st.session_state["current_correlation_result"])
             else:
                 bar_blank_1, bar_column, bar_blank_2 = st.columns([0.5, 3, 0.5])
 
                 with bar_column:
-                    st.plotly_chart(fig)
+                    st.plotly_chart(
+                        fig,
+                        config={
+                            "displayModeBar": False
+                        } 
+                    )
 
     else:
         des_blank1, description_column, des_blank2 = st.columns([1, 5, 1])
         with description_column:
             st.markdown("""
-            <br>
-            <br>
-            <br>
+            <div class="analytic-info">
             Wählen Sie zur Analyse über die Sidebar eine beliebige Konfiguration<br>
             von Entwicklungs- und Bildungsindikatoren sowie einen Vergleichszeitraum,<br>
             über den der Entwicklungstrend berechnet werden soll.<br><br>
             Beachten Sie, dass je nach Vergleichszeitraum eine andere Auswahl<br>
             an Bildungsindikatoren verfügbar sein kann.
+            </div>
             """, unsafe_allow_html=True)

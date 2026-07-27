@@ -8,7 +8,7 @@ from app.save_combinations import get_or_create_correlation_result
 from src.paths import CORRELATION_RESULTS
 
 
-def spinner_content():
+def analytic_spinner_content():
 
     development_config = st.session_state["dev_config"]
     education_config = st.session_state["edu_config"]

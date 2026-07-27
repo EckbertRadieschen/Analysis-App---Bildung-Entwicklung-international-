@@ -222,7 +222,7 @@ def calculate_row_education_values(
     recommended_lag: int,
     lag_factors: list[int],
     change_offsets: list[int],
-    offset_tolerance: int,
+    offset_tolerance: int
 ) -> pd.Series:
     """
     Erstellt für eine Bildungszeile einen neuen Datensatz mit den
@@ -233,7 +233,7 @@ def calculate_row_education_values(
         "country_name": row["country_name"],
         "country_code": row["country_code"],
         "edu_indicator_name": row["indicator_name"],
-        "edu_indicator_code": row["indicator_code"],
+        "edu_indicator_code": row["indicator_code"]
     }
 
     for offset in change_offsets:
@@ -319,7 +319,7 @@ def create_education_dataframe(
             recommended_lag,
             lag_factors,
             change_offsets,
-            offset_tolerance,
+            offset_tolerance
         )
     )
 
@@ -496,7 +496,8 @@ def load_correlation_results(load_path: Path) -> pd.DataFrame:
 
             "spearman_r": result["spearman"]["r"],
             "abs_spearman_r": abs(result["spearman"]["r"]),
-            "spearman_p": result["spearman"]["p"]
+            "spearman_p": result["spearman"]["p"],
+            "is_inverted": result["is_inverted"]
         })
 
     return pd.DataFrame(rows)
@@ -509,23 +510,14 @@ def load_correlation_results(load_path: Path) -> pd.DataFrame:
 
 def get_filtered_correlation_frame () -> pd.DataFrame:
     df = st.session_state["correlation_results_dataframe"].copy()
-    print(f"Anzahl vor jeglicher Filterung: {df.shape[0]}\n")
 
-    threshold = st.session_state["statistics_strictness"]["value"]
     lag_factor = st.session_state["statistics_lag_factor"]["factor"]
     change_offset = st.session_state["statistics_change_offset"]
-
-    print(f"threshold: {threshold}")
-    print(f"lag_factor: {lag_factor}")
-    print(f"change_offset: {change_offset}\n")
-    print(f"Anzahl relevanter Zusammenhänge insgesamt: {df[df["abs_spearman_r"] >= threshold].shape[0]}\n")
  
     lag_filter = df["lag_factor"] == lag_factor
     offset_filter = df["change_offset"] == change_offset
-
-    print(f"Anzahl aller Einträge nach off_change/lag_factor: {df[lag_filter & offset_filter].copy().shape[0]}\n")
     
-    return df[lag_filter & offset_filter].copy()
+    return df[lag_filter & offset_filter]
 
 
 # =============================================================================================
@@ -535,10 +527,6 @@ def get_filtered_correlation_frame () -> pd.DataFrame:
 
 def get_relevant_correlation_frame (df: pd.DataFrame) -> pd.DataFrame:
     threshold = st.session_state["statistics_strictness"]["value"]
-
-    print(f"Relevante Einträge nach change_offset/lag_factor: {df[df["spearman_r"].abs() >= threshold].copy().shape[0]}\n")
-
-    print(50*"=")
 
     return df[df["spearman_r"].abs() >= threshold].copy()
 
@@ -565,9 +553,6 @@ def load_category_statistics():
     """
     Erstellt einen DataFrame mit Kennzahlen pro Bildungs- und
     Entwicklungskategorie.
-
-    Die Correlation Results werden anhand der gewählten Strenge
-    bewertet. Anschließend werden Kennzahlen pro Kategorie berechnet.
     """
 
     df = st.session_state["statistics_base_df"]
@@ -617,4 +602,98 @@ def load_category_statistics():
                 }
             )
 
-    st.session_state["category_statistics"] = pd.DataFrame(rows)
+    return pd.DataFrame(rows)
+
+
+# =================================================================================================================
+# Erzeugt einen nach Kategorie gefilterten und nach Indikatoren gruppierten DataFrame aus den Correlation Results
+# =================================================================================================================
+
+def load_indicator_statistics(category_type: str):
+    """
+    Erstellt einen DataFrame mit Kennzahlen pro Indikator innerhalb
+    der Kategorien eines Bildungs- oder Entwicklungsbereichs.
+    """
+
+    base_df = st.session_state["statistics_base_df"]
+    relevant_df = st.session_state["statistics_relevant_df"]
+
+    category_column = f"{category_type}_category"
+
+    indicator_column = (
+        "education_indicator"
+        if category_type == "education"
+        else "development_indicator"
+    )
+
+    group_columns = [category_column, indicator_column]
+
+    all_groups = base_df.groupby(group_columns)
+    relevant_groups = relevant_df.groupby(group_columns)
+
+    rows = []
+
+    for (category, indicator), relevant_group in relevant_groups:
+
+        all_group = all_groups.get_group(
+            (category, indicator)
+        )
+
+        count = len(relevant_group)
+        total_count = len(all_group)
+
+        sum_abs_r = relevant_group["abs_spearman_r"].sum()
+        
+
+        mean_abs_r = relevant_group["abs_spearman_r"].mean()
+    
+
+        median_abs_r = relevant_group["abs_spearman_r"].median()
+        
+
+        significant_count = (relevant_group["spearman_p"] < 0.05).sum()
+
+        rows.append(
+            {
+                "category": category,
+                "indicator": indicator,
+
+                "count": count,
+                "total_count": total_count,
+
+                "relevance_ratio": (
+                    count / total_count
+                    if total_count > 0
+                    else 0
+                ),
+                "sum_abs_r": sum_abs_r,
+                "mean_abs_r": mean_abs_r,
+
+                "median_abs_r": median_abs_r,
+                "significant_count": significant_count
+            }
+        )
+
+    return pd.DataFrame(rows)
+
+
+
+# =================================================================================================================
+# Lädt alle nötigen Statistik-relevanten AnalyseFrames in den Session State
+# =================================================================================================================
+
+def update_statistics_data():
+
+    base_df = get_filtered_correlation_frame()
+
+    relevant_df = get_relevant_correlation_frame(base_df)
+
+    st.session_state["statistics_base_df"] = base_df
+    st.session_state["statistics_relevant_df"] = relevant_df
+
+    st.session_state["category_statistics"] = load_category_statistics()
+
+
+    st.session_state["education_indicator_statistics"] = load_indicator_statistics("education")
+
+    st.session_state["development_indicator_statistics"] = load_indicator_statistics("development")

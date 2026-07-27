@@ -6,6 +6,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 from plotly.graph_objects import Figure
 
+from utils.hilfsfunktionen import format_p_value, significance_label
 from src.analysis import get_analysis_data
 from src.preparations import load_config
 
@@ -243,8 +244,6 @@ def create_category_statistics_bar_chart(
     Erstellt ein Balkendiagramm für Kategorie-Statistiken.
 
     category_type: "development" oder "education"
-
-    evaluation: Dictionary mit label und value_column
     """
 
     df = st.session_state["category_statistics"].copy()
@@ -256,7 +255,7 @@ def create_category_statistics_bar_chart(
     threshold = strictness["value"]
     
 
-    df = df.sort_values(value_column,ascending=True)
+    df = df.sort_values(value_column, ascending=True)
 
     chart_title = (
         "Entwicklung" 
@@ -276,6 +275,7 @@ def create_category_statistics_bar_chart(
     x_scale_upper = np.ceil(max_value * 1.01 * 10) / 10
 
     fig.update_xaxes(visible=False)
+
     if evaluation_type == "Durchschnittliche Zusammenhangsstärke":
         fig.update_xaxes(range=[threshold, x_scale_upper])
 
@@ -283,10 +283,10 @@ def create_category_statistics_bar_chart(
         xaxis_title="",
         yaxis_title="",
         showlegend=False,
-        height=220,
+        height=280,
         margin=dict(
-            l=160,
-            r=20,
+            l=0,
+            r=0,
             t=35,
             b=5
         ),
@@ -325,7 +325,6 @@ def create_category_statistics_bar_chart(
 
         customdata = df[["count", "total_count"]].values
 
-
     elif value_column == "sum_abs_r":
         hovertemplate = (
             "<b>%{y}</b><br><br>"
@@ -338,7 +337,6 @@ def create_category_statistics_bar_chart(
 
         customdata = df[["count"]].values
 
-
     else:
         hovertemplate = (
             "<b>%{y}</b><br><br>"
@@ -350,7 +348,6 @@ def create_category_statistics_bar_chart(
         )
 
         customdata = df[["count"]].values
-
 
     fig.update_traces(
         hovertemplate=hovertemplate,
@@ -522,7 +519,7 @@ def create_category_heatmap():
             b=0
         ),
         title=dict(
-            text="Trefferquote relevanter Zusammenhänge im Vergleich",
+            text="Anteil relevanter Zusammenhänge im Vergleich",
             x=0.5,
             xanchor="center",
             font=dict(size=14)
@@ -531,7 +528,7 @@ def create_category_heatmap():
         yaxis_title="",
         coloraxis_colorbar=dict(
             title=dict(
-                text="Trefferquote (%)",
+                text="Anteil (%)",
                 font=dict(size=12)
             ),
             tickfont=dict(size=10)
@@ -552,70 +549,199 @@ def create_category_heatmap():
 def create_top_indicator_bar_chart(
     category_type: str,
     selected_category: str,
+    evaluation: dict,
     top_n: int = 10
 ):
     """
-    Erstellt ein horizontales Balkendiagramm der stärksten
-    Indikatorzusammenhänge innerhalb einer Kategorie.
+    Erstellt ein horizontales Balkendiagramm der Top-Indikatoren
+    innerhalb einer Kategorie.
+
+    Die Sortierung erfolgt anhand der gewählten Bewertung.
+    """
+
+    session_key = (
+        "education_indicator_statistics"
+        if category_type == "education"
+        else "development_indicator_statistics"
+    )
+
+    df = st.session_state[session_key].copy()
+
+    df = df[df["category"] == selected_category]
+
+    if df.empty:
+        return None
+
+    value_column = evaluation["value_column"]
+
+    df = df.sort_values(value_column, ascending=True).tail(top_n)
+
+    fig = px.bar(
+        df,
+        x=value_column,
+        y="indicator",
+        orientation="h",
+        text=value_column
+    )
+
+    if value_column == "relevance_ratio":
+        hovertemplate = (
+            "<b>%{y}</b><br><br>"
+            "Relevante Zusammenhänge: "
+            "<b>%{customdata[0]}</b> von "
+            "<b>%{customdata[1]}</b><br>"
+            "Trefferquote: "
+            "<b>%{x:.1%}</b>"
+            "<extra></extra>"
+        )
+
+        customdata = df[["count", "total_count"]].values
+
+    elif value_column == "sum_abs_r":
+        hovertemplate = (
+            "<b>%{y}</b><br><br>"
+            "Kumulierte Zusammenhangsstärke: "
+            "<b>%{x:.2f}</b><br>"
+            "Relevante Zusammenhänge: "
+            "<b>%{customdata[0]}</b>"
+            "<extra></extra>"
+        )
+
+        customdata = df[["count"]].values
+
+    else:
+        hovertemplate = (
+            "<b>%{y}</b><br><br>"
+            "Durchschnittliche Zusammenhangsstärke: "
+            "<b>%{x:.2f}</b><br>"
+            "Basierend auf "
+            "<b>%{customdata[0]}</b> Zusammenhängen"
+            "<extra></extra>"
+        )
+
+        customdata = df[["count"]].values
+
+    fig.update_traces(
+        marker_color="#e49650",
+        textfont=dict(size=10),
+        hovertemplate=hovertemplate,
+        customdata=customdata
+    )
+    
+    fig.update_layout(
+        height=240,
+        margin=dict(
+            l=0,
+            r=0,
+            t=35,
+            b=5
+        ),
+        title=dict(
+            text=f"Top Indikatoren: {selected_category}",
+            x=0.5,
+            xanchor="center",
+            font=dict(size=14)
+        ),
+        showlegend=False,
+        yaxis_title="Indikator - Bezeichnung im Hover"
+    )
+
+    if value_column == "relevance_ratio":
+        fig.update_traces(
+            texttemplate="%{text:.1%}"
+        )
+    else:
+        fig.update_traces(
+            texttemplate="%{text:.2f}"
+        )
+
+    fig.update_yaxes(
+        showticklabels=False
+    )
+
+    fig.update_xaxes(
+        visible=False,
+        range=[0, df[value_column].max() * 1.1]
+    )
+
+    return fig
+
+
+# ============================================================
+# Top Indikator-Kombinationen - Barchart 
+# ============================================================
+
+def create_indicator_combination_bar_chart(
+    selected_education_category: str,
+    selected_development_category: str,
+    interpretation_filter: str = "all",
+    top_n: int = 10
+):
+    """
+    Erstellt ein Balkendiagramm der stärksten
+    Indikatorkombinationen zwischen einer Bildungs- und
+    Entwicklungskategorie.
     """
 
     df = st.session_state["statistics_relevant_df"].copy()
 
-    category_column = f"{category_type}_category"
-
-    df = df[df[category_column] == selected_category].copy()
-
-    df = (
-        df
-        .sort_values("abs_spearman_r", ascending=False)
-        .head(top_n)
-        .copy()
+    df["interpretation"] = np.where(
+        df["is_inverted"],
+        "⚠ Vorzeichen kritisch prüfen",
+        "✓ Vorzeichen intuitiv"
     )
 
-    df = df.sort_values(
-        "abs_spearman_r",
-        ascending=True
+    df["spearman_p_formatted"] = df["spearman_p"].apply(format_p_value)
+    df["significance"] = df["spearman_p"].apply(significance_label)
+
+    category_filter = (
+        (df["education_category"] == selected_education_category)
+            &
+        (df["development_category"] == selected_development_category)
     )
 
-    indicator_column = (
-        "education_indicator"
-        if category_type == "education"
-        else "development_indicator"
-    )
+    df = df[category_filter]
 
-    df["indicator_short"] = (
-        df[indicator_column]
-        .str.slice(0, 35)
-        .where(
-            df[indicator_column].str.len() <= 35,
-            df[indicator_column].str.slice(0, 35) + "..."
-        )
-    )
+    if interpretation_filter == "normal":
+        df = df[df["is_inverted"] == False]
+    elif interpretation_filter == "inverted":
+        df = df[df["is_inverted"] == True]
 
+    if df.empty:
+        return None
+
+    df = df.sort_values("abs_spearman_r", ascending=True).tail(top_n)
+    
     fig = px.bar(
         df,
         x="abs_spearman_r",
-        y="indicator_short",
+        y="correlation_id",
         orientation="h",
+        text="abs_spearman_r",
         custom_data=[
             "education_indicator",
             "development_indicator",
             "spearman_r",
-            "countries"
+            "spearman_p_formatted",
+            "countries",
+            "interpretation",
+            "significance"
         ]
     )
 
     fig.update_traces(
         marker_color="#e49650",
         hovertemplate=(
-            "<b>%{y}</b><br><br>"
-            "Bildungsindikator:<br>"
+            "<b>Bildungsindikator</b><br>"
             "%{customdata[0]}<br><br>"
-            "Entwicklungsindikator:<br>"
+            "<b>Entwicklungsindikator</b><br>"
             "%{customdata[1]}<br><br>"
-            "Spearman r: <b>%{customdata[2]:.2f}</b><br>"
-            "Absolute Stärke: <b>%{x:.2f}</b><br>"
-            "Länder: %{customdata[3]}"
+            "Spearman r: <b>%{customdata[2]:.3f}</b><br>"
+            "p-Wert: <b>%{customdata[3]}</b><br>"
+            "Statistische Einordnung: <b>%{customdata[6]}</b><br><br>"
+            "Länder: %{customdata[4]}<br>"
+            "Interpretation:<br>"
+            "<b>%{customdata[5]}</b>"
             "<extra></extra>"
         )
     )
@@ -629,21 +755,256 @@ def create_top_indicator_bar_chart(
             b=30
         ),
         title=dict(
-            text=f"Top Zusammenhänge: {selected_category}",
+            text=f"Top Indikatorkombinationen: {selected_development_category} vs {selected_education_category}",
             x=0.5,
             xanchor="center",
             font=dict(size=14)
         ),
-        xaxis_title="Absolute Spearman-Korrelation",
-        yaxis_title="",
+        xaxis_title="Korrelation (Koeffizient nach Spearman)",
+        yaxis_title="Indikatorkombination (Details im Hover)",
         showlegend=False
+    )
+
+    fig.update_traces(
+        texttemplate="%{text:.3f}"
+    )
+
+    fig.update_yaxes(
+        showticklabels=False
     )
 
     fig.update_xaxes(
         range=[
             0,
             df["abs_spearman_r"].max() * 1.1
+        ],
+        showticklabels=False, 
+        title=dict(
+            font_size=12
+        )
+    )
+
+    return fig
+
+
+
+def create_statistics_donut_chart(
+    mode: str,
+    category: str
+) -> go.Figure:
+    """
+    Erstellt ein Donut-Chart zur Verteilung der Korrelationsstärke
+    innerhalb der ausgewählten Kategorie.
+    """
+
+    category_column = "education_category" if mode == "education" else "development_category"
+    selected_category = category
+
+    correlation_results = (
+        st.session_state["correlation_results_dataframe"]
+        .copy()
+    )
+
+    correlation_results = correlation_results[
+        correlation_results[category_column] == selected_category
+    ]
+
+    config = load_config(DEVELOPMENT_CONFIG)
+
+    strong_threshold = (
+        config["meta_data"]["statistics"]["strong_correlation"]
+    )
+
+    moderate_threshold = (
+        config["meta_data"]["statistics"]["moderate_correlation"]
+    )
+
+    strong = (
+        correlation_results["abs_spearman_r"] >= strong_threshold
+    ).sum()
+
+    moderate = (
+        (correlation_results["abs_spearman_r"] >= moderate_threshold)
+        & (correlation_results["abs_spearman_r"] < strong_threshold)
+    ).sum()
+
+    weak = (
+        correlation_results["abs_spearman_r"] < moderate_threshold
+    ).sum()
+
+    total = len(correlation_results)
+    relevant = strong + moderate
+
+    fig = go.Figure()
+
+    fig.add_trace(
+        go.Pie(
+            labels=[
+                "Starke Zusammenhänge",
+                "Potenzielle Zusammenhänge",
+                "Keine relevanten Zusammenhänge"
+            ],
+            values=[strong, moderate, weak],
+            hole=0.72,
+            sort=False,
+            direction="clockwise",
+            marker=dict(
+                colors=[
+                    "#E1664D",
+                    "#e49650",
+                    "#d9d9d9"
+                ]
+            ),
+            textinfo="none",
+            hovertemplate=(
+                "<b>%{label}</b><br>"
+                "%{value} Zusammenhänge"
+                "<br>(%{percent})"
+                "<extra></extra>"
+            )
+        )
+    )
+
+    fig.update_layout(
+        height=280,
+        title=dict(
+            text="Anteil relevanter Zusammenhänge",
+            x=0.5,
+            xanchor="center",
+            font=dict(size=12)
+        ),
+        showlegend=True,
+        legend=dict(
+            orientation="h",
+            x=0.5,
+            y=-0.12,
+            xanchor="center",
+            yanchor="top"
+        ),
+        margin=dict(
+            l=20,
+            r=20,
+            t=50,
+            b=45
+        ),
+        annotations=[
+            dict(
+                text=(
+                    f"<b>{relevant / total:.0%}</b>"
+                    f"<br>{relevant} / {total}"
+                ),
+                showarrow=False,
+                font=dict(size=22)
+            )
         ]
     )
 
     return fig
+
+
+def create_interpretation_donut_chart(
+    mode: str,
+    category: str
+) -> go.Figure:
+    """
+    Erstellt ein Donut-Chart zur Verteilung normaler und invertierter
+    Interpretationen innerhalb der ausgewählten Kategorie.
+    """
+
+    category_column = "education_category" if mode == "education" else "development_category"
+    selected_category = category
+
+    correlation_results = st.session_state["correlation_results_dataframe"]
+    
+    correlation_results = correlation_results[
+        correlation_results[category_column] == selected_category
+    ]
+
+    config = load_config(DEVELOPMENT_CONFIG)
+
+    moderate_threshold = config["meta_data"]["statistics"]["moderate_correlation"]
+
+    correlation_results = correlation_results[
+        correlation_results["abs_spearman_r"] >= moderate_threshold
+    ]
+
+    normal = (~correlation_results["is_inverted"]).sum()
+    inverted = (correlation_results["is_inverted"]).sum()
+
+    total = normal + inverted
+
+    fig = go.Figure()
+
+    fig.add_trace(
+        go.Pie(
+            labels=[
+                "Normale Interpretation",
+                "Invertierte Interpretation"
+            ],
+            values=[normal, inverted],
+            hole=0.72,
+            sort=False,
+            direction="clockwise",
+            marker=dict(
+                colors=[
+                    "#e5954f",
+                    "#ead283",
+                ]
+            ),
+            textinfo="none",
+            hovertemplate=(
+                "<b>%{label}</b><br>"
+                "%{value} Zusammenhänge"
+                "<br>(%{percent})"
+                "<extra></extra>"
+            )
+        )
+    )
+
+    fig.update_layout(
+        height=280,
+        title=dict(
+            text="Anteil regulärer Interpretation",
+            x=0.5,
+            xanchor="center",
+            font=dict(size=12)
+        ),
+        showlegend=True,
+        legend=dict(
+            orientation="h",
+            x=0.5,
+            y=-0.12,
+            xanchor="center",
+            yanchor="top"
+        ),
+        margin=dict(
+            l=20,
+            r=20,
+            t=50,
+            b=95
+        ),
+        annotations=[
+            dict(
+                text=(
+                    f"<b>{normal / total:.0%}</b>"
+                    f"<br>{normal} / {total}"
+                ),
+                showarrow=False,
+                font=dict(size=22)
+            )
+        ]
+    )
+
+    return fig 
+
+
+def choose_donut_charts ():
+    category = st.session_state["statistics_mode"]
+    selected_education_category = st.session_state["statistics_education_category"]
+
+    mode = "education" if category == selected_education_category else "development"
+
+    distribution_pie = create_statistics_donut_chart(mode, category)
+    interpretation_pie = create_interpretation_donut_chart(mode, category)
+
+    return distribution_pie, interpretation_pie
