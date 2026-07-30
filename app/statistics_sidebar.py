@@ -169,4 +169,3 @@ def statistics_sidebar_content():
     st.session_state["selected_statistics_education_category"] = selected_education_category
     st.session_state["selected_statistics_evaluation"] = selected_evaluation
     st.session_state["selected_statistics_strictness"] = selected_strictness
-    

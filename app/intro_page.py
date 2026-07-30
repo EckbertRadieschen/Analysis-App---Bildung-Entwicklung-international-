@@ -23,15 +23,6 @@ def intro_page():
             Sie erlauben <b>keine Aussagen über Ursache und Wirkung (Kausalität)</b>,<br>
             da gesellschaftliche Entwicklung von zahlreichen miteinander verknüpften Faktoren beeinflusst wird.</blockquote>
             </div>
-            <div class="medium-intro-title"> So verwenden Sie die Anwendung</div>
-            <div class="small-intro-text">
-            <ol>
-            <li>Wählen Sie einen <b>Bildungsindikator</b> aus.</li>
-            <li>Wählen Sie anschließend eine <b>Entwicklungsvariable</b>.</li>
-            <li>Analysieren Sie die Beziehung zwischen beiden Variablen anhand verschiedener Visualisierungen und statistischer Kennzahlen.</li>
-            </ol>
-            Viel Freude beim Entdecken spannender Zusammenhänge zwischen <b>Bildung</b> und <b>gesellschaftlicher Entwicklung</b>!
-            </div>
             """,
             unsafe_allow_html=True
         )

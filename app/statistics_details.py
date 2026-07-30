@@ -92,6 +92,13 @@ def statistics_details_content():
                 key="statistics_mode"
             )
 
+            st.markdown(
+                f"""
+                <div class='chart-title'>Verteilung der Zusammenhänge in der Kategorie {selected_statistics_mode}</div>
+                """,
+                unsafe_allow_html=True
+            )
+
             fig_distribution_pie, fig_interpretation_pie = choose_donut_charts()
 
             col_distribution, col_interpretation = st.columns([6, 6])
@@ -106,13 +113,18 @@ def statistics_details_content():
                 )
 
             with col_interpretation:
-                st.plotly_chart(
-                    fig_interpretation_pie,
-                    key="statistics_pie_interpretation",
-                    config={
-                        "displayModeBar": False
-                    }
-                )
+                if fig_interpretation_pie:
+                    st.plotly_chart(
+                        fig_interpretation_pie,
+                        key="statistics_pie_interpretation",
+                        config={
+                            "displayModeBar": False
+                        }
+                    )
+                else:
+                    st.info(
+                        "Keine relevanten Zusammenhänge gefunden."
+                    )
 
         with col_combi:
             interpretation_options = [

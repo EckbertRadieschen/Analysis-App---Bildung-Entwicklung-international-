@@ -182,5 +182,3 @@ def sidebar_content ():
         ),
         key="selected_education_indicator"
     )
-
-

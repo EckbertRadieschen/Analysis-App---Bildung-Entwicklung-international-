@@ -302,6 +302,14 @@ def apply_markdown():
                 font-weight: 600
             }
 
+            .chart-title {
+                width: 100%;
+                margin-top: 10px;
+                font-size: 14px;
+                font-weight: 800;
+                text-align: center
+            }
+
             .small-intro-text {
                 font-size: 13px;
                 padding-bottom: 5px;

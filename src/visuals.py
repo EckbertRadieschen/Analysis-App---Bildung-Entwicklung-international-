@@ -300,7 +300,7 @@ def create_category_statistics_bar_chart(
 
     fig.update_traces(
         marker_color="#e49650",
-        textfont=dict(size=10)
+        textfont=dict(size=12)
     )
 
     if value_column == "relevance_ratio":
@@ -933,6 +933,9 @@ def create_interpretation_donut_chart(
 
     total = normal + inverted
 
+    if total == 0:
+        return None
+    
     fig = go.Figure()
 
     fig.add_trace(

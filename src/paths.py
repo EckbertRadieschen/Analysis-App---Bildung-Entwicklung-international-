@@ -23,7 +23,7 @@ APP_DIR = BASE_DIR / "app"
 DEVELOPMENT_CONFIG = CONFIG_DIR / "development_indicators.json"
 EDUCATION_CONFIG = CONFIG_DIR / "education_indicators.json"
 
-CORRELATION_RESULTS = APP_DIR / "correlation_results.json"
+CORRELATION_RESULTS = BASE_DIR / "correlation_results.json"
 
 # ==================================================================
 # Datenquellen
@@ -39,4 +39,3 @@ COUNTRY_INFO = RAW_DATA_DIR / "country_info.csv"
 
 DEVELOPMENT_OUTPUT = PROCESSED_DATA_DIR / "development_indicators.csv"
 EDUCATION_OUTPUT = PROCESSED_DATA_DIR / "education_indicators.csv"
-

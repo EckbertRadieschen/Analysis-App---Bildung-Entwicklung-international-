@@ -570,10 +570,10 @@ def load_category_statistics():
 
 
         for category, all_group in all_groups:
+            total_count = len(all_group)
             if category in relevant_groups.groups:
                 relevant_group = relevant_groups.get_group(category)
                 count = len(relevant_group)
-                total_count = len(all_group)
                 sum_abs_r = relevant_group["abs_spearman_r"].sum()
                 mean_abs_r = relevant_group["abs_spearman_r"].mean()
                 median_abs_r = relevant_group["abs_spearman_r"].median()

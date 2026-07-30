@@ -1,79 +1,122 @@
-# Projekt Abhängigkeit der CO2-Emission der G20 - Staaten vom Bildungssystem der jeweiligen Länder
+# 📊 Bildung und Entwicklung
+> **Interaktive Analyse globaler Zusammenhänge zwischen Bildungs- und Entwicklungsindikatoren**
 
-## Die G20 ...
-- repräsentierten im Jahr 2024 fast 79 % der Weltbevölkerung 
-- erwirtschafteten mehr als 85 % der weltweiten Wirtschaftsleistung
-- waren dabei für nahezu 83 % aller CO2-Emissionen verantwortlich
+![Python](https://img.shields.io/badge/Python-3.11-blue)
+![Streamlit](https://img.shields.io/badge/Streamlit-App-red)
+![License](https://img.shields.io/badge/License-MIT-green)
 
-## Zielfrage:
-Besteht ein Zusammenhang zwischen:
-    - den erhobenen Kompetenzen von SchülerInnen 
-    - der Entwicklung ihres Landes nach einem Versatz von einer bestimmten Zeitperiode (10, 15, 20 Jahre)
+---
 
-- Analyse der Umweltdaten der Länder
-- Analyse der Bildungsdaten der Länder 
+## Inhaltsverzeichnis
+
+- Projektübersicht
+- Motivation
+- Features
+- Datenquellen
+- Technologien
+- Projektstruktur
+- Analyseablauf
+- Screenshots
+- Installation
+- Hinweise
+- Autor
+
+---
+
+# Projektübersicht
+
+Dieses Projekt analysiert statistische Zusammenhänge zwischen Bildungsindikatoren und Entwicklungsindikatoren verschiedener Länder auf Basis von Datensätzen der World Bank.
+
+Mithilfe einer interaktiven Streamlit-Anwendung können berechnete Korrelationen gefiltert, visualisiert und statistisch ausgewertet werden.
+
+## Motivation
+
+Bildung beeinflusst viele Bereiche gesellschaftlicher Entwicklung. Ziel des Projekts ist es, mögliche Zusammenhänge zwischen Bildung und Bereichen wie Wirtschaft, Gesundheit, Innovation, Umwelt oder Governance sichtbar zu machen.
+
+**Hinweis:** Korrelation bedeutet keine Kausalität.
+
+## Features
+
+- 📈 Interaktive Streamlit-Oberfläche
+- 🌍 Analyse internationaler Daten
+- 📊 Pearson- und Spearman-Korrelationen
+- ⏳ Analyse verschiedener Zeitverzögerungen (Lag)
+- 🗂️ Auswertung nach Bildungs- und Entwicklungskategorien
+- 📉 Statistische Übersichten und Diagramme
+
+## Datenquellen
+
+Alle verwendeten Daten stammen aus dem World Bank Data Catalog.
+
+- Länderinformationen
+- Bildungsindikatoren
+- Entwicklungsindikatoren
+
+## Technologien
+
+- Python
+- Pandas
+- NumPy
+- Plotly
+- Streamlit
+
+## Projektstruktur
+
+```text
+.
+├── app/
+│   ├── app.py                          (Kern der Streamlit-Anwendung)
+│   └── ...
+├── config/                             (Konfiguration der...)
+│   ├── development_indicators.json     (Entwicklungsindikatoren)    
+│   └── education_indicators.json       (Bildungsindikatoren)
+├── data/
+│   ├── raw/                            (enthält die originalen csv-Dateien der World Bank)
+│   └── processed/                      (enthält die für die Analyse verwendeten, aufbereiteten Versionen der raw-Dateien)
+├── notebooks/
+├── src/
+│   ├── all_calcs.py                    (Programm, das aus den processed-csv-Dateien und Config die corrleation_results.json erzeugt)
+│   ├── analysis.py                     (alle für die Analyse relevanten Funktionen)
+│   ├── visuals.py                      (alle für die plotly.Figures relevanten Funktionen)
+│   ├── paths.py                        (enthält die pathlib-Pfade des Projekts)
+│   └── preparations.py                 (Programm, dass raw -> processed überführt)
+├── utils/
+│   └── hilfsfunktionen.py              (kleinere im Projekt verwendete Hilfsfunktionen)
+├── correlation_results.json            (Ergebnisse der umfassenden Korrelationsanalyse aller Indikatorkombinationen)
+├── requirements.txt
+└── README.md
+```
+
+## Analyseablauf
+
+1. Daten importieren
+2. Daten bereinigen
+3. Länder filtern
+4. Kategorien zuordnen
+5. Zeitverzögerungen berücksichtigen
+6. Pearson- und Spearman-Korrelation berechnen
+7. Ergebnisse speichern
+8. Interaktive Analyse
 
 
-## Daten:
-- data/raw/EdStatsData.csv
-- Datenquelle: https://datacatalog.worldbank.org/ (Stand: Mittwoch, 15.07.2026 - 14:45)
+## Installation
 
-- Struktur: 886.930 Einträge auf (69+1) Spalten (1 Dummy-Spalte)
-- Spalten: 
-    - Country Name, Country Code, Indicator Name, Indicator Code
-    - Jahre: 1970 - 2017 (2020 - 2100 in 5er Schritten vorangelegt)
+```bash
+git clone <repository-url>
+cd <repository>
+pip install -r requirements.txt
+streamlit run app.py
+```
 
-    - Country Name und - Code: 242 verschiedene Länder (vereinzelt zusammengefasst oder Länderregionen)
-    - Indicator Name und - Code: 3665 verschiedene Indikatoren (oft mit vielen Unter-Indikatoren)
-        - Bildungsindikatoren (z.B. PISA, TIMSS, Bildungsinvestionen, Schulabbrecherquote, usw)
-        - Entwicklungsvariablen des jeweiligen Landes (z.B. BIP, Arbeitslosenquote, usw)
-    - Jahresspalten: Messen die jeweiligen Werte bzgl Land und Indikator
+## Geplante Erweiterungen
 
-### Datenvorbereitungen
-- die Daten liegen im Wide-Format vor
-- es wird eine Liste mit analyse-relevanten Bildungsindikatoren und Entwicklungsvariablen erstellt
-- es werden aus der Datenstruktur zwei neue Daten-Strukturen erzeugt
-    - die Daten werden nach Bildungsindikatoren und Entwicklungsvariablen aufgetrennt
-    - es werden Jahresspalten entfernt, die keinen Inhalt haben
-    - es werden nur tatsächliche Länder angezeigt, keine gruppierten Regionen
-    - es werden 
+- Weitere Visualisierungen
+- Exportfunktionen
+- Zusätzliche statistische Verfahren
+- Verbesserte Filtermöglichkeiten
 
-### Neue Datenstruktur
-- data/processed/education_indicators.csv
-    - 6029 Einträge auf 51 Spalten
-    - 209 Länder, 46 Indikatoren
+## Autor
 
-- data/processed/development_indicators.csv
-    - 4974 Einträge auf 69 Spalten
-    - 214 Länder, 26 Indikatoren
+**Marcel Kramer**
 
-### Datenqualität
-- nicht für jedes Land werden Werte für jeden Indikator in jedem Jahr erhoben
-    - es kann über die Vollständigkeit der Daten deshalb keine Aussage getroffen werden
-- die Länder- und Indikator-Spalten sind einheitlich und fehlerfrei (es liegen keine fehlenden Werte vor)
-- es existieren keine Duplikate
-
-## Tool:
-Entwicklung einer Streamlit-App zur spezifischen Analyse:
-
-User-Eingabe-Daten:
-- Bildungs-Indikator (z.B. TIMSS, PISA, usw.)
-- Entwicklungs-Variable des Landes (z.B. BIP, Arbeitslosenquote, usw.)
-- Zeitversatz (SchülerInnen-Bildung macht sich erst nach 10-20 Jahren im Land bemerkbar)
-
-Speicherung:
-- Einstellungskombinationen, die eine erhöhte Korrelation liefern, werden in einer Datei abgelegt.
-
-Ausgabe:
-- Visualisierung der Top-/Bottom-Länder nach Bildungs-Indikator
-- Visualisierung der Top-/Bottom-Länder nach Entwicklungs-Variable
-- Visualisierung der Abhängigkeit zwischen Bildungs-Indikator und Entwicklungs-Variable länderübergreifend
-- Visualisierung des Zusammenhangs von Bildung und Länderentwicklung aus den gespeicherten Daten
-
-## Das Programm
-
-- erzeugt mit Hilfe von klar definierten Funktionen die benötigen pandas-DataFrames
-- filtert diese anhand der vom User ausgewählten Variablen-Einstellungen
-- erzeugt im Hintergrund die nötigen plotly-Charts
-- implementiert die plotly-Charts als Visualisierungen in die Streamlit-App
-
+DSP - Data Analysis Bootcamp
