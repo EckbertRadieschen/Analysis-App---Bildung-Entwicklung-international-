@@ -102,8 +102,8 @@ Alle verwendeten Daten stammen aus dem World Bank Data Catalog.
 ## Installation
 
 ```bash
-git clone <repository-url>
-cd <repository>
+git clone https://github.com/EckbertRadieschen/Analysis-App---Bildung-Entwicklung-international-.git bildungsanalyse
+cd bildungsanalyse
 pip install -r requirements.txt
 streamlit run app.py
 ```
